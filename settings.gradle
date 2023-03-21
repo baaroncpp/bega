@@ -1,0 +1,4 @@
+rootProject.name = 'bega'
+include 'auth-server'
+include 'commons'
+
