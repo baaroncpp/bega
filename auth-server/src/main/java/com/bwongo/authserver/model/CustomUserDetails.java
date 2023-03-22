@@ -1,7 +1,6 @@
 package com.bwongo.authserver.model;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -13,6 +12,9 @@ import java.util.Set;
  * @Project bega
  * @Date 3/20/23
  **/
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Setter
 public class CustomUserDetails implements UserDetails {
     @Getter
