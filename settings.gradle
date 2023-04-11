@@ -1,4 +1,5 @@
 rootProject.name = 'bega'
 include 'auth-server'
 include 'commons'
+include 'api-gateway'
 
