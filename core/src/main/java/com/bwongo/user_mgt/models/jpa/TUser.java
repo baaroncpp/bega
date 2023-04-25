@@ -1,6 +1,7 @@
-package com.bwongo.commons.models.jpa.security;
+package com.bwongo.user_mgt.models.jpa;
 
-import com.bwongo.commons.models.enums.UserTypeEnum;
+import com.bwongo.base.model.AuditEntity;
+import com.bwongo.user_mgt.models.enums.UserTypeEnum;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -13,7 +14,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "t_user")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class TUser extends AuditEntity{
+public class TUser extends AuditEntity {
     private String firstName;
     private String lastName;
     private String email;

@@ -1,8 +1,9 @@
-package com.bwongo.commons.models.jpa.security;
+package com.bwongo.base.model;
 
+import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;
+import lombok.Setter;
 
-import javax.annotation.processing.Generated;
 import java.util.Date;
 
 /**
@@ -11,6 +12,7 @@ import java.util.Date;
  * @Date 3/20/23
  **/
 @MappedSuperclass
+@Setter
 public class BaseEntity {
     private Long id;
     private Date createdOn;
@@ -23,25 +25,14 @@ public class BaseEntity {
         return id;
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     @Column(name = "created_on")
     public Date getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    @Column(name = "created_by")
+    @JoinColumn(name = "created_by_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
     public TUser getCreatedBy() {
         return createdBy;
-    }
-
-    public void setCreatedBy(TUser createdBy) {
-        this.createdBy = createdBy;
     }
 }

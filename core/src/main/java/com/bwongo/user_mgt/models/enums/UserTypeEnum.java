@@ -1,4 +1,4 @@
-package com.bwongo.commons.models.enums;
+package com.bwongo.user_mgt.models.enums;
 
 /**
  * @Author bkaaron

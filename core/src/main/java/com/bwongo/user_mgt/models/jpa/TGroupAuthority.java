@@ -1,5 +1,6 @@
-package com.bwongo.commons.models.jpa.security;
+package com.bwongo.user_mgt.models.jpa;
 
+import com.bwongo.base.model.BaseEntity;
 import jakarta.persistence.*;
 
 /**
@@ -13,7 +14,7 @@ import jakarta.persistence.*;
         uniqueConstraints = {@UniqueConstraint(
                 columnNames = { "user_group_id", "permission_id" })})
 
-public class TGroupAuthority extends BaseEntity{
+public class TGroupAuthority extends BaseEntity {
     private TUserGroup userGroup;
     private TPermission permission;
 

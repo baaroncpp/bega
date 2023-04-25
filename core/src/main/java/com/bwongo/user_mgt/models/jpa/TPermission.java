@@ -1,5 +1,6 @@
-package com.bwongo.commons.models.jpa.security;
+package com.bwongo.user_mgt.models.jpa;
 
+import com.bwongo.base.model.BaseEntity;
 import jakarta.persistence.*;
 
 /**
@@ -9,7 +10,7 @@ import jakarta.persistence.*;
  **/
 @Entity
 @Table(name = "t_permission", schema = "core")
-public class TPermission extends BaseEntity{
+public class TPermission extends BaseEntity {
     private TRole role;
     private String name;
     private Boolean isAssignable;

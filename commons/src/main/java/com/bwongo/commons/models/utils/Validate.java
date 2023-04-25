@@ -23,27 +23,21 @@ public class Validate {
         }
     }
 
-    public static void notNull(Object value, String message, String ... params){
+    public static void notNull(Object value, String message, Object ... params){
 
         if (value == null) {
             throw new BadRequestException(message, params);
         }
     }
 
-    public static void notEmpty(String value, String message,String ... params){
+    public static void notEmpty(String value, String message, Object ... params){
         if (!StringUtils.hasLength(value)) {
-            throw new BadRequestException(message,params);
-        }
-    }
-
-    public static void notEmpty(String value, String message){
-        if (!StringUtils.hasLength(value)) {
-            throw new BadRequestException(message);
+            throw new BadRequestException(message, (Object) params);
         }
     }
 
     public static void isPresent(Optional<?> value, String message, Object ... params){
-        if(!value.isPresent()){
+        if(value.isEmpty()){
             throw new BadRequestException(String.format(message,params));
         }
     }
