@@ -12,9 +12,9 @@ import org.springframework.data.domain.Pageable;
  **/
 public interface TenantService {
     Tenant addTenant(TenantRequestDto tenantRequestDto);
-    Tenant updateTenant(TenantRequestDto tenantRequestDto);
+    Tenant updateTenant(Long id, TenantRequestDto tenantRequestDto);
     Tenant getTenantById(Long id);
     Page<Tenant> getTenants(Pageable pageable);
-    Boolean deleteTenant(Long id);
-
+    Boolean deactivateTenant(Long id);
+    Boolean activateTenant(Long id);
 }

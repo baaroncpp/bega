@@ -1,5 +1,6 @@
 package com.bwongo.tenant_mgt.models.dto.requests;
 
+import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.text.StringRegExUtil;
 import com.bwongo.commons.models.utils.Validate;
 
@@ -27,13 +28,13 @@ public record TenantRequestDto(
         Validate.notEmpty(tenantFullName, NULL_TENANT_NAME);
         Validate.notEmpty(identificationNumber, NULL_IDENTIFICATION_NUMBER);
         Validate.notEmpty(identificationType, NULL_IDENTIFICATION_TYPE);
-        Validate.isTrue(isValidIdentificationType(identificationType), INVALID_IDENTIFICATION_TYPE);
+        Validate.isTrue(isValidIdentificationType(identificationType), ExceptionType.BAD_REQUEST, INVALID_IDENTIFICATION_TYPE);
         Validate.notEmpty(phoneNumber, NULL_PHONE_NUMBER);
         StringRegExUtil.stringOfInternationalPhoneNumber(phoneNumber, INVALID_PHONE_NUMBER, phoneNumber);
         Validate.notEmpty(email, NULL_EMAIL);
         StringRegExUtil.stringOfEmail(email, INVALID_EMAIL);
         Validate.notEmpty(occupationStatus, NULL_OCCUPATION_STATUS);
-        Validate.isTrue(isValidOccupationStatus(occupationStatus), NULL_EMERGENCY_CONTACT_NAME);
+        Validate.isTrue(isValidOccupationStatus(occupationStatus), ExceptionType.BAD_REQUEST, NULL_EMERGENCY_CONTACT_NAME);
         Validate.notEmpty(emergencyContactPhone, NULL_EMERGENCY_CONTACT_PHONE);
         StringRegExUtil.stringOfInternationalPhoneNumber(emergencyContactPhone, INVALID_PHONE_NUMBER, emergencyContactPhone);
     }

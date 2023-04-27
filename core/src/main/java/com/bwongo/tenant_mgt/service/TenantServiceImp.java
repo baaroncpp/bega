@@ -1,5 +1,6 @@
 package com.bwongo.tenant_mgt.service;
 
+import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.tenant_mgt.models.dto.requests.TenantRequestDto;
 import com.bwongo.tenant_mgt.models.dto.service.DtoMapperServiceImp;
@@ -12,7 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.TENANT_WITH_ID;
+import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
 
 /**
  * @Author bkaaron
@@ -33,31 +34,70 @@ public class TenantServiceImp implements TenantService{
 
         tenantRequestDto.validate();
         var existingTenant = tenantRepository.findByIdentificationNumber(tenantRequestDto.identificationNumber());
-        Validate.isTrue(existingTenant.isEmpty(), TENANT_WITH_ID, tenantRequestDto.identificationNumber());
+        Validate.isTrue(existingTenant.isEmpty(), ExceptionType.RESOURCE_NOT_FOUND, TENANT_WITH_ID_EXISTS, tenantRequestDto.identificationNumber());
 
         var tenant = dtoMapperService.mapTenantRequestDtoToTenant(tenantRequestDto);
+        tenant.setActive(Boolean.TRUE);
         auditService.stampAuditedEntity(tenant);
 
         return tenantRepository.save(tenant);
     }
 
     @Override
-    public Tenant updateTenant(TenantRequestDto tenantRequestDto) {
-        return null;
+    public Tenant updateTenant(Long id, TenantRequestDto tenantRequestDto) {
+
+        tenantRequestDto.validate();
+        var existingTenant = getTenantById(id);
+        Validate.isTrue(existingTenant.isActive(), ExceptionType.BAD_REQUEST, TENANT_IS_INACTIVE);
+
+        var updateTenant = dtoMapperService.mapTenantRequestDtoToTenant(tenantRequestDto);
+        updateTenant.setId(existingTenant.getId());
+        updateTenant.setCreatedBy(existingTenant.getCreatedBy());
+        updateTenant.setCreatedOn(existingTenant.getCreatedOn());
+
+        auditService.stampAuditedEntity(updateTenant);
+
+        return tenantRepository.save(updateTenant);
     }
 
     @Override
     public Tenant getTenantById(Long id) {
-        return null;
+
+        var existingTenant = tenantRepository.findById(id);
+        Validate.isPresent(existingTenant, TENANT_NOT_FOUND, id);
+        return existingTenant.get();
     }
 
     @Override
     public Page<Tenant> getTenants(Pageable pageable) {
-        return null;
+        return tenantRepository.findAllByActive(Boolean.TRUE, pageable);
     }
 
     @Override
-    public Boolean deleteTenant(Long id) {
-        return null;
+    public Boolean deactivateTenant(Long id) {
+
+        final var tenant = getTenantById(id);
+        Validate.isTrue(tenant.isActive(), ExceptionType.BAD_REQUEST, TENANT_ALREADY_INACTIVE);
+
+        tenant.setActive(Boolean.FALSE);
+        auditService.stampAuditedEntity(tenant);
+
+        tenantRepository.save(tenant);
+
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public Boolean activateTenant(Long id) {
+
+        final var tenant = getTenantById(id);
+        Validate.isTrue(!tenant.isActive(), ExceptionType.BAD_REQUEST, TENANT_ALREADY_ACTIVE);
+
+        tenant.setActive(Boolean.TRUE);
+        auditService.stampAuditedEntity(tenant);
+
+        tenantRepository.save(tenant);
+
+        return Boolean.TRUE;
     }
 }

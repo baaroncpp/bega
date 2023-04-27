@@ -1,5 +1,6 @@
 package com.bwongo.security.service;
 
+import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.user_mgt.models.jpa.TGroupAuthority;
 import com.bwongo.user_mgt.models.jpa.TUser;
 import com.bwongo.commons.models.utils.Validate;
@@ -33,7 +34,7 @@ public class CustomUserService {
         );
 
         List<TGroupAuthority> groupAuthorities = groupAuthorityRepository.findByUserGroup(user.getUserGroup());
-        Validate.notNull(groupAuthorities, "user %s has no permissions, to any services", user.getUsername());
+        Validate.notNull(groupAuthorities, ExceptionType.INSUFFICIENT_AUTH, "user %s has no permissions, to any services", user.getUsername());
 
         Set<SimpleGrantedAuthority> permissions = groupAuthorities
                 .stream()

@@ -30,7 +30,7 @@ CREATE TABLE t_tenant(
     created_by_id BIGINT NOT NULL REFERENCES t_user(id),
     modified_on TIMESTAMP,
     modified_by_id BIGINT REFERENCES t_user(id),
-    is_deleted BOOLEAN DEFAULT false,
+    is_active BOOLEAN DEFAULT false,
     tenant_full_name VARCHAR(120) NOT NULL,
     identification_number VARCHAR(13) NOT NULL,
     identification_type VARCHAR(60) NOT NULL,
@@ -64,7 +64,7 @@ create table t_user_approval(
     status INTEGER NOT NULL,
     created_on TIMESTAMP NOT NULL DEFAULT now(),
     modified_on TIMESTAMP,
-    is_deleted BOOLEAN NOT NULL DEFAULT FALSE,
+    is_active BOOLEAN NOT NULL DEFAULT TRUE,
     created_by BIGINT NOT NULL REFERENCES t_user(id),
     modified_by BIGINT REFERENCES t_user(id)
 );

@@ -8,6 +8,7 @@ package com.bwongo.tenant_mgt.utils;
 public class TenantMsgConstants {
     private TenantMsgConstants() { }
 
+    public static final String APPLICATION_JSON = "application/json";
     public static final String NULL_TENANT_NAME = "tenantFullName is null or empty";
     public static final String NULL_IDENTIFICATION_NUMBER = "identificationNumber is null or empty";
     public static final String NULL_IDENTIFICATION_TYPE = "identificationType is null or empty";
@@ -19,6 +20,9 @@ public class TenantMsgConstants {
     public static final String NULL_PHONE_NUMBER = "phoneNumber is null or empty";
     public static final String INVALID_PHONE_NUMBER = "%s is invalid phoneNumber";
     public static final String NULL_EMERGENCY_CONTACT_PHONE = "emergencyContactPhone is null or empty";
-    public static final String TENANT_WITH_ID = "Tenant with %s already exists";
-
+    public static final String TENANT_WITH_ID_EXISTS = "Tenant with %s already exists";
+    public static final String TENANT_NOT_FOUND = "Tenant with ID: %s not found";
+    public static final String TENANT_ALREADY_INACTIVE = "Tenant is already inactive";
+    public static final String TENANT_ALREADY_ACTIVE = "Tenant is already active";
+    public static final String TENANT_IS_INACTIVE = "Tenant is inactive";
 }

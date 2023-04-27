@@ -16,7 +16,7 @@ import java.util.Date;
 public class AuditEntity extends BaseEntity{
     private Date modifiedOn;
     private TUser modifiedBy;
-    private boolean isDeleted;
+    private boolean isActive;
 
     @Column(name = "modified_on")
     @Temporal(TemporalType.TIMESTAMP)
@@ -30,8 +30,8 @@ public class AuditEntity extends BaseEntity{
         return modifiedBy;
     }
 
-    @Column(name = "is_deleted")
-    public boolean isDeleted() {
-        return isDeleted;
+    @Column(name = "is_active")
+    public boolean isActive() {
+        return isActive;
     }
 }

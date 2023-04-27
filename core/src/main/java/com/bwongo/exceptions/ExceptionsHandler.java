@@ -1,4 +1,4 @@
-package com.bwongo.authserver.utilities;
+package com.bwongo.exceptions;
 
 import com.bwongo.commons.models.exceptions.*;
 import com.bwongo.commons.models.exceptions.model.ExceptionPayLoad;
@@ -14,7 +14,7 @@ import java.time.ZonedDateTime;
 /**
  * @Author bkaaron
  * @Project bega
- * @Date 3/22/23
+ * @Date 4/27/23
  **/
 @ControllerAdvice
 public class ExceptionsHandler {
