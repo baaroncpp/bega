@@ -1,4 +1,4 @@
-package com.bwongo.base.model;
+package com.bwongo.base.model.jpa;
 
 import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;

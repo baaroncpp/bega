@@ -1,7 +1,7 @@
 package com.bwongo.tenant_mgt.models.dto.service;
 
 import com.bwongo.tenant_mgt.models.dto.requests.TenantRequestDto;
-import com.bwongo.tenant_mgt.models.enums.IdentificationType;
+import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import org.springframework.stereotype.Service;

@@ -1,6 +1,6 @@
 package com.bwongo.tenant_mgt.models.jpa;
 
-import com.bwongo.base.model.BaseEntity;
+import com.bwongo.base.model.jpa.BaseEntity;
 import com.bwongo.tenant_mgt.models.enums.BillStatus;
 import com.bwongo.tenant_mgt.models.enums.BillingDuration;
 

@@ -1,6 +1,6 @@
 package com.bwongo.tenant_mgt.utils;
 
-import com.bwongo.tenant_mgt.models.enums.IdentificationType;
+import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 
 import java.util.Arrays;

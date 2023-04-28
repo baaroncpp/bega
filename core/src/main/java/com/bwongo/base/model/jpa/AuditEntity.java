@@ -1,4 +1,4 @@
-package com.bwongo.base.model;
+package com.bwongo.base.model.jpa;
 
 import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;
@@ -13,7 +13,7 @@ import java.util.Date;
  **/
 @MappedSuperclass
 @Setter
-public class AuditEntity extends BaseEntity{
+public class AuditEntity extends BaseEntity {
     private Date modifiedOn;
     private TUser modifiedBy;
     private boolean isActive;

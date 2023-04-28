@@ -1,7 +1,7 @@
 package com.bwongo.tenant_mgt.models.jpa;
 
-import com.bwongo.base.model.AuditEntity;
-import com.bwongo.tenant_mgt.models.enums.IdentificationType;
+import com.bwongo.base.model.jpa.AuditEntity;
+import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
