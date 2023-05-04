@@ -26,12 +26,13 @@ public class Apartment extends AuditEntity {
     private BigDecimal managementFee;
     private ManagementFeeType managementFeeType;
 
-    @Column(name = "apartment_type")
+    @Column(name = "apartment_name")
     public String getApartmentName() {
         return apartmentName;
     }
 
     @Column(name = "apartment_type")
+    @Enumerated(EnumType.STRING)
     public ApartmentType getApartmentType() {
         return apartmentType;
     }

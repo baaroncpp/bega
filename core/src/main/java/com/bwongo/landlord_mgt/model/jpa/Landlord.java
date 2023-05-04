@@ -2,9 +2,7 @@ package com.bwongo.landlord_mgt.model.jpa;
 
 import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.base.model.jpa.AuditEntity;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Setter;
 
 /**
@@ -43,6 +41,7 @@ public class Landlord extends AuditEntity {
     }
 
     @Column(name = "identification_type")
+    @Enumerated(EnumType.STRING)
     public IdentificationType getIdentificationType() {
         return identificationType;
     }

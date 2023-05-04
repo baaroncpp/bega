@@ -16,7 +16,7 @@ import java.util.Date;
 public class BaseEntity {
     private Long id;
     private Date createdOn;
-    private TUser createdBy;
+    private Date modifiedOn;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -30,9 +30,9 @@ public class BaseEntity {
         return createdOn;
     }
 
-    @JoinColumn(name = "created_by_id", referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.LAZY)
-    public TUser getCreatedBy() {
-        return createdBy;
+    @Column(name = "modified_on")
+    @Temporal(TemporalType.TIMESTAMP)
+    public Date getModifiedOn() {
+        return modifiedOn;
     }
 }

@@ -56,6 +56,7 @@ public class House extends AuditEntity {
     public String getNote() {
         return note;
     }
+
     @Column(name = "is_occupied")
     public Boolean getIsOccupied() {
         return isOccupied;

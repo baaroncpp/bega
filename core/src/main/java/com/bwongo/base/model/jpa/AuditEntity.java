@@ -14,20 +14,20 @@ import java.util.Date;
 @MappedSuperclass
 @Setter
 public class AuditEntity extends BaseEntity {
-    private Date modifiedOn;
     private TUser modifiedBy;
+    private TUser createdBy;
     private boolean isActive;
-
-    @Column(name = "modified_on")
-    @Temporal(TemporalType.TIMESTAMP)
-    public Date getModifiedOn() {
-        return modifiedOn;
-    }
 
     @JoinColumn(name = "modified_by_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
     public TUser getModifiedBy() {
         return modifiedBy;
+    }
+
+    @JoinColumn(name = "created_by_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+    public TUser getCreatedBy() {
+        return createdBy;
     }
 
     @Column(name = "is_active")

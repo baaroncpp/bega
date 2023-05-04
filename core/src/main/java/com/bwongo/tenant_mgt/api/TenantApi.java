@@ -3,6 +3,7 @@ package com.bwongo.tenant_mgt.api;
 import com.bwongo.tenant_mgt.models.dto.requests.TenantRequestDto;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import com.bwongo.tenant_mgt.service.TenantService;
+import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -26,6 +27,7 @@ public class TenantApi {
 
     private final TenantService tenantService;
 
+    @RolesAllowed({"ROLE_ADMIN.WRITE"})
     @PostMapping(consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
     @ResponseStatus(HttpStatus.OK)
     public Tenant addTenant(@RequestBody TenantRequestDto tenantRequestDto){

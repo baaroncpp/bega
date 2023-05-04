@@ -8,6 +8,8 @@ create table t_user_group(
 
 create table t_user(
    id BIGSERIAL PRIMARY KEY,
+   created_on TIMESTAMP DEFAULT now(),
+   modified_on TIMESTAMP,
    username VARCHAR(32) UNIQUE,
    password TEXT,
    account_locked BOOLEAN NOT NULL DEFAULT TRUE,
@@ -19,9 +21,7 @@ create table t_user(
    approved_by INTEGER REFERENCES t_user(id),
    user_type VARCHAR(20) NOT NULL,
    initial_password_reset BOOLEAN NOT NULL DEFAULT FALSE,
-   user_meta_id BIGINT  REFERENCES t_user(id),
-   created_on TIMESTAMP NOT NULL DEFAULT now(),
-   modified_on TIMESTAMP
+   user_meta_id BIGINT  REFERENCES t_user(id)
 );
 
 CREATE TABLE t_tenant(

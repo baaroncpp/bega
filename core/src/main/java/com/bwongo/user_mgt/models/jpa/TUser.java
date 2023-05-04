@@ -1,6 +1,7 @@
 package com.bwongo.user_mgt.models.jpa;
 
 import com.bwongo.base.model.jpa.AuditEntity;
+import com.bwongo.base.model.jpa.BaseEntity;
 import com.bwongo.user_mgt.models.enums.UserTypeEnum;
 import jakarta.persistence.*;
 import lombok.Setter;
@@ -12,12 +13,9 @@ import lombok.Setter;
  **/
 @Setter
 @Entity
-@Table(name = "t_user")
+@Table(name = "t_user", schema = "core")
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class TUser extends AuditEntity {
-    private String firstName;
-    private String lastName;
-    private String email;
+public class TUser extends BaseEntity {
     private String username;
     private String password;
     private boolean accountLocked;
@@ -26,66 +24,67 @@ public class TUser extends AuditEntity {
     private boolean approved;
     private boolean initialPasswordReset;
     private TUserGroup userGroup;
-    private boolean accountDeleted;
+    private boolean isDeleted;
     private Long approvedBy;
     private UserTypeEnum userType;
+    private Long userMetaId;
 
-    @Column(name = "first_name")
-    public String getFirstName() {
-        return firstName;
-    }
-    @Column(name = "last_name")
-    public String getLastName() {
-        return lastName;
-    }
-    @Column(name = "email")
-    public String getEmail() {
-        return email;
-    }
     @Column(name = "username")
     public String getUsername() {
-        return username;
+        return this.username;
     }
+
     @Column(name = "password")
     public String getPassword() {
         return password;
     }
+
     @Column(name = "account_locked")
     public boolean isAccountLocked() {
         return accountLocked;
     }
+
     @Column(name = "account_expired")
     public boolean isAccountExpired() {
         return accountExpired;
     }
-    @Column(name = "credential_expired")
+
+    @Column(name = "cred_expired")
     public boolean isCredentialExpired() {
         return credentialExpired;
+    }
+    @JoinColumn(name = "user_group_id", referencedColumnName = "id", insertable = true, updatable = false)
+    @OneToOne(fetch = FetchType.LAZY)
+    public TUserGroup getUserGroup() {
+        return userGroup;
     }
     @Column(name = "approved")
     public boolean isApproved() {
         return approved;
     }
+    @Column(name = "is_deleted")
+    public boolean getDeleted() {
+        return isDeleted;
+    }
+
+    @Column(name = "approved_by")
+    public Long getApprovedBy() {
+        return approvedBy;
+    }
+
     @Column(name = "initial_password_reset")
     public boolean isInitialPasswordReset() {
         return initialPasswordReset;
     }
-    @JoinColumn(name = "user_group_id", referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.LAZY)
-    public TUserGroup getUserGroup() {
-        return userGroup;
-    }
-    @Column(name = "account_deleted")
-    public boolean isAccountDeleted() {
-        return accountDeleted;
-    }
-    @Column(name = "")
-    public Long getApprovedBy() {
-        return approvedBy;
-    }
+
     @Column(name = "user_type")
-    @Enumerated(EnumType.STRING)
+    @Enumerated(value = EnumType.STRING)
     public UserTypeEnum getUserType() {
         return userType;
+    }
+
+    @Column(name = "user_meta_id")
+    public Long getUserMetaId() {
+        return userMetaId;
     }
 }

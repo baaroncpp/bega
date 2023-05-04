@@ -6,4 +6,5 @@ package com.bwongo.user_mgt.models.enums;
  * @Date 3/21/23
  **/
 public enum UserTypeEnum {
+    ADMIN, LANDLORD, TENANT
 }
