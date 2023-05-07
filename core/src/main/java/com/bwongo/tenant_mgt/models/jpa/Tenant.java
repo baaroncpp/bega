@@ -7,6 +7,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Setter;
+import lombok.ToString;
 
 /**
  * @Author bkaaron
@@ -16,6 +17,7 @@ import lombok.Setter;
 @Entity
 @Table(name = "t_tenant", schema = "core")
 @Setter
+@ToString
 public class Tenant extends AuditEntity {
     private String tenantFullName;
     private String identificationNumber;

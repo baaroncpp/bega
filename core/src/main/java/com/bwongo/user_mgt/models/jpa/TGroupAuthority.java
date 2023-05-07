@@ -29,7 +29,7 @@ public class TGroupAuthority extends BaseEntity {
     }
 
     @JoinColumn(name = "permission_id", referencedColumnName = "id", insertable = true, updatable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     public TPermission getPermission() {
         return permission;
     }

@@ -1,6 +1,5 @@
 package com.bwongo.base.model.jpa;
 
-import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -19,7 +18,7 @@ public class BaseEntity {
     private Date modifiedOn;
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     public Long getId() {
         return id;

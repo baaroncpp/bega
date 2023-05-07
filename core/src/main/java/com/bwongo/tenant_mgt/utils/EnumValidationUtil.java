@@ -1,6 +1,5 @@
 package com.bwongo.tenant_mgt.utils;
 
-import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 
 import java.util.Arrays;
@@ -14,16 +13,6 @@ import java.util.List;
 public class EnumValidationUtil {
 
     private EnumValidationUtil() { }
-
-    public static boolean isValidIdentificationType(String value){
-        List<String> identificationTypes = Arrays.asList(
-                IdentificationType.DRIVING_LICENSE.name(),
-                IdentificationType.OTHER.name(),
-                IdentificationType.PASSPORT.name(),
-                IdentificationType.NATIONAL_ID.name()
-        );
-        return identificationTypes.contains(value);
-    }
 
     public static boolean isValidOccupationStatus(String value){
         List<String> occupationStatusList = Arrays.asList(

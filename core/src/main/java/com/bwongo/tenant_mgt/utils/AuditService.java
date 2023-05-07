@@ -12,8 +12,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.LinkedHashMap;
-
 
 /**
  * @Author bkaaron
@@ -48,16 +46,11 @@ public class AuditService {
     }
 
     public CustomUserDetails getLoggedInUser() {
-        final var authentication = SecurityContextHolder.getContext().getAuthentication();
+        final Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         if(authentication.isAuthenticated()){
-            var decoded = (LinkedHashMap)((Authentication)authentication.getDetails()).getDetails();
-            CustomUserDetails user = new CustomUserDetails();
-            user.setUsername((String)decoded.get("username"));
-            user.setId(Long.valueOf((Integer) decoded.get("id")));
-            return user;
+            return (CustomUserDetails) authentication.getPrincipal();
         }
-
         return null;
     }
 }

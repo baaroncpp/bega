@@ -110,12 +110,13 @@ public class JwtService {
     }
 
     private Date calculateExpirationDate(Date createdDate) {
-        return new Date(createdDate.getTime() + 1000 * 60 * 24);
+        return new Date(createdDate.getTime() + 1000 * 60 * 60 * 24);
     }
 
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(getSignInKey())
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }

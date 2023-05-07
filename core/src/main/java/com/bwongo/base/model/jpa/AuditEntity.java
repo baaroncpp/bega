@@ -3,6 +3,7 @@ package com.bwongo.base.model.jpa;
 import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -13,6 +14,7 @@ import java.util.Date;
  **/
 @MappedSuperclass
 @Setter
+@ToString
 public class AuditEntity extends BaseEntity {
     private TUser modifiedBy;
     private TUser createdBy;

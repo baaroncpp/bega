@@ -2,6 +2,7 @@ package com.bwongo.user_mgt.models.jpa;
 
 import com.bwongo.base.model.jpa.BaseEntity;
 import jakarta.persistence.*;
+import lombok.Setter;
 
 /**
  * @Author bkaaron
@@ -10,19 +11,16 @@ import jakarta.persistence.*;
  **/
 @Entity
 @Table(name = "t_permission", schema = "core")
+@Setter
 public class TPermission extends BaseEntity {
     private TRole role;
     private String name;
     private Boolean isAssignable;
 
     @JoinColumn(name = "role_id", referencedColumnName = "id", insertable = true, updatable = false)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.LAZY)
     public TRole getRole() {
         return role;
-    }
-
-    public void setRole(TRole role) {
-        this.role = role;
     }
 
     @Column(name = "permission_name", unique = true, nullable = false)
@@ -30,16 +28,8 @@ public class TPermission extends BaseEntity {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
     @Column(name = "is_assignable", nullable = false)
-    public Boolean getAssignable() {
+    public Boolean getIsAssignable() {
         return isAssignable;
-    }
-
-    public void setAssignable(Boolean assignable) {
-        isAssignable = assignable;
     }
 }

@@ -1,6 +1,8 @@
 package com.bwongo.security.service;
 
 import com.bwongo.commons.models.exceptions.ResourceNotFoundException;
+import com.bwongo.commons.models.exceptions.model.ExceptionType;
+import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.security.models.AuthenticationRequest;
 import com.bwongo.security.models.AuthenticationResponse;
 import com.bwongo.security.models.CustomUserDetails;
@@ -9,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
@@ -28,12 +31,13 @@ public class AuthenticationService {
 
     public AuthenticationResponse authenticate(AuthenticationRequest authenticationRequest) {
         log.warn("authenticator reached");
-        authenticationManager.authenticate(
+        Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         authenticationRequest.getEmail(),
                         authenticationRequest.getPassword()
                 )
         );
+        Validate.isTrue(authentication.isAuthenticated(), ExceptionType.BAD_CREDENTIALS, "Invalid user !");
 
         var user = userRepository.findByUsername(authenticationRequest.getEmail()).orElseThrow(
                 () -> new UsernameNotFoundException("User not found")
