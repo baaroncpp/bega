@@ -6,16 +6,18 @@ import com.bwongo.landlord_mgt.model.dto.request.LandlordRequestDto;
 import com.bwongo.landlord_mgt.model.dto.response.LandlordResponseDto;
 import com.bwongo.landlord_mgt.repository.LandlordRepository;
 import com.bwongo.landlord_mgt.service.dto.LandlordDtoService;
+import com.bwongo.landlord_mgt.model.jpa.*;
 import com.bwongo.tenant_mgt.utils.AuditService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-import static com.bwongo.base.utils.BaseMsgConstants.EMAIL_IS_TAKEN;
-import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.LANDLORD_WITH_ID_EXISTS;
-
+import static com.bwongo.base.utils.BaseMsgConstants.*;
+import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;
 /**
  * @Author bkaaron
  * @Project bega
@@ -23,6 +25,7 @@ import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.LANDLORD_WITH_I
  **/
 @Slf4j
 @RequiredArgsConstructor
+@Service
 public class LandlordServiceImp implements LandlordService{
 
     private final LandlordRepository landlordRepository;
@@ -30,7 +33,7 @@ public class LandlordServiceImp implements LandlordService{
     private final AuditService auditService;
 
     @Override
-    public LandlordResponseDto addLandLord(LandlordRequestDto landlordRequestDto) {
+    public LandlordResponseDto addLandlord(LandlordRequestDto landlordRequestDto) {
 
         landlordRequestDto.validate();
 
@@ -48,17 +51,66 @@ public class LandlordServiceImp implements LandlordService{
     }
 
     @Override
-    public LandlordResponseDto updateLandLord(Long id, LandlordRequestDto landlordRequestDto) {
-        return null;
+    public LandlordResponseDto updateLandlord(Long id, LandlordRequestDto landlordRequestDto) {
+
+        var existingLandlord = getById(id);
+        Validate.isTrue(existingLandlord.isActive(), ExceptionType.BAD_REQUEST, LANDLORD_IS_INACTIVE);
+
+        var updatedLandlord = landlordDtoService.mapLandlordRequestDtoToLandlord(landlordRequestDto);
+        updatedLandlord.setId(id);
+        auditService.stampAuditedEntity(updatedLandlord);
+
+        return landlordDtoService.mapLandlordToLandlordResponseDto(updatedLandlord);
     }
 
     @Override
-    public LandlordResponseDto getLandLordById(Long id) {
-        return null;
+    public LandlordResponseDto getLandlordById(Long id) {
+        return landlordDtoService.mapLandlordToLandlordResponseDto(getById(id));
+    }
+
+    @Override
+    public boolean activateLandlord(Long id) {
+
+        var existingLandlord = landlordRepository.findById(id);
+        Validate.isPresent(existingLandlord, LANDLORD_NOT_FOUND, id);
+
+        final var landlord = existingLandlord.get();
+        Validate.isTrue(!landlord.isActive(), ExceptionType.BAD_REQUEST, LANDLORD_IS_ACTIVE);
+
+        landlord.setActive(Boolean.TRUE);
+        auditService.stampAuditedEntity(landlord);
+        landlordRepository.save(landlord);
+
+        return Boolean.TRUE;
+    }
+
+    @Override
+    public boolean deactivateLandlord(Long id) {
+
+        var existingLandlord = getById(id);
+        existingLandlord.setActive(Boolean.FALSE);
+
+        auditService.stampAuditedEntity(existingLandlord);
+        landlordRepository.save(existingLandlord);
+
+        return Boolean.TRUE;
     }
 
     @Override
     public List<LandlordResponseDto> getLandlords(Pageable pageable) {
-        return null;
+        return landlordRepository.findAllByActive(Boolean.TRUE, pageable).stream()
+                .map(landlordDtoService::mapLandlordToLandlordResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    private Landlord getById(Long id){
+
+        var existingLandlord = landlordRepository.findById(id);
+        Validate.isPresent(existingLandlord, LANDLORD_NOT_FOUND, id);
+
+        final var landlord = existingLandlord.get();
+        Validate.isTrue(landlord.isActive(), ExceptionType.BAD_REQUEST, LANDLORD_IS_INACTIVE);
+
+        return landlord;
     }
 }

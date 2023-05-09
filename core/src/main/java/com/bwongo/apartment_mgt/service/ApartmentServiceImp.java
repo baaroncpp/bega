@@ -1,6 +1,10 @@
 package com.bwongo.apartment_mgt.service;
 
-import com.bwongo.apartment_mgt.models.dto.*;
+import com.bwongo.apartment_mgt.models.dto.request.ApartmentRequestDto;
+import com.bwongo.apartment_mgt.models.dto.request.HouseRequestDto;
+import com.bwongo.apartment_mgt.models.dto.request.HouseTypeRequestDto;
+import com.bwongo.apartment_mgt.models.dto.response.ApartmentResponseDto;
+import com.bwongo.apartment_mgt.models.dto.response.HouseResponseDto;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
 import com.bwongo.apartment_mgt.repository.ApartmentRepository;
 import com.bwongo.apartment_mgt.repository.HouseRepository;

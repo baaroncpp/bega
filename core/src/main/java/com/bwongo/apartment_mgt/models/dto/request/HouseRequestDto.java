@@ -1,4 +1,4 @@
-package com.bwongo.apartment_mgt.models.dto;
+package com.bwongo.apartment_mgt.models.dto.request;
 
 import com.bwongo.apartment_mgt.utils.ApartmentEnumUtil;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;

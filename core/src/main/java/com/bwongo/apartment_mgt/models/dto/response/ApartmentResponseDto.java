@@ -1,4 +1,4 @@
-package com.bwongo.apartment_mgt.models.dto;
+package com.bwongo.apartment_mgt.models.dto.response;
 
 /**
  * @Author bkaaron

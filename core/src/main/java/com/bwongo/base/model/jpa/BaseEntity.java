@@ -25,6 +25,7 @@ public class BaseEntity {
     }
 
     @Column(name = "created_on")
+    @Temporal(TemporalType.TIMESTAMP)
     public Date getCreatedOn() {
         return createdOn;
     }

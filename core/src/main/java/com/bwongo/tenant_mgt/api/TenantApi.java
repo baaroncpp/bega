@@ -55,8 +55,7 @@ public class TenantApi {
     @ResponseStatus(HttpStatus.OK)
     public List<TenantResponseDto> getTenants(@RequestParam("page") int page,
                                               @RequestParam("size") int size){
-        Pageable pageable = PageRequest.of(page, size,
-                Sort.by("createdOn").descending());
+        Pageable pageable = PageRequest.of(page, size, Sort.by("createdOn").descending());
         return tenantService.getTenants(pageable);
     }
 

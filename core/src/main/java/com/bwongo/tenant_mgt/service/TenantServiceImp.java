@@ -60,9 +60,6 @@ public class TenantServiceImp implements TenantService{
 
         var updateTenant = tenantDtoService.mapTenantRequestDtoToTenant(tenantRequestDto);
         updateTenant.setId(existingTenant.getId());
-        updateTenant.setCreatedBy(existingTenant.getCreatedBy());
-        updateTenant.setCreatedOn(existingTenant.getCreatedOn());
-
         auditService.stampAuditedEntity(updateTenant);
 
         return tenantDtoService.mapTenantToTenantResponseDto(tenantRepository.save(updateTenant));

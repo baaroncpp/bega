@@ -17,5 +17,8 @@ public class LandlordMsgConstants {
     public static final String NULL_PHYSICAL_ADDRESS = "physicalAddress is null or empty";
     public static final String NULL_LOGIN_PASSWORD = "loginPassword is null or empty";
     public static final String LANDLORD_WITH_ID_EXISTS = "Landlord with ID: %s already exists";
+    public static final String LANDLORD_NOT_FOUND = "Landlord with ID: %s not found";
+    public static final String LANDLORD_IS_INACTIVE = "Landlord is inactive";
+    public static final String LANDLORD_IS_ACTIVE = "Landlord is active";
 }
 

@@ -12,8 +12,10 @@ import java.util.List;
  * @Date 5/7/23
  **/
 public interface LandlordService {
-    LandlordResponseDto addLandLord(LandlordRequestDto landlordRequestDto);
-    LandlordResponseDto updateLandLord(Long id, LandlordRequestDto landlordRequestDto);
-    LandlordResponseDto getLandLordById(Long id);
+    LandlordResponseDto addLandlord(LandlordRequestDto landlordRequestDto);
+    LandlordResponseDto updateLandlord(Long id, LandlordRequestDto landlordRequestDto);
+    LandlordResponseDto getLandlordById(Long id);
+    boolean activateLandlord(Long id);
+    boolean deactivateLandlord(Long id);
     List<LandlordResponseDto> getLandlords(Pageable pageable);
 }
