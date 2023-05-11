@@ -1,13 +1,18 @@
 package com.bwongo.apartment_mgt.service.dto;
 
+import com.bwongo.apartment_mgt.models.dto.request.ApartmentRequestDto;
 import com.bwongo.apartment_mgt.models.dto.request.HouseRequestDto;
 import com.bwongo.apartment_mgt.models.dto.request.HouseTypeRequestDto;
 import com.bwongo.apartment_mgt.models.dto.response.ApartmentResponseDto;
 import com.bwongo.apartment_mgt.models.dto.response.HouseResponseDto;
+import com.bwongo.apartment_mgt.models.enums.ApartmentType;
+import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
 import com.bwongo.apartment_mgt.models.enums.RentPeriod;
 import com.bwongo.apartment_mgt.models.jpa.Apartment;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
+import com.bwongo.landlord_mgt.model.jpa.Landlord;
+import com.bwongo.landlord_mgt.service.dto.LandlordDtoService;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,6 +27,7 @@ import org.springframework.stereotype.Service;
 public class ApartmentDtoService {
 
     private final UserMgtDtoService userMgtDtoService;
+    private final LandlordDtoService landlordDtoService;
 
     public HouseType mapHouseTypeRequestDtoToHouseType(HouseTypeRequestDto houseTypeRequestDto){
 
@@ -72,7 +78,7 @@ public class ApartmentDtoService {
                 userMgtDtoService.mapTUserToUserResponseDto(house.getCreatedBy()),
                 house.getHouseNumber(),
                 house.getHouseType(),
-                mapApartmentResponseDtoToApartment(house.getApartment()),
+                mapApartmentToApartmentResponseDto(house.getApartment()),
                 house.getRentFee(),
                 house.getRentPeriod(),
                 house.getNote(),
@@ -80,14 +86,45 @@ public class ApartmentDtoService {
         );
     }
 
-    public ApartmentResponseDto mapApartmentResponseDtoToApartment(Apartment apartment){
+    public ApartmentResponseDto mapApartmentToApartmentResponseDto(Apartment apartment){
 
         if(apartment == null){
             return null;
         }
 
         return new ApartmentResponseDto(
-
+                apartment.getId(),
+                apartment.getCreatedOn(),
+                apartment.getModifiedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(apartment.getModifiedBy()),
+                userMgtDtoService.mapTUserToUserResponseDto(apartment.getCreatedBy()),
+                apartment.getApartmentName(),
+                apartment.getApartmentType(),
+                apartment.getLocation(),
+                landlordDtoService.mapLandlordToLandlordResponseDto(apartment.getApartmentOwner()),
+                apartment.getApartmentDescription(),
+                apartment.getManagementFee(),
+                apartment.getManagementFeeType()
         );
+    }
+
+    public Apartment mapApartmentRequestDtoToApartment(ApartmentRequestDto apartmentRequestDto){
+
+        if(apartmentRequestDto == null){
+            return null;
+        }
+        Landlord landlord = new Landlord();
+        landlord.setId(apartmentRequestDto.landlordId());
+
+        Apartment apartment = new Apartment();
+        apartment.setApartmentName(apartmentRequestDto.apartmentName());
+        apartment.setApartmentType(ApartmentType.valueOf(apartmentRequestDto.apartmentType()));
+        apartment.setLocation(apartmentRequestDto.location());
+        apartment.setApartmentOwner(landlord);
+        apartment.setApartmentDescription(apartmentRequestDto.apartmentDescription());
+        apartment.setManagementFee(apartmentRequestDto.managementFee());
+        apartment.setManagementFeeType(ManagementFeeType.valueOf(apartmentRequestDto.managementFeeType()));
+
+        return apartment;
     }
 }

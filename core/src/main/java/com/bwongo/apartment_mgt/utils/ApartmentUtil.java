@@ -3,9 +3,8 @@ package com.bwongo.apartment_mgt.utils;
 import com.bwongo.apartment_mgt.models.enums.ApartmentType;
 import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
 import com.bwongo.apartment_mgt.models.enums.RentPeriod;
-import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
+import com.bwongo.commons.models.text.StringUtil;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -14,9 +13,9 @@ import java.util.List;
  * @Project bega
  * @Date 4/28/23
  **/
-public class ApartmentEnumUtil {
+public class ApartmentUtil {
 
-    private ApartmentEnumUtil() { }
+    private ApartmentUtil() { }
 
     public static boolean isApartmentType(String value){
         List<String> apartmentTypes = Arrays.asList(
@@ -55,5 +54,10 @@ public class ApartmentEnumUtil {
         );
 
         return rentPeriodList.contains(value);
+    }
+
+    public static String generateHouseReferenceNumber(String apartmentName){
+        return apartmentName.toLowerCase().substring(0, 3) +
+                StringUtil.randomString().substring(0, 12);
     }
 }

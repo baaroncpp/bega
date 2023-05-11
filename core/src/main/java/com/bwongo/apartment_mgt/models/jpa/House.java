@@ -23,6 +23,7 @@ public class House extends AuditEntity {
     private RentPeriod rentPeriod;
     private String note;
     private Boolean isOccupied;
+    private String referenceNumber;
 
     @Column(name = "house_number")
     public String getHouseNumber() {
@@ -60,5 +61,10 @@ public class House extends AuditEntity {
     @Column(name = "is_occupied")
     public Boolean getIsOccupied() {
         return isOccupied;
+    }
+
+    @Column(name = "reference_number")
+    public String getReferenceNumber() {
+        return referenceNumber;
     }
 }

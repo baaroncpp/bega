@@ -1,6 +1,6 @@
 package com.bwongo.apartment_mgt.models.dto.request;
 
-import com.bwongo.apartment_mgt.utils.ApartmentEnumUtil;
+import com.bwongo.apartment_mgt.utils.ApartmentUtil;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.Validate;
 
@@ -28,6 +28,6 @@ public record HouseRequestDto (
         Validate.notNull(rentFee, ExceptionType.BAD_REQUEST, NULL_RENT_FEE);
         Validate.isTrue(rentFee.compareTo(BigDecimal.ZERO) > 0, ExceptionType.BAD_REQUEST, RENT_FEE_NOT_ZERO);
         Validate.notEmpty(rentPeriod, NULL_RENT_PERIOD);
-        Validate.isTrue(ApartmentEnumUtil.isRentPeriod(rentPeriod), ExceptionType.BAD_REQUEST, INVALID_RENT_PERIOD);
+        Validate.isTrue(ApartmentUtil.isRentPeriod(rentPeriod), ExceptionType.BAD_REQUEST, INVALID_RENT_PERIOD);
     }
 }

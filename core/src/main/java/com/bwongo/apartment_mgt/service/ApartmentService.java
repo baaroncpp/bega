@@ -6,6 +6,7 @@ import com.bwongo.apartment_mgt.models.dto.request.HouseTypeRequestDto;
 import com.bwongo.apartment_mgt.models.dto.response.ApartmentResponseDto;
 import com.bwongo.apartment_mgt.models.dto.response.HouseResponseDto;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -26,10 +27,12 @@ public interface ApartmentService {
     ApartmentResponseDto updateApartment(Long id, ApartmentRequestDto apartmentRequestDto);
     ApartmentResponseDto getApartmentById(Long id);
     List<ApartmentResponseDto> getApartmentsByLandlord(Long landlordId);
+    List<ApartmentResponseDto> getApartments(Pageable pageable);
 
     /** HOUSE **/
     HouseResponseDto addHouse(HouseRequestDto houseRequestDto);
     HouseResponseDto updateHouse(Long id, HouseRequestDto houseRequestDto);
     List<HouseResponseDto> getHousesByApartment(Long apartmentId);
     List<HouseResponseDto> getHousesByLandlord(Long landlordId);
+    List<HouseResponseDto> getHousesByIsOccupied(boolean isOccupied, Pageable pageable);
 }

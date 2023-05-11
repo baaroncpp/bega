@@ -1,0 +1,1 @@
+ALTER TABLE t_house ADD COLUMN reference_number VARCHAR(15) NOT NULL UNIQUE;

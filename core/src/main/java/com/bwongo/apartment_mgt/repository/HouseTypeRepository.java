@@ -11,4 +11,5 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface HouseTypeRepository extends JpaRepository<HouseType, Long> {
+    boolean existsByName(String name);
 }
