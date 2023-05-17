@@ -24,9 +24,10 @@ public class AssignHouse extends AuditEntity {
     private Tenant tenant;
     private BigDecimal depositAmount;
     private BigDecimal rentAmountPaid;
+    private BigDecimal expectedInitialRentPayment;
     private Date placementDate;
 
-    @JoinColumn(name = "house_number", referencedColumnName = "house_number")
+    @JoinColumn(name = "house_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
     public House getHouse() {
         return house;
@@ -43,7 +44,7 @@ public class AssignHouse extends AuditEntity {
         return billingDuration;
     }
 
-    @JoinColumn(name = "identification_number", referencedColumnName = "identification_number")
+    @JoinColumn(name = "tenant_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
     public Tenant getTenant() {
         return tenant;
@@ -57,6 +58,11 @@ public class AssignHouse extends AuditEntity {
     @Column(name = "rent_amount_paid")
     public BigDecimal getRentAmountPaid() {
         return rentAmountPaid;
+    }
+
+    @Column(name = "initial_rent_payment")
+    public BigDecimal getExpectedInitialRentPayment() {
+        return expectedInitialRentPayment;
     }
 
     @Temporal(TemporalType.TIMESTAMP)

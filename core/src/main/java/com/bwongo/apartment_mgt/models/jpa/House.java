@@ -25,6 +25,7 @@ public class House extends AuditEntity {
     private Boolean isOccupied;
     private String referenceNumber;
     private boolean isRenovationChargeBilled;
+    private int initialRentPaymentPeriod;
 
     @Column(name = "house_number")
     public String getHouseNumber() {
@@ -32,7 +33,7 @@ public class House extends AuditEntity {
     }
 
     @JoinColumn(name = "house_type_id", referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     public HouseType getHouseType() {
         return houseType;
     }
@@ -72,5 +73,10 @@ public class House extends AuditEntity {
     @Column(name = "is_renovation_charge_billed")
     public boolean isRenovationChargeBilled() {
         return isRenovationChargeBilled;
+    }
+
+    @Column(name = "initial_rent_payment_period")
+    public int getInitialRentPaymentPeriod() {
+        return initialRentPaymentPeriod;
     }
 }

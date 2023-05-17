@@ -14,6 +14,7 @@ import com.bwongo.apartment_mgt.models.jpa.Apartment;
 import com.bwongo.apartment_mgt.models.jpa.AssignHouse;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
+import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.landlord_mgt.model.jpa.Landlord;
 import com.bwongo.landlord_mgt.service.dto.LandlordDtoService;
 import com.bwongo.tenant_mgt.models.enums.BillingDuration;
@@ -22,6 +23,8 @@ import com.bwongo.tenant_mgt.service.dto.TenantDtoService;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+
+import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.PLACEMENT_DATE_FORMAT;
 
 /**
  * @Author bkaaron
@@ -68,6 +71,8 @@ public class ApartmentDtoService {
         house.setRentFee(houseRequestDto.rentFee());
         house.setRentPeriod(RentPeriod.valueOf(houseRequestDto.rentPeriod()));
         house.setNote(houseRequestDto.note());
+        house.setIsOccupied(houseRequestDto.isOccupied());
+        house.setInitialRentPaymentPeriod(houseRequestDto.initialRentPaymentPeriod());
 
         return house;
     }
@@ -91,7 +96,8 @@ public class ApartmentDtoService {
                 house.getRentPeriod(),
                 house.getNote(),
                 house.getIsOccupied(),
-                house.isRenovationChargeBilled()
+                house.isRenovationChargeBilled(),
+                house.getInitialRentPaymentPeriod()
         );
     }
 
@@ -154,8 +160,7 @@ public class ApartmentDtoService {
         assignHouse.setBillingDuration(BillingDuration.valueOf(assignHouseRequestDto.billingDuration()));
         assignHouse.setTenant(tenant);
         assignHouse.setDepositAmount(assignHouseRequestDto.depositAmount());
-        assignHouse.setRentAmountPaid(assignHouseRequestDto.rentAmountPaid());
-        assignHouse.setPlacementDate(assignHouseRequestDto.placementDate());
+        assignHouse.setPlacementDate(DateTimeUtil.stringToDate(assignHouseRequestDto.placementDate(), PLACEMENT_DATE_FORMAT));
 
         return assignHouse;
     }
