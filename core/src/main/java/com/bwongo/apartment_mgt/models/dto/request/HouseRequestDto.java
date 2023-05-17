@@ -19,7 +19,8 @@ public record HouseRequestDto (
         Long apartmentId,
         BigDecimal rentFee,
         String rentPeriod,
-        String note
+        String note,
+        boolean isRenovationChargeBilled
 ){
     public void validate(){
         Validate.notEmpty(houseNumber, NULL_HOUSE_NUMBER);
@@ -29,5 +30,6 @@ public record HouseRequestDto (
         Validate.isTrue(rentFee.compareTo(BigDecimal.ZERO) > 0, ExceptionType.BAD_REQUEST, RENT_FEE_NOT_ZERO);
         Validate.notEmpty(rentPeriod, NULL_RENT_PERIOD);
         Validate.isTrue(ApartmentUtil.isRentPeriod(rentPeriod), ExceptionType.BAD_REQUEST, INVALID_RENT_PERIOD);
+        Validate.notNull(isRenovationChargeBilled, ExceptionType.BAD_REQUEST, NULL_RENOVATION_CHARGE);
     }
 }

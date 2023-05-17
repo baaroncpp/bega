@@ -30,6 +30,7 @@ public class ApartmentMsgConstants {
     public static final String RENT_FEE_NOT_ZERO = "rentFee must be greater than 0";
     public static final String NULL_RENT_PERIOD = "rentPeriod is null or empty";
     public static final String INVALID_RENT_PERIOD = "%s invalid rentPeriod";
+    public static final String NULL_RENOVATION_CHARGE = "isRenovationChargeBilled is null or empty";
     public static final String NAME_TOO_SHORT = "name should have more than 3 characters";
     public static final String NAME_ONLY_CHARACTERS = "name should contain only characters";
 }

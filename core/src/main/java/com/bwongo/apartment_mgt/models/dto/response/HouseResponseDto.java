@@ -24,6 +24,7 @@ public record HouseResponseDto(
         BigDecimal rentFee,
         RentPeriod rentPeriod,
         String note,
-        Boolean isOccupied
+        Boolean isOccupied,
+        Boolean isRenovationChargeBilled
 ) {
 }

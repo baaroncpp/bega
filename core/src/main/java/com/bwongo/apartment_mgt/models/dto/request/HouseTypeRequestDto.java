@@ -15,8 +15,8 @@ public record HouseTypeRequestDto(String name,
                                   String note) {
     public void validate(){
         Validate.notEmpty(name, NULL_HOUSE_TYPE_NAME);
-        Validate.isTrue(name.length() < 4, ExceptionType.BAD_REQUEST, NAME_TOO_SHORT);
-        StringRegExUtil.stringOfOnlyCharsNoneCaseSensitive(name, NAME_ONLY_CHARACTERS);
+        Validate.isTrue(name.length() > 3, ExceptionType.BAD_REQUEST, NAME_TOO_SHORT);
+        //StringRegExUtil.stringOfOnlyCharsNoneCaseSensitive(name, NAME_ONLY_CHARACTERS);
         Validate.notEmpty(note, NULL_HOUSE_TYPE_NOTE);
     }
 }

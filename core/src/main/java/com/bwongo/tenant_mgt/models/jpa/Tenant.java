@@ -3,9 +3,8 @@ package com.bwongo.tenant_mgt.models.jpa;
 import com.bwongo.base.model.jpa.AuditEntity;
 import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import com.bwongo.tenant_mgt.models.enums.TenantStatus;
+import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.ToString;
 
@@ -29,6 +28,7 @@ public class Tenant extends AuditEntity {
     private String occupationContactPhone;
     private String emergencyContactName;
     private String emergencyContactPhone;
+    private TenantStatus tenantStatus;
 
     @Column(name = "tenant_full_name")
     public String getTenantFullName() {
@@ -41,6 +41,7 @@ public class Tenant extends AuditEntity {
     }
 
     @Column(name = "identification_type")
+    @Enumerated(EnumType.STRING)
     public IdentificationType getIdentificationType() {
         return identificationType;
     }
@@ -78,5 +79,11 @@ public class Tenant extends AuditEntity {
     @Column(name = "emergency_contact_phone")
     public String getEmergencyContactPhone() {
         return emergencyContactPhone;
+    }
+
+    @Column(name = "tenant_status")
+    @Enumerated(EnumType.STRING)
+    public TenantStatus getTenantStatus() {
+        return tenantStatus;
     }
 }

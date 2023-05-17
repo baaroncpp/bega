@@ -2,6 +2,7 @@ package com.bwongo.tenant_mgt.models.dto.responses;
 
 import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
+import com.bwongo.tenant_mgt.models.enums.TenantStatus;
 import com.bwongo.user_mgt.models.dto.UserResponseDto;
 
 import java.util.Date;
@@ -27,6 +28,7 @@ public record TenantResponseDto(
         String occupationLocation,
         String occupationContactPhone,
         String emergencyContactName,
-        String emergencyContactPhone
+        String emergencyContactPhone,
+        TenantStatus tenantStatus
         ) {
 }

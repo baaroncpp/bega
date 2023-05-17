@@ -54,13 +54,15 @@ public class LandlordServiceImp implements LandlordService{
     public LandlordResponseDto updateLandlord(Long id, LandlordRequestDto landlordRequestDto) {
 
         var existingLandlord = getById(id);
-        Validate.isTrue(existingLandlord.isActive(), ExceptionType.BAD_REQUEST, LANDLORD_IS_INACTIVE);
 
         var updatedLandlord = landlordDtoService.mapLandlordRequestDtoToLandlord(landlordRequestDto);
         updatedLandlord.setId(id);
+        updatedLandlord.setCreatedBy(existingLandlord.getCreatedBy());
+        updatedLandlord.setCreatedOn(existingLandlord.getCreatedOn());
+        updatedLandlord.setActive(Boolean.TRUE);
         auditService.stampAuditedEntity(updatedLandlord);
 
-        return landlordDtoService.mapLandlordToLandlordResponseDto(updatedLandlord);
+        return landlordDtoService.mapLandlordToLandlordResponseDto(landlordRepository.save(updatedLandlord));
     }
 
     @Override

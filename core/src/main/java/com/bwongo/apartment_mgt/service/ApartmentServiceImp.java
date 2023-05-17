@@ -49,7 +49,7 @@ public class ApartmentServiceImp implements ApartmentService{
 
         houseTypeRequestDto.validate();
         final var name = houseTypeRequestDto.name();
-        Validate.isTrue(houseTypeRepository.existsByName(name), ExceptionType.BAD_REQUEST, HOUSE_TYPE_NAME_EXISTS, name);
+        Validate.isTrue(!houseTypeRepository.existsByName(name), ExceptionType.BAD_REQUEST, HOUSE_TYPE_NAME_EXISTS, name);
 
         var houseType = apartmentDtoService.mapHouseTypeRequestDtoToHouseType(houseTypeRequestDto);
         auditService.stampLongEntity(houseType);
@@ -61,13 +61,18 @@ public class ApartmentServiceImp implements ApartmentService{
     public HouseType updateHouseType(Long id, HouseTypeRequestDto houseTypeRequestDto) {
 
         houseTypeRequestDto.validate();
-        Validate.isTrue(houseTypeRepository.existsById(id), ExceptionType.RESOURCE_NOT_FOUND, HOUSE_TYPE_NOT_FOUND, id);
+        var existingHouseType = houseTypeRepository.findById(id);
+        Validate.isPresent(existingHouseType, HOUSE_TYPE_NOT_FOUND, id);
 
-        var houseType = apartmentDtoService.mapHouseTypeRequestDtoToHouseType(houseTypeRequestDto);
-        houseType.setId(id);
+        final var houseType = existingHouseType.get();
+
+        var updatedHouseType = apartmentDtoService.mapHouseTypeRequestDtoToHouseType(houseTypeRequestDto);
+        updatedHouseType.setId(id);
+        updatedHouseType.setCreatedOn(houseType.getCreatedOn());
+
         auditService.stampLongEntity(houseType);
 
-        return houseTypeRepository.save(houseType);
+        return houseTypeRepository.save(updatedHouseType);
     }
 
     @Override
@@ -80,7 +85,8 @@ public class ApartmentServiceImp implements ApartmentService{
 
         apartmentRequestDto.validate();
         final var apartmentName = apartmentRequestDto.apartmentName();
-        Validate.isTrue(apartmentRepository.existsByApartmentName(apartmentName), ExceptionType.BAD_REQUEST, APARTMENT_NAME_EXISTS, apartmentName);
+
+        Validate.isTrue(!apartmentRepository.existsByApartmentName(apartmentName), ExceptionType.BAD_REQUEST, APARTMENT_NAME_EXISTS, apartmentName);
 
         final var landlordId = apartmentRequestDto.landlordId();
         var landlord = getLandlord(landlordId);
@@ -95,23 +101,29 @@ public class ApartmentServiceImp implements ApartmentService{
     @Override
     public ApartmentResponseDto updateApartment(Long id, ApartmentRequestDto apartmentRequestDto) {
 
-        Validate.isTrue(apartmentRepository.existsById(id), ExceptionType.BAD_REQUEST, APARTMENT_WITH_ID_NOT_FOUND, id);
+        var existingApartment = apartmentRepository.findById(id);
+        Validate.isPresent(existingApartment, APARTMENT_WITH_ID_NOT_FOUND, id);
+
+        final var apartment = existingApartment.get();
+
         final var landlordId = apartmentRequestDto.landlordId();
         var landlord = getLandlord(landlordId);
 
-        var apartment = apartmentDtoService.mapApartmentRequestDtoToApartment(apartmentRequestDto);
-        apartment.setId(id);
-        apartment.setApartmentOwner(landlord);
+        var updatedApartment = apartmentDtoService.mapApartmentRequestDtoToApartment(apartmentRequestDto);
+        updatedApartment.setId(id);
+        updatedApartment.setApartmentOwner(landlord);
+        updatedApartment.setCreatedBy(apartment.getCreatedBy());
+        updatedApartment.setCreatedOn(apartment.getCreatedOn());
 
         auditService.stampAuditedEntity(apartment);
 
-        return apartmentDtoService.mapApartmentToApartmentResponseDto(apartmentRepository.save(apartment));
+        return apartmentDtoService.mapApartmentToApartmentResponseDto(apartmentRepository.save(updatedApartment));
     }
 
     @Override
     public ApartmentResponseDto getApartmentById(Long id) {
 
-        Validate.isTrue(apartmentRepository.existsById(id), ExceptionType.BAD_REQUEST, APARTMENT_WITH_ID_NOT_FOUND, id);
+        Validate.isTrue(apartmentRepository.existsById(id), ExceptionType.RESOURCE_NOT_FOUND, APARTMENT_WITH_ID_NOT_FOUND, id);
         final var apartment = apartmentRepository.findById(id).get();
         return apartmentDtoService.mapApartmentToApartmentResponseDto(apartment);
     }
@@ -120,8 +132,9 @@ public class ApartmentServiceImp implements ApartmentService{
     public List<ApartmentResponseDto> getApartmentsByLandlord(Long landlordId) {
 
         var existingLandlord = landlordRepository.findById(landlordId);
+        Validate.isPresent(existingLandlord, LANDLORD_NOT_FOUND, landlordId);
+
         var landlord = existingLandlord.get();
-        Validate.isPresent(existingLandlord, LANDLORD_NOT_FOUND);
 
         return apartmentRepository.findAllByApartmentOwner(landlord).stream()
                 .map(apartmentDtoService::mapApartmentToApartmentResponseDto)
@@ -161,19 +174,23 @@ public class ApartmentServiceImp implements ApartmentService{
         var existingHouse = houseRepository.findById(id);
         Validate.isPresent(existingHouse, HOUSE_TYPE_NOT_FOUND, id);
 
+        var house = existingHouse.get();
+
         final var apartmentId = houseRequestDto.apartmentId();
         var existingApartment = apartmentRepository.findById(apartmentId);
         Validate.isPresent(existingApartment, APARTMENT_WITH_ID_NOT_FOUND, apartmentId);
 
         final var apartment = existingApartment.get();
-        var house = apartmentDtoService.mapHouseRequestDtoToHouse(houseRequestDto);
-        house.setId(id);
-        house.setApartment(apartment);
-        house.setReferenceNumber(existingHouse.get().getReferenceNumber());
+        var updatedHouse = apartmentDtoService.mapHouseRequestDtoToHouse(houseRequestDto);
+        updatedHouse.setId(id);
+        updatedHouse.setApartment(apartment);
+        updatedHouse.setReferenceNumber(house.getReferenceNumber());
+        updatedHouse.setCreatedBy(house.getCreatedBy());
+        updatedHouse.setCreatedOn(house.getCreatedOn());
 
-        auditService.stampAuditedEntity(house);
+        auditService.stampAuditedEntity(updatedHouse);
 
-        return apartmentDtoService.mapHouseToHouseResponseDto(houseRepository.save(house));
+        return apartmentDtoService.mapHouseToHouseResponseDto(houseRepository.save(updatedHouse));
     }
 
     @Override

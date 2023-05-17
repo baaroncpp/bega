@@ -27,10 +27,10 @@ public record LandlordRequestDto(
 ) {
     public void validate(){
         Validate.notEmpty(firstName, NULL_FIRST_NAME);
-        Validate.isTrue(firstName.length() < 4, ExceptionType.BAD_CREDENTIALS,SHORT_FIRST_NAME);
+        Validate.isTrue(firstName.length() > 3, ExceptionType.BAD_REQUEST,SHORT_FIRST_NAME);
         StringRegExUtil.stringOfOnlyCharsNoneCaseSensitive(firstName, INVALID_FIRST_NAME);
         Validate.notEmpty(lastName, NULL_LAST_NAME);
-        Validate.isTrue(lastName.length() < 4, ExceptionType.BAD_CREDENTIALS, SHORT_LAST_NAME);
+        Validate.isTrue(lastName.length() > 3, ExceptionType.BAD_REQUEST, SHORT_LAST_NAME);
         StringRegExUtil.stringOfOnlyCharsNoneCaseSensitive(lastName, INVALID_LAST_NAME);
         Validate.isTrue(isValidIdentificationType(identificationType), ExceptionType.BAD_REQUEST, INVALID_IDENTIFICATION_TYPE);
         Validate.notEmpty(identificationType, NULL_IDENTIFICATION_TYPE);

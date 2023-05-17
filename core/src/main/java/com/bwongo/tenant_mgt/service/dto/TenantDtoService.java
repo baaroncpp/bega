@@ -63,7 +63,8 @@ public class TenantDtoService {
                 tenant.getOccupationLocation(),
                 tenant.getOccupationContactPhone(),
                 tenant.getEmergencyContactName(),
-                tenant.getEmergencyContactPhone()
+                tenant.getEmergencyContactPhone(),
+                tenant.getTenantStatus()
         );
     }
 }

@@ -1,18 +1,24 @@
 package com.bwongo.apartment_mgt.service.dto;
 
 import com.bwongo.apartment_mgt.models.dto.request.ApartmentRequestDto;
+import com.bwongo.apartment_mgt.models.dto.request.AssignHouseRequestDto;
 import com.bwongo.apartment_mgt.models.dto.request.HouseRequestDto;
 import com.bwongo.apartment_mgt.models.dto.request.HouseTypeRequestDto;
 import com.bwongo.apartment_mgt.models.dto.response.ApartmentResponseDto;
+import com.bwongo.apartment_mgt.models.dto.response.AssignHouseResponseDto;
 import com.bwongo.apartment_mgt.models.dto.response.HouseResponseDto;
 import com.bwongo.apartment_mgt.models.enums.ApartmentType;
 import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
 import com.bwongo.apartment_mgt.models.enums.RentPeriod;
 import com.bwongo.apartment_mgt.models.jpa.Apartment;
+import com.bwongo.apartment_mgt.models.jpa.AssignHouse;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
 import com.bwongo.landlord_mgt.model.jpa.Landlord;
 import com.bwongo.landlord_mgt.service.dto.LandlordDtoService;
+import com.bwongo.tenant_mgt.models.enums.BillingDuration;
+import com.bwongo.tenant_mgt.models.jpa.Tenant;
+import com.bwongo.tenant_mgt.service.dto.TenantDtoService;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -28,6 +34,7 @@ public class ApartmentDtoService {
 
     private final UserMgtDtoService userMgtDtoService;
     private final LandlordDtoService landlordDtoService;
+    private final TenantDtoService tenantDtoService;
 
     public HouseType mapHouseTypeRequestDtoToHouseType(HouseTypeRequestDto houseTypeRequestDto){
 
@@ -57,6 +64,7 @@ public class ApartmentDtoService {
         House house = new House();
         house.setHouseType(houseType);
         house.setApartment(apartment);
+        house.setHouseNumber(houseRequestDto.houseNumber());
         house.setRentFee(houseRequestDto.rentFee());
         house.setRentPeriod(RentPeriod.valueOf(houseRequestDto.rentPeriod()));
         house.setNote(houseRequestDto.note());
@@ -82,7 +90,8 @@ public class ApartmentDtoService {
                 house.getRentFee(),
                 house.getRentPeriod(),
                 house.getNote(),
-                house.getIsOccupied()
+                house.getIsOccupied(),
+                house.isRenovationChargeBilled()
         );
     }
 
@@ -126,5 +135,50 @@ public class ApartmentDtoService {
         apartment.setManagementFeeType(ManagementFeeType.valueOf(apartmentRequestDto.managementFeeType()));
 
         return apartment;
+    }
+
+    public AssignHouse mapAssignHouseRequestDtoToAssignHouse(AssignHouseRequestDto assignHouseRequestDto){
+
+        if(assignHouseRequestDto == null){
+            return null;
+        }
+        House house = new House();
+        house.setId(assignHouseRequestDto.houseId());
+
+        Tenant tenant = new Tenant();
+        tenant.setId(assignHouseRequestDto.tenantId());
+
+        AssignHouse assignHouse = new AssignHouse();
+        assignHouse.setHouse(house);
+        assignHouse.setPredefinedRent(assignHouseRequestDto.predefinedRent());
+        assignHouse.setBillingDuration(BillingDuration.valueOf(assignHouseRequestDto.billingDuration()));
+        assignHouse.setTenant(tenant);
+        assignHouse.setDepositAmount(assignHouseRequestDto.depositAmount());
+        assignHouse.setRentAmountPaid(assignHouseRequestDto.rentAmountPaid());
+        assignHouse.setPlacementDate(assignHouseRequestDto.placementDate());
+
+        return assignHouse;
+    }
+
+    public AssignHouseResponseDto mapAssignHouseToAssignHouseResponseDto(AssignHouse assignHouse){
+
+        if(assignHouse == null){
+            return null;
+        }
+
+        return new AssignHouseResponseDto(
+                assignHouse.getId(),
+                assignHouse.getCreatedOn(),
+                assignHouse.getModifiedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(assignHouse.getModifiedBy()),
+                userMgtDtoService.mapTUserToUserResponseDto(assignHouse.getCreatedBy()),
+                mapHouseToHouseResponseDto(assignHouse.getHouse()),
+                assignHouse.getPredefinedRent(),
+                assignHouse.getBillingDuration(),
+                tenantDtoService.mapTenantToTenantResponseDto(assignHouse.getTenant()),
+                assignHouse.getDepositAmount(),
+                assignHouse.getRentAmountPaid(),
+                assignHouse.getPlacementDate()
+        );
     }
 }

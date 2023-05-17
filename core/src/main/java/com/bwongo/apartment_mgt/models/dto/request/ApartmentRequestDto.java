@@ -31,6 +31,6 @@ public record ApartmentRequestDto(
         Validate.notNull(managementFee, ExceptionType.BAD_REQUEST, NULL_MANAGEMENT_FEE);
         Validate.isTrue(managementFee.compareTo(BigDecimal.ZERO) > 0, ExceptionType.BAD_REQUEST, MANAGEMENT_FEE_NOT_ZERO);
         Validate.notEmpty(managementFeeType, MANAGEMENT_FEE_TYPE);
-        Validate.isTrue(ApartmentUtil.isManagementFeeType(managementFeeType), ExceptionType.BAD_REQUEST, INVALID_MANAGEMENT_FEE_TYPE);
+        Validate.isTrue(ApartmentUtil.isManagementFeeType(managementFeeType), ExceptionType.BAD_REQUEST, INVALID_MANAGEMENT_FEE_TYPE, managementFeeType);
     }
 }
