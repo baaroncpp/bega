@@ -1,6 +1,6 @@
-package com.bwongo.apartment_mgt.repository;
+package com.bwongo.account_mgt.repository;
 
-import com.bwongo.apartment_mgt.models.jpa.RentPayment;
+import com.bwongo.account_mgt.models.jpa.RentPayment;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
