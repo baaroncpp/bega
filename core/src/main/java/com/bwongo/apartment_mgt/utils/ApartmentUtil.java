@@ -1,6 +1,7 @@
 package com.bwongo.apartment_mgt.utils;
 
 import com.bwongo.apartment_mgt.models.enums.ApartmentType;
+import com.bwongo.apartment_mgt.models.enums.ApprovalStatus;
 import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
 import com.bwongo.apartment_mgt.models.enums.RentPeriod;
 import com.bwongo.apartment_mgt.models.jpa.House;
@@ -76,6 +77,15 @@ public class ApartmentUtil {
         );
 
         return billingDurationList.contains(value);
+    }
+
+    public static boolean isApprovalStatus(String value){
+        List<String> approvalStatusList = Arrays.asList(
+                ApprovalStatus.APPROVED.name(),
+                ApprovalStatus.REJECTED.name()
+        );
+
+        return approvalStatusList.contains(value);
     }
 
     public static String generateHouseReferenceNumber(String apartmentName){

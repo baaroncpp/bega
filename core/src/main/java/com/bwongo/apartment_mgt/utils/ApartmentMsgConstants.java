@@ -19,6 +19,7 @@ public class ApartmentMsgConstants {
     public static final String APARTMENT_WITH_ID_NOT_FOUND = "Apartment with ID: %s not found";
     public static final String NULL_LOCATION = "location is null or empty";
     public static final String NULL_LANDLORD_ID = "landlordId is null or empty";
+    public static final String NULL_DISTRICT_ID = "districtId is null or empty";
     public static final String NULL_MANAGEMENT_FEE = "managementFee is null or empty";
     public static final String MANAGEMENT_FEE_NOT_ZERO = "managementFee must be greater than 0";
     public static final String MANAGEMENT_FEE_TYPE = "managementFeeType is null or empty";
@@ -43,4 +44,11 @@ public class ApartmentMsgConstants {
     public static final String HOUSE_NOT_FOUND = "House with ID: %s not found";
     public static final String INITIAL_PAY_PERIOD_NOT_ZERO = "initialRentPaymentPeriod must be greater than 0";
     public static final String PLACEMENT_DATE_FORMAT = "MM/dd/yyyy";
+    public static final String NULL_PLACEMENT_DATE = "placementDate is null or empty";
+    public static final String NULL_RECEIPT_NO = "receiptNumber is null or empty";
+    public static final String NULL_ASSIGN_HOUSE_ID = "assignHouseId is null or empty";
+    public static final String NULL_APPROVAL_STATUS = "approvalStatus is null or empty";
+    public static final String INVALID_APPROVAL_STATUS = "%s is invalid approvalStatus";
+    public static final String ASSIGN_HOUSE_NOT_FOUND = "AssignHouse with ID: %s not found";
+    public static final String NULL_IS_RENOVATION_SERVICED = "isRenovationServiced is null";
 }

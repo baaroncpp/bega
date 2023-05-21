@@ -97,7 +97,8 @@ public class ApartmentDtoService {
                 house.getNote(),
                 house.getIsOccupied(),
                 house.isRenovationChargeBilled(),
-                house.getInitialRentPaymentPeriod()
+                house.getInitialRentPaymentPeriod(),
+                house.getOccupiedUntil()
         );
     }
 
@@ -119,7 +120,8 @@ public class ApartmentDtoService {
                 landlordDtoService.mapLandlordToLandlordResponseDto(apartment.getApartmentOwner()),
                 apartment.getApartmentDescription(),
                 apartment.getManagementFee(),
-                apartment.getManagementFeeType()
+                apartment.getManagementFeeType(),
+                apartment.isRenovationServiced()
         );
     }
 
@@ -139,6 +141,7 @@ public class ApartmentDtoService {
         apartment.setApartmentDescription(apartmentRequestDto.apartmentDescription());
         apartment.setManagementFee(apartmentRequestDto.managementFee());
         apartment.setManagementFeeType(ManagementFeeType.valueOf(apartmentRequestDto.managementFeeType()));
+        apartment.setRenovationServiced(apartmentRequestDto.isRenovationServiced());
 
         return apartment;
     }
@@ -161,6 +164,7 @@ public class ApartmentDtoService {
         assignHouse.setTenant(tenant);
         assignHouse.setDepositAmount(assignHouseRequestDto.depositAmount());
         assignHouse.setPlacementDate(DateTimeUtil.stringToDate(assignHouseRequestDto.placementDate(), PLACEMENT_DATE_FORMAT));
+        assignHouse.setNote(assignHouseRequestDto.note());
 
         return assignHouse;
     }

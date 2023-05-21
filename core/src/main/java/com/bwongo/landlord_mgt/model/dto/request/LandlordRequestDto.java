@@ -4,6 +4,7 @@ import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.text.StringRegExUtil;
 import com.bwongo.commons.models.utils.Validate;
 
+import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.NULL_DISTRICT_ID;
 import static com.bwongo.base.utils.BaseEnumValidation.isValidIdentificationType;
 import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;
@@ -23,7 +24,8 @@ public record LandlordRequestDto(
          String secondPhoneNumber,
          String physicalAddress,
          String email,
-         String loginPassword
+         String loginPassword,
+         Long districtId
 ) {
     public void validate(){
         Validate.notEmpty(firstName, NULL_FIRST_NAME);
@@ -41,5 +43,6 @@ public record LandlordRequestDto(
         StringRegExUtil.stringOfEmail(email, INVALID_EMAIL);
         Validate.notEmpty(loginPassword, NULL_LOGIN_PASSWORD);
         StringRegExUtil.stringOfStandardPassword(loginPassword, INVALID_PASSWORD);
+        Validate.notNull(districtId, ExceptionType.BAD_REQUEST, NULL_DISTRICT_ID);
     }
 }

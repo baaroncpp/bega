@@ -1,4 +1,7 @@
 ALTER TABLE t_house ADD COLUMN initial_rent_payment_period INTEGER NOT NULL DEFAULT 3;
+ALTER TABLE t_house ADD COLUMN occupied_until TIMESTAMP;
+ALTER TABLE t_landlord ADD COLUMN user_meta_id BIGINT REFERENCES t_user_meta(id);
+ALTER TABLE t_apartment ADD COLUMN is_renovation_serviced BOOLEAN NOT NULL DEFAULT FALSE;
 
 CREATE TABLE t_assign_house(
    id BIGSERIAL PRIMARY KEY,
@@ -14,5 +17,7 @@ CREATE TABLE t_assign_house(
    deposit_amount NUMERIC NOT NULL,
    rent_amount_paid NUMERIC NOT NULL,
    initial_rent_payment NUMERIC NOT NULL,
-   placement_date TIMESTAMP
+   placement_date TIMESTAMP,
+   note TEXT,
+   is_approved BOOLEAN DEFAULT FALSE
 );

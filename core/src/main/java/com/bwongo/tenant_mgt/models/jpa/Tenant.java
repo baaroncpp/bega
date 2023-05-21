@@ -4,6 +4,7 @@ import com.bwongo.base.model.jpa.AuditEntity;
 import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 import com.bwongo.tenant_mgt.models.enums.TenantStatus;
+import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.ToString;
@@ -29,6 +30,7 @@ public class Tenant extends AuditEntity {
     private String emergencyContactName;
     private String emergencyContactPhone;
     private TenantStatus tenantStatus;
+    private TUserMeta userMeta;
 
     @Column(name = "tenant_full_name")
     public String getTenantFullName() {
@@ -85,5 +87,11 @@ public class Tenant extends AuditEntity {
     @Enumerated(EnumType.STRING)
     public TenantStatus getTenantStatus() {
         return tenantStatus;
+    }
+
+    @JoinColumn(name = "user_meta_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+    public TUserMeta getUserMeta() {
+        return userMeta;
     }
 }
