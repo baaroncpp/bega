@@ -1,6 +1,10 @@
-package com.bwongo.apartment_mgt.models.enums;/**
+package com.bwongo.apartment_mgt.models.enums;
+
+/**
  * @Author bkaaron
  * @Project bega
  * @Date 5/19/23
- **/public enum PaymentStatus {
+ **/
+public enum PaymentStatus {
+    SUCCESSFUL, PENDING, FAILED, REVERSED
 }

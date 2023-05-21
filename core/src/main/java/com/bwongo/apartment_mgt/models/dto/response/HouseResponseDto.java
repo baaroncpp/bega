@@ -26,6 +26,7 @@ public record HouseResponseDto(
         String note,
         Boolean isOccupied,
         Boolean isRenovationChargeBilled,
-        int initialRentPaymentPeriod
+        int initialRentPaymentPeriod,
+        Date occupiedUntil
 ) {
 }

@@ -20,7 +20,9 @@ public record ApartmentRequestDto(
         Long landlordId,
         String apartmentDescription,
         BigDecimal managementFee,
-        String managementFeeType
+        String managementFeeType,
+        Long districtId,
+        boolean isRenovationServiced
 ) {
     public void validate(){
         Validate.notEmpty(apartmentName, NULL_APARTMENT_NAME);
@@ -32,5 +34,7 @@ public record ApartmentRequestDto(
         Validate.isTrue(managementFee.compareTo(BigDecimal.ZERO) > 0, ExceptionType.BAD_REQUEST, MANAGEMENT_FEE_NOT_ZERO);
         Validate.notEmpty(managementFeeType, MANAGEMENT_FEE_TYPE);
         Validate.isTrue(ApartmentUtil.isManagementFeeType(managementFeeType), ExceptionType.BAD_REQUEST, INVALID_MANAGEMENT_FEE_TYPE, managementFeeType);
+        Validate.notNull(districtId, ExceptionType.BAD_REQUEST, NULL_DISTRICT_ID);
+        Validate.notNull(isRenovationServiced, ExceptionType.BAD_REQUEST, NULL_IS_RENOVATION_SERVICED);
     }
 }

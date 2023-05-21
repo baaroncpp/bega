@@ -20,7 +20,9 @@ public record AssignHouseRequestDto(
         String billingDuration,
         Long tenantId,
         BigDecimal depositAmount,
-        String placementDate
+        String placementDate,
+        String note,
+        String receiptNumber
 ) {
     public void validate(){
         Validate.notNull(houseId, ExceptionType.BAD_REQUEST, NULL_HOUSE_ID);
@@ -28,6 +30,8 @@ public record AssignHouseRequestDto(
         Validate.isTrue(ApartmentUtil.isBillingDuration(billingDuration), ExceptionType.BAD_REQUEST, INVALID_BILLING_DURATION);
         Validate.notNull(tenantId, ExceptionType.BAD_REQUEST, NULL_TENANT_ID);
         Validate.isTrue(depositAmount.compareTo(BigDecimal.ZERO) > 0, ExceptionType.BAD_REQUEST, DEPOSIT_AMOUNT_NOT_ZERO);
+        Validate.notEmpty(placementDate, NULL_PLACEMENT_DATE);
         Validate.isTrue(ApartmentUtil.validateAssignHouseDate(placementDate), ExceptionType.BAD_REQUEST, INVALID_PLACEMENT_DATE, placementDate);
+        Validate.notEmpty(receiptNumber, NULL_RECEIPT_NO);
     }
 }

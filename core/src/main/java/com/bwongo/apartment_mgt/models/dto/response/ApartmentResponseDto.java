@@ -25,6 +25,7 @@ public record ApartmentResponseDto(
         LandlordResponseDto apartmentOwner,
         String apartmentDescription,
         BigDecimal managementFee,
-        ManagementFeeType managementFeeType
+        ManagementFeeType managementFeeType,
+        boolean isRenovationServiced
 ) {
 }
