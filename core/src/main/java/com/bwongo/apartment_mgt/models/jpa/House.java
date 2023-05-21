@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @Author bkaaron
@@ -26,6 +27,7 @@ public class House extends AuditEntity {
     private String referenceNumber;
     private boolean isRenovationChargeBilled;
     private int initialRentPaymentPeriod;
+    private Date occupiedUntil;
 
     @Column(name = "house_number")
     public String getHouseNumber() {
@@ -78,5 +80,10 @@ public class House extends AuditEntity {
     @Column(name = "initial_rent_payment_period")
     public int getInitialRentPaymentPeriod() {
         return initialRentPaymentPeriod;
+    }
+
+    @Column(name = "occupied_until")
+    public Date getOccupiedUntil() {
+        return occupiedUntil;
     }
 }

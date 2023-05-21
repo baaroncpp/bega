@@ -4,6 +4,7 @@ import com.bwongo.apartment_mgt.models.enums.ApartmentType;
 import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
 import com.bwongo.base.model.jpa.AuditEntity;
 import com.bwongo.landlord_mgt.model.jpa.Landlord;
+import com.bwongo.user_mgt.models.jpa.TDistrict;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -25,6 +26,8 @@ public class Apartment extends AuditEntity {
     private String apartmentDescription;
     private BigDecimal managementFee;
     private ManagementFeeType managementFeeType;
+    private TDistrict district;
+    private boolean isRenovationServiced;
 
     @Column(name = "apartment_name")
     public String getApartmentName() {
@@ -62,5 +65,16 @@ public class Apartment extends AuditEntity {
     @Enumerated(EnumType.STRING)
     public ManagementFeeType getManagementFeeType() {
         return managementFeeType;
+    }
+
+    @JoinColumn(name = "district_id", referencedColumnName = "id")
+    @OneToOne(fetch = FetchType.LAZY)
+    public TDistrict getDistrict() {
+        return district;
+    }
+
+    @Column(name = "is_renovation_serviced")
+    public boolean isRenovationServiced() {
+        return isRenovationServiced;
     }
 }

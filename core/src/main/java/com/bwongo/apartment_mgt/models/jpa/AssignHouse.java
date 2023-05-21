@@ -26,6 +26,8 @@ public class AssignHouse extends AuditEntity {
     private BigDecimal rentAmountPaid;
     private BigDecimal expectedInitialRentPayment;
     private Date placementDate;
+    private String note;
+    private boolean isApproved;
 
     @JoinColumn(name = "house_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
@@ -69,5 +71,15 @@ public class AssignHouse extends AuditEntity {
     @Column(name = "placement_date")
     public Date getPlacementDate() {
         return placementDate;
+    }
+
+    @Column(name = "note")
+    public String getNote() {
+        return note;
+    }
+
+    @Column(name = "is_approved")
+    public boolean isApproved() {
+        return isApproved;
     }
 }
