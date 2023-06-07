@@ -93,12 +93,14 @@ public class ApartmentDtoService {
                 house.getHouseType(),
                 mapApartmentToApartmentResponseDto(house.getApartment()),
                 house.getRentFee(),
+                house.getCurrentPredefinedRentFee(),
                 house.getRentPeriod(),
                 house.getNote(),
                 house.getIsOccupied(),
                 house.isRenovationChargeBilled(),
                 house.getInitialRentPaymentPeriod(),
-                house.getOccupiedUntil()
+                house.getOccupiedUntil(),
+                house.getManagementPercentage()
         );
     }
 
@@ -119,7 +121,6 @@ public class ApartmentDtoService {
                 apartment.getLocation(),
                 landlordDtoService.mapLandlordToLandlordResponseDto(apartment.getApartmentOwner()),
                 apartment.getApartmentDescription(),
-                apartment.getManagementFee(),
                 apartment.getManagementFeeType(),
                 apartment.isRenovationServiced()
         );
@@ -139,7 +140,6 @@ public class ApartmentDtoService {
         apartment.setLocation(apartmentRequestDto.location());
         apartment.setApartmentOwner(landlord);
         apartment.setApartmentDescription(apartmentRequestDto.apartmentDescription());
-        apartment.setManagementFee(apartmentRequestDto.managementFee());
         apartment.setManagementFeeType(ManagementFeeType.valueOf(apartmentRequestDto.managementFeeType()));
         apartment.setRenovationServiced(apartmentRequestDto.isRenovationServiced());
 

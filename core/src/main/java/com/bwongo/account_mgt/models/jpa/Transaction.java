@@ -32,7 +32,7 @@ public class Transaction extends AuditEntity {
     private BigDecimal amountAfter;
     private TransactionStatus transactionStatus;
 
-    @Column(name = "")
+    @Column(name = "amount")
     public BigDecimal getAmount() {
         return amount;
     }

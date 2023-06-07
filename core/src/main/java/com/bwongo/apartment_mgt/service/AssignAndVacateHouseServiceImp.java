@@ -86,7 +86,7 @@ public class AssignAndVacateHouseServiceImp implements AssignAndVacateHouseServi
         if(house.isRenovationChargeBilled()){
             expectedInitialRentPayment.add(assignHouseRequestDto.predefinedRent());
         }
-        
+
         Validate.isTrue(expectedInitialRentPayment.compareTo(tenantDepositAmount) < 0, ExceptionType.BAD_REQUEST, LOW_DEPOSIT_AMOUNT);
         var rentPayed = house.getRentFee().multiply(BigDecimal.valueOf(rentPeriodsPaid(tenantDepositAmount, house.getRentFee())));
 

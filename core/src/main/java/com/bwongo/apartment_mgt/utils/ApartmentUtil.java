@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.List;
 
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.*;
+import static com.bwongo.commons.models.utils.DateTimeUtil.YYYY_MM_DD;
 
 /**
  * @Author bkaaron
@@ -95,13 +96,19 @@ public class ApartmentUtil {
 
     public static void isHouseAssignable(House house){
         Validate.isTrue(house.isActive(), ExceptionType.BAD_REQUEST, HOUSE_IS_INACTIVE);
-        Validate.isTrue(house.getIsOccupied(), ExceptionType.BAD_REQUEST, HOUSE_IS_OCCUPIED);
+        Validate.isTrue(!house.getIsOccupied(), ExceptionType.BAD_REQUEST, HOUSE_IS_OCCUPIED);
         Validate.isTrue(house.getRentFee().compareTo(BigDecimal.ZERO) > 0, ExceptionType.BAD_REQUEST, RENT_FEE_NOT_ZERO);
     }
 
-    public static boolean validateAssignHouseDate(String stringDate){
+    public static void checkIfHouseIsValidForRentPayment(House house){
+        Validate.isTrue(house.isActive(), ExceptionType.BAD_REQUEST, HOUSE_IS_INACTIVE);
+        Validate.isTrue(house.getIsOccupied(), ExceptionType.BAD_REQUEST, HOUSE_NOT_OCCUPIED);
+        Validate.notNull(house.getCurrentPredefinedRentFee(), ExceptionType.BAD_REQUEST, NULL_PREDEFINED_RENT_FEE);
+    }
 
-        SimpleDateFormat dateFormat = new SimpleDateFormat(PLACEMENT_DATE_FORMAT);
+    public static boolean validateDate(String stringDate){
+
+        SimpleDateFormat dateFormat = new SimpleDateFormat(YYYY_MM_DD);
         dateFormat.setLenient(false);
 
         try{

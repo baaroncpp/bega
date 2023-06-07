@@ -24,7 +24,6 @@ public class Apartment extends AuditEntity {
     private String location;
     private Landlord apartmentOwner;
     private String apartmentDescription;
-    private BigDecimal managementFee;
     private ManagementFeeType managementFeeType;
     private TDistrict district;
     private boolean isRenovationServiced;
@@ -54,11 +53,6 @@ public class Apartment extends AuditEntity {
     @Column(name = "apartment_description")
     public String getApartmentDescription() {
         return apartmentDescription;
-    }
-
-    @Column(name = "management_fee")
-    public BigDecimal getManagementFee() {
-        return managementFee;
     }
 
     @Column(name = "management_fee_type")

@@ -22,11 +22,13 @@ public record HouseResponseDto(
         HouseType houseType,
         ApartmentResponseDto apartmentResponseDto,
         BigDecimal rentFee,
+        BigDecimal currentPredefinedRentFee,
         RentPeriod rentPeriod,
         String note,
         Boolean isOccupied,
         Boolean isRenovationChargeBilled,
         int initialRentPaymentPeriod,
-        Date occupiedUntil
+        Date occupiedUntil,
+        Double managementPercentage
 ) {
 }

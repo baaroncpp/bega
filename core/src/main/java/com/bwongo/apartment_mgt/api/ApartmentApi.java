@@ -125,7 +125,7 @@ public class ApartmentApi {
         return apartmentService.getHousesByLandlord(id);
     }
 
-    @RolesAllowed({"ROLE_ADMIN.READ"})
+    @RolesAllowed({"ROLE_ ADMIN.READ"})
     @GetMapping(path = "houses", produces = APPLICATION_JSON)
     @ResponseStatus(HttpStatus.OK)
     public List<HouseResponseDto> getHouses(@RequestParam("page") int page,

@@ -21,13 +21,15 @@ public class House extends AuditEntity {
     private HouseType houseType;
     private Apartment apartment;
     private BigDecimal rentFee;
+    private BigDecimal currentPredefinedRentFee;
     private RentPeriod rentPeriod;
     private String note;
     private Boolean isOccupied;
     private String referenceNumber;
     private boolean isRenovationChargeBilled;
     private int initialRentPaymentPeriod;
-    private Date occupiedUntil;
+    private Date occupiedUntil; //TODO refactor to paid not occupied
+    private Double managementPercentage;
 
     @Column(name = "house_number")
     public String getHouseNumber() {
@@ -49,6 +51,11 @@ public class House extends AuditEntity {
     @Column(name = "rent_fee")
     public BigDecimal getRentFee() {
         return rentFee;
+    }
+
+    @Column(name = "current_predefIned_rent_fee")
+    public BigDecimal getCurrentPredefinedRentFee() {
+        return currentPredefinedRentFee;
     }
 
     @Column(name = "rent_period")
@@ -85,5 +92,10 @@ public class House extends AuditEntity {
     @Column(name = "occupied_until")
     public Date getOccupiedUntil() {
         return occupiedUntil;
+    }
+
+    @Column(name = "management_percentage")
+    public Double getManagementPercentage() {
+        return managementPercentage;
     }
 }

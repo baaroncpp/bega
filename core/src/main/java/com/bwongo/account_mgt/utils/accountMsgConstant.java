@@ -18,4 +18,6 @@ public class accountMsgConstant {
     public static final String ACCOUNT_SUSPENDED = "account with ID: %s is suspended";
     public static final String ACCOUNT_CLOSED = "account with ID: %s is closed";
     public static final String ACCOUNT_NOT_ACTIVE = "account with ID: %s is not active";
+    public static final String NULL_AMOUNT = "amount is null";
+    public static final String AMOUNT_IS_ZERO = "amount must be greater than 0";
 }

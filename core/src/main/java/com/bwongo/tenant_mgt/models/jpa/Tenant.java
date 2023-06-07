@@ -19,11 +19,8 @@ import lombok.ToString;
 @Setter
 @ToString
 public class Tenant extends AuditEntity {
-    private String tenantFullName;
-    private String identificationNumber;
-    private IdentificationType identificationType;
-    private String phoneNumber;
-    private String email;
+    private String username;
+    private String password;
     private OccupationStatus occupationStatus;
     private String occupationLocation;
     private String occupationContactPhone;
@@ -32,30 +29,14 @@ public class Tenant extends AuditEntity {
     private TenantStatus tenantStatus;
     private TUserMeta userMeta;
 
-    @Column(name = "tenant_full_name")
-    public String getTenantFullName() {
-        return tenantFullName;
+    @Column(name = "username")
+    public String getUsername() {
+        return username;
     }
 
-    @Column(name = "identification_number")
-    public String getIdentificationNumber() {
-        return identificationNumber;
-    }
-
-    @Column(name = "identification_type")
-    @Enumerated(EnumType.STRING)
-    public IdentificationType getIdentificationType() {
-        return identificationType;
-    }
-
-    @Column(name = "phone_number")
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    @Column(name = "email")
-    public String getEmail() {
-        return email;
+    @Column(name = "password")
+    public String getPassword() {
+        return password;
     }
 
     @Column(name = "occupation_status")

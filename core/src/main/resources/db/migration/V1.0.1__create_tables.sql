@@ -31,11 +31,8 @@ CREATE TABLE t_tenant(
     modified_on TIMESTAMP,
     modified_by_id BIGINT REFERENCES t_user(id),
     is_active BOOLEAN DEFAULT false,
-    tenant_full_name VARCHAR(120) NOT NULL,
-    identification_number VARCHAR(100) NOT NULL,
-    identification_type VARCHAR(60) NOT NULL,
-    email VARCHAR(120),
     phone_number VARCHAR(13) NOT NULL,
+    tenant_status VARCHAR(15) NOT NULL DEFAULT 'ACTIVE',
     occupation_status VARCHAR(60) NOT NULL,
     occupation_location VARCHAR(120),
     occupation_contact_phone VARCHAR(13),
@@ -78,4 +75,29 @@ create table t_group_authority(
       modified_on TIMESTAMP,
       UNIQUE (user_group_id, permission_id)
 );
+
+CREATE TABLE t_user_meta(
+    id SERIAL PRIMARY KEY,
+    created_on TIMESTAMP NOT NULL DEFAULT now(),
+    created_by INTEGER REFERENCES t_user(id),
+    modified_on TIMESTAMP,
+    modified_by INTEGER REFERENCES t_user(id),
+    is_active BOOLEAN DEFAULT FALSE,
+    first_name VARCHAR(50) NOT NULL,
+    last_name VARCHAR(50) NOT NULL,
+    middle_name VARCHAR(50),
+    phone_number VARCHAR(15) NOT NULL,
+    phone_number_2 VARCHAR(15),
+    image_path TEXT,
+    display_name VARCHAR(50),
+    gender VARCHAR(3) NOT NULL,
+    birth_date TIMESTAMP NOT NULL,
+    email VARCHAR(100),
+    country_id INTEGER NOT NULL REFERENCES t_country(id),
+    identification VARCHAR(32) NOT NULL,
+    identification_number VARCHAR(32) NOT NULL,
+    identification_path TEXT,
+    non_verified_email BOOLEAN DEFAULT FALSE,
+    non_verified_phone_number BOOLEAN DEFAULT FALSE
+    );
 

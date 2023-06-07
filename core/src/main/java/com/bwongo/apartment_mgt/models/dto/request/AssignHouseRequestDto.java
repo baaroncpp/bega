@@ -31,7 +31,7 @@ public record AssignHouseRequestDto(
         Validate.notNull(tenantId, ExceptionType.BAD_REQUEST, NULL_TENANT_ID);
         Validate.isTrue(depositAmount.compareTo(BigDecimal.ZERO) > 0, ExceptionType.BAD_REQUEST, DEPOSIT_AMOUNT_NOT_ZERO);
         Validate.notEmpty(placementDate, NULL_PLACEMENT_DATE);
-        Validate.isTrue(ApartmentUtil.validateAssignHouseDate(placementDate), ExceptionType.BAD_REQUEST, INVALID_PLACEMENT_DATE, placementDate);
+        Validate.isTrue(ApartmentUtil.validateDate(placementDate), ExceptionType.BAD_REQUEST, INVALID_DATE, placementDate);
         Validate.notEmpty(receiptNumber, NULL_RECEIPT_NO);
     }
 }

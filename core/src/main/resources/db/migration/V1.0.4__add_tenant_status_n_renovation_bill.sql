@@ -1,3 +1,3 @@
-ALTER TABLE t_house ADD COLUMN is_renovation_charge_billed BOOLEAN NOT NULL DEFAULT FALSE;
+
 
 ALTER TABLE t_tenant ADD COLUMN tenant_status VARCHAR(15) NOT NULL DEFAULT 'ACTIVE';
