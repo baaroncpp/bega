@@ -11,6 +11,7 @@ import com.bwongo.user_mgt.models.jpa.TCountry;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.PLACEMENT_DATE_FORMAT;
@@ -25,12 +26,21 @@ import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.PLACEMENT_DAT
 public class TenantDtoService {
 
     private final UserMgtDtoService userMgtDtoService;
+    private final PasswordEncoder passwordEncoder;
 
     public Tenant mapTenantRequestDtoToTenant(TenantRequestDto tenantRequestDto){
 
         if(tenantRequestDto == null){
             return null;
         }
+        var country = new TCountry();
+        country.setId(tenantRequestDto.countryId());
+
+        var displayName = new StringBuilder();
+        displayName
+                .append(tenantRequestDto.firstName())
+                .append(" ")
+                .append(tenantRequestDto.lastName());
 
         var userMeta = new TUserMeta();
         userMeta.setGender(GenderEnum.valueOf(tenantRequestDto.gender()));
@@ -40,6 +50,11 @@ public class TenantDtoService {
         userMeta.setIdentificationType(IdentificationType.valueOf(tenantRequestDto.identificationType()));
         userMeta.setIdentificationNumber(tenantRequestDto.identificationNumber());
         userMeta.setBirthDate(DateTimeUtil.stringToDate(tenantRequestDto.birthDate(), PLACEMENT_DATE_FORMAT));
+        userMeta.setCountry(country);
+        userMeta.setFirstName(tenantRequestDto.firstName());
+        userMeta.setLastName(tenantRequestDto.lastName());
+        userMeta.setMiddleName(tenantRequestDto.middleName());
+        userMeta.setDisplayName(displayName.toString());
 
         Tenant tenant = new Tenant();
         tenant.setOccupationStatus(OccupationStatus.valueOf(tenantRequestDto.occupationStatus()));
@@ -47,6 +62,7 @@ public class TenantDtoService {
         tenant.setOccupationContactPhone(tenantRequestDto.occupationContactPhone());
         tenant.setEmergencyContactName(tenantRequestDto.emergencyContactName());
         tenant.setEmergencyContactPhone(tenantRequestDto.emergencyContactPhone());
+        tenant.setPassword(passwordEncoder.encode(tenantRequestDto.password()));
         tenant.setUserMeta(userMeta);
 
         return tenant;

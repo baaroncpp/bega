@@ -1,7 +1,10 @@
 package com.bwongo.landlord_mgt.model.dto.response;
 
 import com.bwongo.base.model.enums.IdentificationType;
+import com.bwongo.user_mgt.models.dto.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.UserResponseDto;
+import com.bwongo.user_mgt.models.jpa.TDistrict;
+import com.bwongo.user_mgt.models.jpa.TUserMeta;
 
 import java.util.Date;
 
@@ -17,14 +20,9 @@ public record LandlordResponseDto(
         UserResponseDto modifiedBy,
         UserResponseDto  createdBy,
         boolean isActive,
-        String firstName,
-        String middleName,
-        String lastName,
-        IdentificationType identificationType,
-        String identificationNumber,
-        String phoneNumber,
-        String secondPhoneNumber,
+        String username,
+        TDistrict district,
         String physicalAddress,
-        String email
+        UserMetaResponseDto userMeta
 ) {
 }

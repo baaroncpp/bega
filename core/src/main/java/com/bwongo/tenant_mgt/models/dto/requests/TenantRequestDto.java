@@ -15,6 +15,7 @@ import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;
 import static com.bwongo.tenant_mgt.utils.EnumValidationUtil.isValidOccupationStatus;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
 import static com.bwongo.user_mgt.util.UserMsgConstants.INVALID_GENDER;
+import static com.bwongo.user_mgt.util.UserMsgConstants.NULL_COUNTRY_ID;
 
 /**
  * @Author bkaaron
@@ -36,7 +37,10 @@ public record TenantRequestDto(
         String emergencyContactName,
         String emergencyContactPhone,
         String gender,
-        String birthDate) {
+        String birthDate,
+        Long countryId,
+        String password
+) {
     public void validate(){
         Validate.notEmpty(firstName, NULL_FIRST_NAME);
         Validate.isTrue(firstName.length() > 3, ExceptionType.BAD_REQUEST, FIRST_NAME_TOO_SHORT);
@@ -58,5 +62,7 @@ public record TenantRequestDto(
         StringRegExUtil.stringOfInternationalPhoneNumber(emergencyContactPhone, INVALID_PHONE_NUMBER, emergencyContactPhone);
         Validate.isTrue(UserMgtUtils.isGender(gender), ExceptionType.BAD_REQUEST, INVALID_GENDER, gender);
         Validate.isTrue(ApartmentUtil.validateDate(birthDate), ExceptionType.BAD_REQUEST, INVALID_DATE, birthDate);
+        Validate.notNull(countryId, ExceptionType.BAD_REQUEST, NULL_COUNTRY_ID);
+        StringRegExUtil.stringOfStandardPassword(password, INVALID_PASSWORD);
     }
 }

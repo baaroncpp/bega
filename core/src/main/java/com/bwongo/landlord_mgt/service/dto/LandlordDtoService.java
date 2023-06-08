@@ -4,6 +4,9 @@ import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.landlord_mgt.model.dto.request.LandlordRequestDto;
 import com.bwongo.landlord_mgt.model.dto.response.LandlordResponseDto;
 import com.bwongo.landlord_mgt.model.jpa.Landlord;
+import com.bwongo.user_mgt.models.jpa.TCountry;
+import com.bwongo.user_mgt.models.jpa.TDistrict;
+import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,18 +29,35 @@ public class LandlordDtoService {
         if(landlordRequestDto == null){
             return null;
         }
+        var country = new TCountry();
+        country.setId(landlordRequestDto.countryId());
+
+        var district = new TDistrict();
+        district.setId(landlordRequestDto.districtId());
+
+        StringBuilder displayName = new StringBuilder();
+        displayName.append(landlordRequestDto.firstName())
+                .append(" ")
+                .append(landlordRequestDto.lastName());
+
+        var userMeta = new TUserMeta();
+        userMeta.setCountry(country);
+        userMeta.setFirstName(landlordRequestDto.firstName());
+        userMeta.setLastName(landlordRequestDto.lastName());
+        userMeta.setMiddleName(landlordRequestDto.middleName());
+        userMeta.setIdentificationType(IdentificationType.valueOf(landlordRequestDto.identificationType()));
+        userMeta.setIdentificationNumber(landlordRequestDto.identificationNumber());
+        userMeta.setPhoneNumber(landlordRequestDto.phoneNumber());
+        userMeta.setPhoneNumber2(landlordRequestDto.phoneNumber2());
+        userMeta.setEmail(landlordRequestDto.email());
+        userMeta.setDisplayName(displayName.toString());
 
         Landlord landlord = new Landlord();
-        landlord.setFirstName(landlordRequestDto.firstName());
-        landlord.setLastName(landlordRequestDto.lastName());
-        landlord.setMiddleName(landlordRequestDto.middleName());
-        landlord.setIdentificationType(IdentificationType.valueOf(landlordRequestDto.identificationType()));
-        landlord.setIdentificationNumber(landlordRequestDto.identificationNumber());
-        landlord.setPhoneNumber(landlordRequestDto.phoneNumber());
-        landlord.setSecondPhoneNumber(landlordRequestDto.secondPhoneNumber());
+        landlord.setDistrict(district);
+        landlord.setUsername(landlordRequestDto.username());
         landlord.setPhysicalAddress(landlordRequestDto.physicalAddress());
-        landlord.setEmail(landlordRequestDto.email());
         landlord.setLoginPassword(passwordEncoder.encode(landlordRequestDto.loginPassword()));
+        landlord.setMetaData(userMeta);
 
         return landlord;
     }
@@ -55,15 +75,10 @@ public class LandlordDtoService {
                 userMgtDtoService.mapTUserToUserResponseDto(landlord.getModifiedBy()),
                 userMgtDtoService.mapTUserToUserResponseDto(landlord.getCreatedBy()),
                 landlord.isActive(),
-                landlord.getFirstName(),
-                landlord.getMiddleName(),
-                landlord.getLastName(),
-                landlord.getIdentificationType(),
-                landlord.getIdentificationNumber(),
-                landlord.getPhoneNumber(),
-                landlord.getSecondPhoneNumber(),
+                landlord.getUsername(),
+                landlord.getDistrict(),
                 landlord.getPhysicalAddress(),
-                landlord.getEmail()
+                userMgtDtoService.mapTUserMetaToUserMetaResponseDto(landlord.getMetaData())
         );
     }
 }
