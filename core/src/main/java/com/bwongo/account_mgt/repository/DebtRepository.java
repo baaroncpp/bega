@@ -14,5 +14,5 @@ import java.util.Optional;
  **/
 @Repository
 public interface DebtRepository extends JpaRepository<Debt, Long> {
-    Optional<Debt> findByAccount(Account account);
+    //Optional<Debt> findByAccount(Account account);
 }

@@ -16,8 +16,5 @@ import java.util.Optional;
 @Repository
 public interface TenantRepository extends JpaRepository<Tenant, Long> {
     Optional<Tenant> findByIdAndActive(Long id, boolean isActive);
-    Optional<Tenant> findByIdentificationNumber(String identificationNumber);
     List<Tenant> findAllByActive(boolean isActive, Pageable pageable);
-    boolean existsByEmail(String email);
-    boolean existsByIdentificationNumber(String identificationNumber);
 }

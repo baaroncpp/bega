@@ -57,7 +57,7 @@ CREATE TABLE t_house(
     initial_rent_payment_period INTEGER NOT NULL DEFAULT 3,
     occupied_until TIMESTAMP,
     current_predefined_rent_fee NUMERIC,
-    management_percentage FLOAT NOT NULL DEFAULT 0.0;
+    management_percentage FLOAT NOT NULL DEFAULT 0.0,
     note TEXT,
     reference_number VARCHAR(15) NOT NULL UNIQUE,
     is_renovation_charge_billed BOOLEAN NOT NULL DEFAULT FALSE,
@@ -81,4 +81,4 @@ CREATE TABLE t_assign_house(
     placement_date TIMESTAMP,
     note TEXT,
     is_approved BOOLEAN DEFAULT FALSE
-    );
+);

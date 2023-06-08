@@ -54,8 +54,8 @@ public class TenantServiceImp implements TenantService{
         final var idNumber = tenantRequestDto.identificationNumber();
         final var countryId = tenantRequestDto.countryId();
 
-        Validate.isTrue(!tenantRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
-        Validate.isTrue(!tenantRepository.existsByIdentificationNumber(idNumber),  ExceptionType.BAD_REQUEST, TENANT_WITH_ID_EXISTS, idNumber);
+        Validate.isTrue(userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+        Validate.isTrue(userMetaRepository.existsByIdentificationNumber(idNumber),  ExceptionType.BAD_REQUEST, TENANT_WITH_ID_EXISTS, idNumber);
         Validate.isTrue(!countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
 
         var tenant = tenantDtoService.mapTenantRequestDtoToTenant(tenantRequestDto);

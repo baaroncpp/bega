@@ -11,4 +11,6 @@ import org.springframework.stereotype.Repository;
  **/
 @Repository
 public interface TUserMetaRepository extends JpaRepository<TUserMeta, Long> {
+    boolean existsByEmail(String email);
+    boolean existsByIdentificationNumber(String identificationNumber);
 }

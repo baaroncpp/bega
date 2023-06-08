@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.bwongo.account_mgt.utils.accountMsgConstant.LANDLORD_ACCOUNT_NOT_FOUND;
-import static com.bwongo.account_mgt.utils.accountMsgConstant.TENANT_ACCOUNT_NOT_FOUND;
 import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;
 import static com.bwongo.user_mgt.util.UserMsgConstants.COUNTRY_NOT_FOUND;
@@ -59,8 +58,8 @@ public class LandlordServiceImp implements LandlordService{
         final var countryId = landlordRequestDto.countryId();
         final var districtId = landlordRequestDto.districtId();
 
-        Validate.isTrue(!landlordRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
-        Validate.isTrue(!landlordRepository.existsByIdentificationNumber(idNumber), ExceptionType.BAD_REQUEST, LANDLORD_WITH_ID_EXISTS, idNumber);
+        Validate.isTrue(userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+        Validate.isTrue(userMetaRepository.existsByIdentificationNumber(idNumber), ExceptionType.BAD_REQUEST, LANDLORD_WITH_ID_EXISTS, idNumber);
         Validate.isTrue(!countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
         Validate.isTrue(!districtRepository.existsById(districtId), ExceptionType.BAD_REQUEST, DISTRICT_NOT_FOUND, districtId);
 
@@ -145,7 +144,7 @@ public class LandlordServiceImp implements LandlordService{
         landlordAccount.setSuspendedBy(existingLandlord.getModifiedBy());
         auditService.stampAuditedEntity(landlordAccount);
         accountRepository.save(landlordAccount);
-        
+
         return Boolean.TRUE;
     }
 

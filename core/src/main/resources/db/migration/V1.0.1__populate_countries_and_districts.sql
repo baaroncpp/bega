@@ -122,6 +122,3 @@ VALUES
 (109,'Rubirizi','Western',(select id from country)),
 (71,'Rukungiri','Western',(select id from country)),
 (111,'Sheema','Western',(select id from country));
-
-ALTER TABLE t_apartment ADD COLUMN district_id BIGINT NOT NULL REFERENCES t_district(id);
-ALTER TABLE t_landlord ADD COLUMN district_id BIGINT NOT NULL REFERENCES t_district(id);

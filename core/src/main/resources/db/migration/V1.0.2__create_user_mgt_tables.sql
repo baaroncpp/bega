@@ -99,5 +99,5 @@ CREATE TABLE t_user_meta(
     identification_path TEXT,
     non_verified_email BOOLEAN DEFAULT FALSE,
     non_verified_phone_number BOOLEAN DEFAULT FALSE
-    );
+);
 
