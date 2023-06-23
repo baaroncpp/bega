@@ -3,6 +3,7 @@ package com.bwongo.base.model.jpa;
 import jakarta.persistence.*;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -12,7 +13,7 @@ import java.util.Date;
  **/
 @MappedSuperclass
 @Setter
-public class BaseEntity {
+public class BaseEntity implements Serializable {
     private Long id;
     private Date createdOn;
     private Date modifiedOn;

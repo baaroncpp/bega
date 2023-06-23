@@ -44,7 +44,6 @@ public class ApartmentUtil {
                 ApartmentType.LOFT.name(),
                 ApartmentType.STUDIO.name(),
                 ApartmentType.OTHER.name()
-
         );
 
         return apartmentTypes.contains(value);

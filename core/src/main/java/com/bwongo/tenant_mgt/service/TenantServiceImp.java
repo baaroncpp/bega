@@ -1,5 +1,6 @@
 package com.bwongo.tenant_mgt.service;
 
+import com.bwongo.account_mgt.models.enums.AccountStatus;
 import com.bwongo.account_mgt.models.enums.AccountType;
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.account_mgt.repository.AccountRepository;
@@ -8,12 +9,14 @@ import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.tenant_mgt.models.dto.requests.TenantRequestDto;
 import com.bwongo.tenant_mgt.models.dto.responses.TenantResponseDto;
+import com.bwongo.tenant_mgt.models.enums.TenantStatus;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import com.bwongo.tenant_mgt.repository.TenantRepository;
 import com.bwongo.tenant_mgt.service.dto.TenantDtoService;
 import com.bwongo.tenant_mgt.utils.AuditService;
 import com.bwongo.user_mgt.repository.TCountryRepository;
 import com.bwongo.user_mgt.repository.TUserMetaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -23,7 +26,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bwongo.account_mgt.utils.accountMsgConstant.TENANT_ACCOUNT_NOT_FOUND;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.TENANT_ACCOUNT_NOT_FOUND;
 import static com.bwongo.base.utils.BaseMsgConstants.EMAIL_IS_TAKEN;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
 import static com.bwongo.user_mgt.util.UserMsgConstants.COUNTRY_NOT_FOUND;
@@ -46,6 +49,7 @@ public class TenantServiceImp implements TenantService{
     private final AccountRepository accountRepository;
 
     @Override
+    @Transactional
     public TenantResponseDto addTenant(TenantRequestDto tenantRequestDto) {
 
         tenantRequestDto.validate();
@@ -54,14 +58,17 @@ public class TenantServiceImp implements TenantService{
         final var idNumber = tenantRequestDto.identificationNumber();
         final var countryId = tenantRequestDto.countryId();
 
-        Validate.isTrue(userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
-        Validate.isTrue(userMetaRepository.existsByIdentificationNumber(idNumber),  ExceptionType.BAD_REQUEST, TENANT_WITH_ID_EXISTS, idNumber);
-        Validate.isTrue(!countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
+        Validate.isTrue(!userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+        Validate.isTrue(!userMetaRepository.existsByIdentificationNumber(idNumber),  ExceptionType.BAD_REQUEST, TENANT_WITH_ID_EXISTS, idNumber);
+        Validate.isTrue(countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
 
         var tenant = tenantDtoService.mapTenantRequestDtoToTenant(tenantRequestDto);
-        tenant.setActive(Boolean.TRUE);
+        tenant.setActive(Boolean.FALSE);
+        tenant.setTenantStatus(TenantStatus.ACTIVE);
 
         var userMeta = tenant.getUserMeta();
+        userMeta.setNonVerifiedPhoneNumber(Boolean.TRUE);
+        userMeta.setNonVerifiedEmail(Boolean.TRUE);
         auditService.stampAuditedEntity(userMeta);
         var existingUserMeta = userMetaRepository.save(userMeta);
 
@@ -72,6 +79,7 @@ public class TenantServiceImp implements TenantService{
     }
 
     @Override
+    @Transactional
     public TenantResponseDto updateTenant(Long id, TenantRequestDto tenantRequestDto) {
 
         tenantRequestDto.validate();
@@ -83,6 +91,9 @@ public class TenantServiceImp implements TenantService{
 
         var updateUserMeta = updateTenant.getUserMeta();
         updateUserMeta.setId(existingTenant.getUserMeta().getId());
+        updateUserMeta.setNonVerifiedPhoneNumber(Boolean.TRUE);
+        updateUserMeta.setNonVerifiedEmail(Boolean.TRUE);
+
         auditService.stampAuditedEntity(updateUserMeta);
         var existingUpdatedUserMeta = userMetaRepository.save(updateUserMeta);
 
@@ -106,6 +117,7 @@ public class TenantServiceImp implements TenantService{
     }
 
     @Override
+    @Transactional
     public Boolean deactivateTenant(Long id) {
 
         final var tenant = getById(id);
@@ -131,12 +143,14 @@ public class TenantServiceImp implements TenantService{
     }
 
     @Override
+    @Transactional
     public Boolean activateTenant(Long id) {
 
         final var tenant = getById(id);
         Validate.isTrue(!tenant.isActive(), ExceptionType.BAD_REQUEST, TENANT_ALREADY_ACTIVE);
 
         tenant.setActive(Boolean.TRUE);
+        tenant.setTenantStatus(TenantStatus.ACTIVE);
         auditService.stampAuditedEntity(tenant);
 
         var tenantAccount = new Account();
@@ -146,6 +160,7 @@ public class TenantServiceImp implements TenantService{
         tenantAccount.setActive(Boolean.TRUE);
         tenantAccount.setAccountType(AccountType.BUSINESS);
         tenantAccount.setUserMeta(tenant.getUserMeta());
+        tenantAccount.setAccountStatus(AccountStatus.ACTIVE);
 
         auditService.stampAuditedEntity(tenantAccount);
         accountRepository.save(tenantAccount);

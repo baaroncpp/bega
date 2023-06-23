@@ -9,6 +9,7 @@ public class BaseMsgConstants {
     private BaseMsgConstants() { }
 
     public static final String NULL_PHONE_NUMBER = "phoneNumber is null or empty";
+    public static final String NULL_PHONE_NUMBER_2 = "phoneNumber2 is null or empty";
     public static final String INVALID_PHONE_NUMBER = "%s is invalid phoneNumber";
     public static final String NULL_IDENTIFICATION_NUMBER = "identificationNumber is null or empty";
     public static final String NULL_IDENTIFICATION_TYPE = "identificationType is null or empty";

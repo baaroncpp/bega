@@ -5,15 +5,9 @@ CREATE TABLE t_landlord(
      modified_on TIMESTAMP,
      modified_by_id BIGINT REFERENCES t_user(id),
      is_active BOOLEAN DEFAULT false,
-     first_name VARCHAR(120) NOT NULL,
-     middle_name VARCHAR(120),
-     last_name VARCHAR(120) NOT NULL,
-     identification_type VARCHAR(60) NOT NULL,
-     identification_number VARCHAR(100) NOT NULL UNIQUE,
-     phone_number VARCHAR(15) NOT NULL,
-     second_phone_number VARCHAR(15),
+     username VARCHAR(50) NOT NULL UNIQUE,
      physical_address TEXT NOT NULL,
-     email VARCHAR(120) UNIQUE,
+     district_id BIGINT REFERENCES t_district(id),
      login_password VARCHAR(500) NOT NULL,
      user_meta_id BIGINT REFERENCES t_user_meta(id)
 );

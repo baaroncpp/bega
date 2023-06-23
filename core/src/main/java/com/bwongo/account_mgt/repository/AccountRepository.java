@@ -2,9 +2,11 @@ package com.bwongo.account_mgt.repository;
 
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -15,4 +17,5 @@ import java.util.Optional;
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUserMeta(TUserMeta userMeta);
+    List<Account> findAllByActive(boolean isActive, Pageable pageable);
 }

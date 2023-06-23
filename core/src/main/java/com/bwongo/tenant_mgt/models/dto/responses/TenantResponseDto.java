@@ -1,10 +1,9 @@
 package com.bwongo.tenant_mgt.models.dto.responses;
 
-import com.bwongo.base.model.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 import com.bwongo.tenant_mgt.models.enums.TenantStatus;
-import com.bwongo.user_mgt.models.dto.UserMetaResponseDto;
-import com.bwongo.user_mgt.models.dto.UserResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 
 import java.util.Date;
 
@@ -15,6 +14,7 @@ import java.util.Date;
  **/
 public record TenantResponseDto(
         Long id,
+        String username,
         Date createdOn,
         Date modifiedOn,
         UserResponseDto modifiedBy,

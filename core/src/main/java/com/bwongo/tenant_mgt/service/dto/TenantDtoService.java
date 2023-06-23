@@ -63,6 +63,7 @@ public class TenantDtoService {
         tenant.setEmergencyContactName(tenantRequestDto.emergencyContactName());
         tenant.setEmergencyContactPhone(tenantRequestDto.emergencyContactPhone());
         tenant.setPassword(passwordEncoder.encode(tenantRequestDto.password()));
+        tenant.setUsername(tenantRequestDto.username());
         tenant.setUserMeta(userMeta);
 
         return tenant;
@@ -76,6 +77,7 @@ public class TenantDtoService {
 
         return new TenantResponseDto(
                 tenant.getId(),
+                tenant.getUsername(),
                 tenant.getCreatedOn(),
                 tenant.getModifiedOn(),
                 userMgtDtoService.mapTUserToUserResponseDto(tenant.getModifiedBy()),

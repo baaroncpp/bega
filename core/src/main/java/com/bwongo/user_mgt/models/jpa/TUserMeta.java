@@ -86,7 +86,7 @@ public class TUserMeta extends AuditEntity {
     }
 
     @JoinColumn(name = "country_id", referencedColumnName = "id",insertable = true,updatable = true)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     public TCountry getCountry() {
         return country;
     }

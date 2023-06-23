@@ -1,9 +1,11 @@
 package com.bwongo.landlord_mgt.service.dto;
 
 import com.bwongo.base.model.enums.IdentificationType;
+import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.landlord_mgt.model.dto.request.LandlordRequestDto;
 import com.bwongo.landlord_mgt.model.dto.response.LandlordResponseDto;
 import com.bwongo.landlord_mgt.model.jpa.Landlord;
+import com.bwongo.user_mgt.models.enums.GenderEnum;
 import com.bwongo.user_mgt.models.jpa.TCountry;
 import com.bwongo.user_mgt.models.jpa.TDistrict;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
@@ -11,6 +13,8 @@ import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.PLACEMENT_DATE_FORMAT;
 
 /**
  * @Author bkaaron
@@ -51,6 +55,8 @@ public class LandlordDtoService {
         userMeta.setPhoneNumber2(landlordRequestDto.phoneNumber2());
         userMeta.setEmail(landlordRequestDto.email());
         userMeta.setDisplayName(displayName.toString());
+        userMeta.setGender(GenderEnum.valueOf(landlordRequestDto.gender()));
+        userMeta.setBirthDate(DateTimeUtil.stringToDate(landlordRequestDto.birthDate(), PLACEMENT_DATE_FORMAT));
 
         Landlord landlord = new Landlord();
         landlord.setDistrict(district);

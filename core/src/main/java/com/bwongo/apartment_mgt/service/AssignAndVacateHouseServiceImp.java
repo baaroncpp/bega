@@ -23,9 +23,7 @@ import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import com.bwongo.tenant_mgt.repository.TenantRepository;
 import com.bwongo.tenant_mgt.utils.AuditService;
-import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import jakarta.transaction.Transactional;
-import lombok.Builder;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -33,7 +31,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 
-import static com.bwongo.account_mgt.utils.accountMsgConstant.*;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.*;
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.*;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
 

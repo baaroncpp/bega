@@ -5,7 +5,7 @@ import com.bwongo.commons.models.utils.Validate;
 import java.math.BigDecimal;
 
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.*;
-import static com.bwongo.account_mgt.utils.accountMsgConstant.*;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.*;
 
 /**
  * @Author bkaaron

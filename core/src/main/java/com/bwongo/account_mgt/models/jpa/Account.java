@@ -20,6 +20,7 @@ import java.util.Date;
 @Table(name = "t_account", schema = "core")
 @Setter
 public class Account extends AuditEntity {
+    private String accountNumber;
     private TUserMeta userMeta;
     private AccountStatus accountStatus;
     private AccountType accountType;
@@ -30,6 +31,11 @@ public class Account extends AuditEntity {
     private TUser suspendedBy;
     private Date closedOn;
     private TUser closedBy;
+
+    @Column(name = "account_number")
+    public String getAccountNumber() {
+        return accountNumber;
+    }
 
     @JoinColumn(name = "user_meta_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)

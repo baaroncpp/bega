@@ -1,5 +1,6 @@
 package com.bwongo.landlord_mgt.service;
 
+import com.bwongo.account_mgt.models.enums.AccountStatus;
 import com.bwongo.account_mgt.models.enums.AccountType;
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.account_mgt.repository.AccountRepository;
@@ -15,6 +16,7 @@ import com.bwongo.tenant_mgt.utils.AuditService;
 import com.bwongo.user_mgt.repository.TCountryRepository;
 import com.bwongo.user_mgt.repository.TDistrictRepository;
 import com.bwongo.user_mgt.repository.TUserMetaRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
@@ -24,7 +26,7 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bwongo.account_mgt.utils.accountMsgConstant.LANDLORD_ACCOUNT_NOT_FOUND;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.LANDLORD_ACCOUNT_NOT_FOUND;
 import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;
 import static com.bwongo.user_mgt.util.UserMsgConstants.COUNTRY_NOT_FOUND;
@@ -49,6 +51,7 @@ public class LandlordServiceImp implements LandlordService{
     private final AccountRepository accountRepository;
 
     @Override
+    @Transactional
     public LandlordResponseDto addLandlord(LandlordRequestDto landlordRequestDto) {
 
         landlordRequestDto.validate();
@@ -57,19 +60,24 @@ public class LandlordServiceImp implements LandlordService{
         final var email = landlordRequestDto.email();
         final var countryId = landlordRequestDto.countryId();
         final var districtId = landlordRequestDto.districtId();
+        final var username = landlordRequestDto.username();
 
-        Validate.isTrue(userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
-        Validate.isTrue(userMetaRepository.existsByIdentificationNumber(idNumber), ExceptionType.BAD_REQUEST, LANDLORD_WITH_ID_EXISTS, idNumber);
-        Validate.isTrue(!countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
-        Validate.isTrue(!districtRepository.existsById(districtId), ExceptionType.BAD_REQUEST, DISTRICT_NOT_FOUND, districtId);
+        Validate.isTrue(!landlordRepository.existsByUsername(username), ExceptionType.BAD_REQUEST, USERNAME_IS_TAKEN, username);
+        Validate.isTrue(!userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+        Validate.isTrue(!userMetaRepository.existsByIdentificationNumber(idNumber), ExceptionType.BAD_REQUEST, LANDLORD_WITH_ID_EXISTS, idNumber);
+        Validate.isTrue(countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
+        Validate.isTrue(districtRepository.existsById(districtId), ExceptionType.BAD_REQUEST, DISTRICT_NOT_FOUND, districtId);
 
         var landlord = landlordDtoService.mapLandlordRequestDtoToLandlord(landlordRequestDto);
 
         var userMeta = landlord.getMetaData();
+        userMeta.setNonVerifiedEmail(Boolean.TRUE);
+        userMeta.setNonVerifiedPhoneNumber(Boolean.TRUE);
+
         auditService.stampAuditedEntity(userMeta);
         var existingUserMeta = userMetaRepository.save(userMeta);
 
-        landlord.setActive(Boolean.TRUE);
+        landlord.setActive(Boolean.FALSE);
         landlord.setMetaData(existingUserMeta);
         auditService.stampAuditedEntity(landlord);
 
@@ -77,6 +85,7 @@ public class LandlordServiceImp implements LandlordService{
     }
 
     @Override
+    @Transactional
     public LandlordResponseDto updateLandlord(Long id, LandlordRequestDto landlordRequestDto) {
 
         var existingLandlord = getById(id);
@@ -84,6 +93,9 @@ public class LandlordServiceImp implements LandlordService{
         var updatedLandlord = landlordDtoService.mapLandlordRequestDtoToLandlord(landlordRequestDto);
         var updatedUserMeta = updatedLandlord.getMetaData();
         updatedUserMeta.setId(existingLandlord.getMetaData().getId());
+        updatedUserMeta.setNonVerifiedEmail(Boolean.TRUE);
+        updatedUserMeta.setNonVerifiedPhoneNumber(Boolean.TRUE);
+
         auditService.stampAuditedEntity(updatedUserMeta);
         userMetaRepository.save(updatedUserMeta);
 
@@ -101,6 +113,7 @@ public class LandlordServiceImp implements LandlordService{
     }
 
     @Override
+    @Transactional
     public boolean activateLandlord(Long id) {
 
         var existingLandlord = landlordRepository.findById(id);
@@ -120,6 +133,7 @@ public class LandlordServiceImp implements LandlordService{
         landlordAccount.setActive(Boolean.TRUE);
         landlordAccount.setAccountType(AccountType.BUSINESS);
         landlordAccount.setUserMeta(landlord.getMetaData());
+        landlordAccount.setAccountStatus(AccountStatus.ACTIVE);
 
         auditService.stampAuditedEntity(landlordAccount);
         accountRepository.save(landlordAccount);
@@ -128,6 +142,7 @@ public class LandlordServiceImp implements LandlordService{
     }
 
     @Override
+    @Transactional
     public boolean deactivateLandlord(Long id) {
 
         var existingLandlord = getById(id);

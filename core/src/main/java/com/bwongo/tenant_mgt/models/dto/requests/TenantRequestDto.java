@@ -14,8 +14,7 @@ import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;
 import static com.bwongo.tenant_mgt.utils.EnumValidationUtil.isValidOccupationStatus;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
-import static com.bwongo.user_mgt.util.UserMsgConstants.INVALID_GENDER;
-import static com.bwongo.user_mgt.util.UserMsgConstants.NULL_COUNTRY_ID;
+import static com.bwongo.user_mgt.util.UserMsgConstants.*;
 
 /**
  * @Author bkaaron
@@ -23,6 +22,7 @@ import static com.bwongo.user_mgt.util.UserMsgConstants.NULL_COUNTRY_ID;
  * @Date 4/22/23
  **/
 public record TenantRequestDto(
+        String username,
         String firstName,
         String lastName,
         String middleName,
@@ -42,6 +42,7 @@ public record TenantRequestDto(
         String password
 ) {
     public void validate(){
+        Validate.notEmpty(username, NULL_USERNAME);
         Validate.notEmpty(firstName, NULL_FIRST_NAME);
         Validate.isTrue(firstName.length() > 3, ExceptionType.BAD_REQUEST, FIRST_NAME_TOO_SHORT);
         StringRegExUtil.stringOfOnlyCharsNoneCaseSensitiveAndOneSpace(firstName, INVALID_FIRST_NAME);
@@ -52,7 +53,9 @@ public record TenantRequestDto(
         Validate.notEmpty(identificationType, NULL_IDENTIFICATION_TYPE);
         Validate.isTrue(isValidIdentificationType(identificationType), ExceptionType.BAD_REQUEST, INVALID_IDENTIFICATION_TYPE);
         Validate.notEmpty(phoneNumber, NULL_PHONE_NUMBER);
+        Validate.notEmpty(phoneNumber, NULL_PHONE_NUMBER_2);
         StringRegExUtil.stringOfInternationalPhoneNumber(phoneNumber, INVALID_PHONE_NUMBER, phoneNumber);
+        StringRegExUtil.stringOfInternationalPhoneNumber(phoneNumber2, INVALID_PHONE_NUMBER, phoneNumber2);
         Validate.notEmpty(email, NULL_EMAIL);
         StringRegExUtil.stringOfEmail(email, INVALID_EMAIL);
         Validate.notEmpty(occupationStatus, NULL_OCCUPATION_STATUS);
@@ -61,6 +64,7 @@ public record TenantRequestDto(
         Validate.notEmpty(emergencyContactPhone, NULL_EMERGENCY_CONTACT_PHONE);
         StringRegExUtil.stringOfInternationalPhoneNumber(emergencyContactPhone, INVALID_PHONE_NUMBER, emergencyContactPhone);
         Validate.isTrue(UserMgtUtils.isGender(gender), ExceptionType.BAD_REQUEST, INVALID_GENDER, gender);
+        Validate.notNull(birthDate, ExceptionType.BAD_REQUEST, NULL_BIRTH_DATE);
         Validate.isTrue(ApartmentUtil.validateDate(birthDate), ExceptionType.BAD_REQUEST, INVALID_DATE, birthDate);
         Validate.notNull(countryId, ExceptionType.BAD_REQUEST, NULL_COUNTRY_ID);
         StringRegExUtil.stringOfStandardPassword(password, INVALID_PASSWORD);

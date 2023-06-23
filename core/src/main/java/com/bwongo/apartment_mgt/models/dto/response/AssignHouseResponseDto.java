@@ -2,7 +2,7 @@ package com.bwongo.apartment_mgt.models.dto.response;
 
 import com.bwongo.tenant_mgt.models.dto.responses.TenantResponseDto;
 import com.bwongo.tenant_mgt.models.enums.BillingDuration;
-import com.bwongo.user_mgt.models.dto.UserResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 
 import java.math.BigDecimal;
 import java.util.Date;

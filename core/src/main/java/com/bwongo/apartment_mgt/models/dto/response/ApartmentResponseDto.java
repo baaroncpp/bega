@@ -3,9 +3,8 @@ package com.bwongo.apartment_mgt.models.dto.response;
 import com.bwongo.apartment_mgt.models.enums.ApartmentType;
 import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
 import com.bwongo.landlord_mgt.model.dto.response.LandlordResponseDto;
-import com.bwongo.user_mgt.models.dto.UserResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**

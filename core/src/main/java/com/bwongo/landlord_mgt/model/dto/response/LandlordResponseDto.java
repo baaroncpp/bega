@@ -1,10 +1,8 @@
 package com.bwongo.landlord_mgt.model.dto.response;
 
-import com.bwongo.base.model.enums.IdentificationType;
-import com.bwongo.user_mgt.models.dto.UserMetaResponseDto;
-import com.bwongo.user_mgt.models.dto.UserResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 import com.bwongo.user_mgt.models.jpa.TDistrict;
-import com.bwongo.user_mgt.models.jpa.TUserMeta;
 
 import java.util.Date;
 

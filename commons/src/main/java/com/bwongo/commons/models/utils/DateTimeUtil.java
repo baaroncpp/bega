@@ -47,7 +47,7 @@ public class DateTimeUtil {
         return dateToString(date, dateFormat, null);
     }
 
-    public static Date getCurrentUTCTime(String string) {
+    public static Date getCurrentUTCTime(String value) {
 
         final TimeZone toTimeZone = TimeZone.getTimeZone("UTC");
         final Calendar calendar = Calendar.getInstance(toTimeZone);

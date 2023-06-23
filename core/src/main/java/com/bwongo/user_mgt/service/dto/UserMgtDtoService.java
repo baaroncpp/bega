@@ -1,10 +1,10 @@
 package com.bwongo.user_mgt.service.dto;
 
 import com.bwongo.base.model.enums.IdentificationType;
-import com.bwongo.user_mgt.models.dto.UserGroupResponseDto;
-import com.bwongo.user_mgt.models.dto.UserMetaRequestDto;
-import com.bwongo.user_mgt.models.dto.UserMetaResponseDto;
-import com.bwongo.user_mgt.models.dto.UserResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserGroupResponseDto;
+import com.bwongo.user_mgt.models.dto.request.UserMetaRequestDto;
+import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 import com.bwongo.user_mgt.models.enums.GenderEnum;
 import com.bwongo.user_mgt.models.jpa.TCountry;
 import com.bwongo.user_mgt.models.jpa.TUser;

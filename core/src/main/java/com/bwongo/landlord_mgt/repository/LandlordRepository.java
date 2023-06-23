@@ -16,4 +16,5 @@ import java.util.Optional;
 @Repository
 public interface LandlordRepository extends JpaRepository<Landlord, Long> {
     List<Landlord> findAllByActive(boolean isActive, Pageable pageable);
+    boolean existsByUsername(String username);
 }

@@ -4,7 +4,7 @@ import com.bwongo.apartment_mgt.models.dto.response.HouseResponseDto;
 import com.bwongo.apartment_mgt.models.enums.PaymentStatus;
 import com.bwongo.apartment_mgt.models.enums.PaymentType;
 import com.bwongo.tenant_mgt.models.dto.responses.TenantResponseDto;
-import com.bwongo.user_mgt.models.dto.UserResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 
 import java.math.BigDecimal;
 import java.util.Date;

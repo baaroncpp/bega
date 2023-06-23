@@ -3,6 +3,7 @@ package com.bwongo.account_mgt.utils;
 import com.bwongo.account_mgt.models.DisbursePayment;
 import com.bwongo.account_mgt.models.DisbursedPayment;
 import com.bwongo.account_mgt.models.enums.AccountStatus;
+import com.bwongo.account_mgt.models.enums.AccountType;
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.apartment_mgt.models.enums.RentPeriod;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
@@ -11,9 +12,11 @@ import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.commons.models.utils.Validate;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
-import static com.bwongo.account_mgt.utils.accountMsgConstant.*;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.*;
 import static com.bwongo.commons.models.utils.DateTimeUtil.*;
 
 /**
@@ -26,6 +29,28 @@ public class AccountUtils {
     private static final String REF_PREFIX = "bega";
 
     private AccountUtils() { }
+
+    public static boolean isAccountStatus(String value){
+        List<String> accountStatusList = Arrays.asList(
+            AccountStatus.ACTIVE.name(),
+            AccountStatus.CLOSED.name(),
+            AccountStatus.SUSPENDED.name(),
+            AccountStatus.NOT_ACTIVE.name()
+        );
+
+        return accountStatusList.contains(value);
+    }
+
+    public static boolean isAccountType(String value){
+        List<String> accountTypeList = Arrays.asList(
+                AccountType.MAIN.name(),
+                AccountType.COMMISSION.name(),
+                AccountType.COLLECTION.name(),
+                AccountType.BUSINESS.name()
+        );
+
+        return accountTypeList.contains(value);
+    }
 
     public static void checkIfAccountCanTransact(Account account){
         var accountId = account.getId();

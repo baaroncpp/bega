@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.util.List;
 
-import static com.bwongo.account_mgt.utils.accountMsgConstant.*;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.*;
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.*;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
 

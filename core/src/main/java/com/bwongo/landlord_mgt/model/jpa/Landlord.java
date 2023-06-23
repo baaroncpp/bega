@@ -38,7 +38,7 @@ public class Landlord extends AuditEntity {
     }
 
     @JoinColumn(name = "district_id", referencedColumnName = "id")
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     public TDistrict getDistrict() {
         return district;
     }

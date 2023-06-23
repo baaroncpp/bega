@@ -1,7 +1,9 @@
 package com.bwongo.account_mgt.service.dto;
 
 import com.bwongo.account_mgt.models.dto.request.RentPaymentRequestDto;
+import com.bwongo.account_mgt.models.dto.response.AccountResponseDto;
 import com.bwongo.account_mgt.models.dto.response.RentPaymentResponseDto;
+import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.account_mgt.models.jpa.RentPayment;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.apartment_mgt.service.dto.ApartmentDtoService;
@@ -64,6 +66,31 @@ public class AccountDtoService {
                 apartmentDtoService.mapHouseToHouseResponseDto(rentPayment.getHouse()),
                 rentPayment.getPaymentStatus(),
                 rentPayment.getNote()
+        );
+    }
+
+    public AccountResponseDto mapAccountToAccountResponseDto(Account account){
+
+        if(account == null){
+            return null;
+        }
+
+        return new AccountResponseDto(
+                account.getId(),
+                account.getCreatedOn(),
+                account.getModifiedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(account.getModifiedBy()),
+                userMgtDtoService.mapTUserToUserResponseDto(account.getCreatedBy()),
+                userMgtDtoService.mapTUserMetaToUserMetaResponseDto(account.getUserMeta()),
+                account.getAccountStatus(),
+                account.getAccountType(),
+                account.getAvailableBalance(),
+                account.getActivatedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(account.getActivatedBy()),
+                account.getSuspendedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(account.getSuspendedBy()),
+                account.getClosedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(account.getClosedBy())
         );
     }
 }

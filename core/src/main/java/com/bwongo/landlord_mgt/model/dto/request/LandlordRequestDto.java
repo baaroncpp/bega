@@ -45,8 +45,10 @@ public record LandlordRequestDto(
         StringRegExUtil.stringOfOnlyCharsNoneCaseSensitive(lastName, INVALID_LAST_NAME);
         Validate.isTrue(isValidIdentificationType(identificationType), ExceptionType.BAD_REQUEST, INVALID_IDENTIFICATION_TYPE);
         Validate.notEmpty(identificationType, NULL_IDENTIFICATION_TYPE);
+        Validate.notEmpty(phoneNumber, NULL_PHONE_NUMBER);
+        Validate.notEmpty(phoneNumber2, NULL_PHONE_NUMBER_2);
         StringRegExUtil.stringOfInternationalPhoneNumber(phoneNumber, INVALID_PHONE_NUMBER, phoneNumber);
-        StringRegExUtil.stringOfInternationalPhoneNumber(phoneNumber2, INVALID_PHONE_NUMBER, phoneNumber);
+        StringRegExUtil.stringOfInternationalPhoneNumber(phoneNumber2, INVALID_PHONE_NUMBER, phoneNumber2);
         Validate.notEmpty(physicalAddress, NULL_PHYSICAL_ADDRESS);
         Validate.notEmpty(email, NULL_EMAIL);
         StringRegExUtil.stringOfEmail(email, INVALID_EMAIL);

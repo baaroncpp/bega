@@ -1,4 +1,4 @@
-package com.bwongo.user_mgt.models.dto;
+package com.bwongo.user_mgt.models.dto.response;
 
 import java.util.Date;
 
