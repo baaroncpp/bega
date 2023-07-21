@@ -6,6 +6,7 @@ CREATE TABLE t_account(
     modified_by_id BIGINT REFERENCES t_user(id),
     is_active BOOLEAN DEFAULT false,
     user_meta_id BIGINT REFERENCES t_user_meta(id),
+    account_number VARCHAR(8) UNIQUE NOT NULL,
     account_status VARCHAR(32) NOT NULL,
     account_type VARCHAR(32) NOT NULL,
     available_balance MONEY,

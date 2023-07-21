@@ -1,3 +1,5 @@
 rootProject.name = 'bega'
 include 'commons'
 include 'core'
+include 'discovery-server'
+
