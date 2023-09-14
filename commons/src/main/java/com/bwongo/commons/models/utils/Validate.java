@@ -72,14 +72,14 @@ public class Validate {
         }
     }
 
-    private static void checkForbiddenWord(String word){
+    /*private static void checkForbiddenWord(String word){
         boolean anyMatch = FORBIDDEN_WORDS.stream()
                 .anyMatch(fw -> fw.contains(word));
 
         if(anyMatch){
             throw new BadRequestException(String.format(IS_FORBIDDEN_WORD, word));
         }
-    }
+    }*/
 
     public static void doesObjectContainFields(Object object, List<String> fields){
         for(String value : fields){

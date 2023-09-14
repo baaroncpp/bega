@@ -110,4 +110,8 @@ public class AccountUtils {
                 .updatedOccupiedUntilDate(nextOccupiedUntilDate)
                 .build();
     }
+
+    public static String generateAccountNumber(){
+        return Integer.toString((int)((Math.random() * 9000000)+1000000));
+    }
 }

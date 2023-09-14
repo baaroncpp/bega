@@ -82,6 +82,7 @@ public class AccountDtoService {
                 userMgtDtoService.mapTUserToUserResponseDto(account.getModifiedBy()),
                 userMgtDtoService.mapTUserToUserResponseDto(account.getCreatedBy()),
                 userMgtDtoService.mapTUserMetaToUserMetaResponseDto(account.getUserMeta()),
+                account.getAccountNumber(),
                 account.getAccountStatus(),
                 account.getAccountType(),
                 account.getAvailableBalance(),

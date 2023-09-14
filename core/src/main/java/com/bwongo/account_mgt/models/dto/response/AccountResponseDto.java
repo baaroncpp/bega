@@ -20,6 +20,7 @@ public record AccountResponseDto(
         UserResponseDto modifiedBy,
         UserResponseDto  createdBy,
         UserMetaResponseDto userMeta,
+        String accountNumber,
         AccountStatus accountStatus,
         AccountType accountType,
         BigDecimal availableBalance,

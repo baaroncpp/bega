@@ -6,6 +6,7 @@ import com.bwongo.account_mgt.service.RentPaymentService;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.APPLICATION_JSON;
@@ -22,7 +23,7 @@ public class PaymentApi {
 
     private final RentPaymentService rentPaymentService;
 
-    @RolesAllowed({"ROLE_ADMIN.WRITE"})
+    @PreAuthorize("hasAuthority('ADMIN_ROLE.WRITE')")
     @PostMapping(path = "pay-rent", consumes = APPLICATION_JSON, produces = APPLICATION_JSON)
     @ResponseStatus(HttpStatus.OK)
     public RentPaymentResponseDto makeRentPayment(@RequestBody RentPaymentRequestDto rentPaymentRequestDto){

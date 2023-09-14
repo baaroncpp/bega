@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import static com.bwongo.account_mgt.utils.AccountMsgConstant.TENANT_ACCOUNT_NOT_FOUND;
+import static com.bwongo.account_mgt.utils.AccountUtils.generateAccountNumber;
 import static com.bwongo.base.utils.BaseMsgConstants.EMAIL_IS_TAKEN;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
 import static com.bwongo.user_mgt.util.UserMsgConstants.COUNTRY_NOT_FOUND;
@@ -161,6 +162,7 @@ public class TenantServiceImp implements TenantService{
         tenantAccount.setAccountType(AccountType.BUSINESS);
         tenantAccount.setUserMeta(tenant.getUserMeta());
         tenantAccount.setAccountStatus(AccountStatus.ACTIVE);
+        tenantAccount.setAccountNumber(generateAccountNumber());
 
         auditService.stampAuditedEntity(tenantAccount);
         accountRepository.save(tenantAccount);

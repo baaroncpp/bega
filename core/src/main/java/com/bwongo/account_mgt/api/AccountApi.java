@@ -8,6 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -26,7 +27,7 @@ public class AccountApi {
 
     private final AccountService accountService;
 
-    @RolesAllowed({"ROLE_ADMIN.READ"})
+    @PreAuthorize("hasAuthority('ADMIN_ROLE.READ')")
     @GetMapping(path = "accounts", produces = APPLICATION_JSON)
     @ResponseStatus(HttpStatus.OK)
     public List<AccountResponseDto> getAllAccounts(@RequestParam("page") int page,

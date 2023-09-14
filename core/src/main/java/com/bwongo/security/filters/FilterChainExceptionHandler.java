@@ -22,18 +22,11 @@ import java.io.IOException;
 @Slf4j
 public class FilterChainExceptionHandler extends OncePerRequestFilter {
 
-    @Qualifier("handlerExceptionResolver")
-    private HandlerExceptionResolver resolver;
     @Override
     protected void doFilterInternal(HttpServletRequest request,
                                     HttpServletResponse response,
                                     FilterChain filterChain)
             throws ServletException, IOException {
-        try {
             filterChain.doFilter(request, response);
-        } catch (Exception e) {
-            log.error("Spring Security Filter Chain Exception:", e);
-            resolver.resolveException(request, response, null, e);
-        }
     }
 }
