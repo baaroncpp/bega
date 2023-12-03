@@ -16,6 +16,7 @@ public class BaseMsgConstants {
     public static final String NULL_EMAIL = "email is null or empty";
     public static final String INVALID_EMAIL = "Invalid email";
     public static final String EMAIL_IS_TAKEN = "email: %s is used by another user";
+    public static final String PHONE_NUMBER_TAKEN = "phoneNumber: %s is used by another user";
     public static final String INVALID_IDENTIFICATION_TYPE = "Invalid identificationType";
     public static final String INVALID_PASSWORD = "password must contain a number, a special character and an upper case character";
 }

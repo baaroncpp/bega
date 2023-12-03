@@ -18,4 +18,5 @@ public interface TenantService {
     List<TenantResponseDto> getTenants(Pageable pageable);
     Boolean deactivateTenant(Long id);
     Boolean activateTenant(Long id);
+    Boolean evictTenant(Long id);
 }

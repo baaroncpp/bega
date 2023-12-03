@@ -13,4 +13,6 @@ import org.springframework.stereotype.Repository;
 public interface TUserMetaRepository extends JpaRepository<TUserMeta, Long> {
     boolean existsByEmail(String email);
     boolean existsByIdentificationNumber(String identificationNumber);
+    boolean existsByPhoneNumber(String phoneNumber);
+    boolean existsByPhoneNumber2(String phoneNumber2);
 }

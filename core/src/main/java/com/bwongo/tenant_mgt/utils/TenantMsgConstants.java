@@ -23,4 +23,7 @@ public class TenantMsgConstants {
     public static final String TENANT_ALREADY_INACTIVE = "Tenant is already inactive";
     public static final String TENANT_ALREADY_ACTIVE = "Tenant is already active";
     public static final String TENANT_IS_INACTIVE = "Tenant is inactive";
+    public static final String TENANT_IS_BLOCKED = "Tenant is blocked";
+    public static final String TENANT_IS_EVICTED = "Tenant is evicted";
+    public static final String TENANT_IS_SUSPENDED = "Tenant is suspended";
 }

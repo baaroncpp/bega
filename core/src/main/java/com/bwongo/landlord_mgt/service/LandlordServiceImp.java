@@ -63,8 +63,8 @@ public class LandlordServiceImp implements LandlordService{
         final var username = landlordRequestDto.username();
 
         Validate.isTrue(!landlordRepository.existsByUsername(username), ExceptionType.BAD_REQUEST, USERNAME_IS_TAKEN, username);
-        Validate.isTrue(!userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
-        Validate.isTrue(!userMetaRepository.existsByIdentificationNumber(idNumber), ExceptionType.BAD_REQUEST, LANDLORD_WITH_ID_EXISTS, idNumber);
+        Validate.isTrue(userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+        Validate.isTrue(userMetaRepository.existsByIdentificationNumber(idNumber), ExceptionType.BAD_REQUEST, LANDLORD_WITH_ID_EXISTS, idNumber);
         Validate.isTrue(countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
         Validate.isTrue(districtRepository.existsById(districtId), ExceptionType.BAD_REQUEST, DISTRICT_NOT_FOUND, districtId);
 

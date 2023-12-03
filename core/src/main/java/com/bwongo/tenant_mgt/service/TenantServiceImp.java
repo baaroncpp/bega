@@ -26,11 +26,12 @@ import java.math.BigDecimal;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import static com.bwongo.account_mgt.utils.AccountMsgConstant.TENANT_ACCOUNT_NOT_FOUND;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.*;
 import static com.bwongo.account_mgt.utils.AccountUtils.generateAccountNumber;
-import static com.bwongo.base.utils.BaseMsgConstants.EMAIL_IS_TAKEN;
+import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
-import static com.bwongo.user_mgt.util.UserMsgConstants.COUNTRY_NOT_FOUND;
+import static com.bwongo.tenant_mgt.utils.TenantUtils.checkIfTenantIsActive;
+import static com.bwongo.user_mgt.util.UserMsgConstants.*;
 
 /**
  * @Author bkaaron
@@ -58,14 +59,20 @@ public class TenantServiceImp implements TenantService{
         final var email = tenantRequestDto.email();
         final var idNumber = tenantRequestDto.identificationNumber();
         final var countryId = tenantRequestDto.countryId();
+        final var phoneNumber = tenantRequestDto.phoneNumber();
+        final var phoneNumber2 = tenantRequestDto.phoneNumber2();
 
         Validate.isTrue(!userMetaRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
         Validate.isTrue(!userMetaRepository.existsByIdentificationNumber(idNumber),  ExceptionType.BAD_REQUEST, TENANT_WITH_ID_EXISTS, idNumber);
         Validate.isTrue(countryRepository.existsById(countryId), ExceptionType.BAD_REQUEST, COUNTRY_NOT_FOUND, countryId);
+        Validate.isTrue(!userMetaRepository.existsByPhoneNumber(phoneNumber), ExceptionType.BAD_REQUEST, PHONE_NUMBER_TAKEN, phoneNumber);
+        Validate.isTrue(!userMetaRepository.existsByPhoneNumber(phoneNumber2), ExceptionType.BAD_REQUEST, PHONE_NUMBER_TAKEN, phoneNumber2);
+        Validate.isTrue(!userMetaRepository.existsByPhoneNumber2(phoneNumber), ExceptionType.BAD_REQUEST, PHONE_NUMBER_TAKEN, phoneNumber);
+        Validate.isTrue(!userMetaRepository.existsByPhoneNumber2(phoneNumber2), ExceptionType.BAD_REQUEST, PHONE_NUMBER_TAKEN, phoneNumber2);
 
         var tenant = tenantDtoService.mapTenantRequestDtoToTenant(tenantRequestDto);
         tenant.setActive(Boolean.FALSE);
-        tenant.setTenantStatus(TenantStatus.ACTIVE);
+        tenant.setTenantStatus(TenantStatus.BLOCKED);
 
         var userMeta = tenant.getUserMeta();
         userMeta.setNonVerifiedPhoneNumber(Boolean.TRUE);
@@ -85,7 +92,7 @@ public class TenantServiceImp implements TenantService{
 
         tenantRequestDto.validate();
         var existingTenant = getById(id);
-        Validate.isTrue(existingTenant.isActive(), ExceptionType.BAD_REQUEST, TENANT_IS_INACTIVE);
+        checkIfTenantIsActive(existingTenant);
 
         var updateTenant = tenantDtoService.mapTenantRequestDtoToTenant(tenantRequestDto);
         updateTenant.setId(existingTenant.getId());
@@ -107,7 +114,9 @@ public class TenantServiceImp implements TenantService{
 
     @Override
     public TenantResponseDto getTenantById(Long id) {
-        return tenantDtoService.mapTenantToTenantResponseDto(getById(id));
+        var tenant = getById(id);
+        checkIfTenantIsActive(tenant);
+        return tenantDtoService.mapTenantToTenantResponseDto(tenant);
     }
 
     @Override
@@ -124,6 +133,7 @@ public class TenantServiceImp implements TenantService{
         final var tenant = getById(id);
         Validate.isTrue(tenant.isActive(), ExceptionType.BAD_REQUEST, TENANT_ALREADY_INACTIVE);
         tenant.setActive(Boolean.FALSE);
+        tenant.setTenantStatus(TenantStatus.SUSPENDED);
         auditService.stampAuditedEntity(tenant);
 
         var existingTenantAccount = accountRepository.findByUserMeta(tenant.getUserMeta());
@@ -133,6 +143,7 @@ public class TenantServiceImp implements TenantService{
         tenantAccount.setActive(Boolean.FALSE);
         tenantAccount.setSuspendedOn(DateTimeUtil.getCurrentUTCTime());
         tenantAccount.setSuspendedBy(tenant.getModifiedBy());
+        tenantAccount.setAccountStatus(AccountStatus.SUSPENDED);
         auditService.stampAuditedEntity(tenantAccount);
         accountRepository.save(tenantAccount);
 
@@ -172,9 +183,25 @@ public class TenantServiceImp implements TenantService{
         return Boolean.TRUE;
     }
 
+    @Override
+    public Boolean evictTenant(Long id) {
+        final var tenant = getById(id);
+
+        tenant.setActive(Boolean.FALSE);
+        tenant.setTenantStatus(TenantStatus.EVICTED);
+        auditService.stampAuditedEntity(tenant);
+
+        tenantRepository.save(tenant);
+
+        //TODO record eviction
+
+        return Boolean.TRUE;
+    }
+
     private Tenant getById(Long id) {
         var existingTenant = tenantRepository.findById(id);
         Validate.isPresent(existingTenant, TENANT_NOT_FOUND, id);
+
         return existingTenant.get();
     }
 }
