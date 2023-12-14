@@ -1,4 +1,4 @@
-package com.bwongo.config;
+package com.bwongo.base.config;
 
 import com.bwongo.security.models.CustomUserDetails;
 import com.bwongo.security.service.CustomUserService;;

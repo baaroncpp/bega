@@ -1,4 +1,4 @@
-package com.bwongo.config;
+package com.bwongo.security.filters;
 
 import com.bwongo.security.service.JwtService;
 import io.jsonwebtoken.ExpiredJwtException;

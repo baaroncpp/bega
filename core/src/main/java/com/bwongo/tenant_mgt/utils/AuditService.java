@@ -27,6 +27,7 @@ public class AuditService {
             entity.setCreatedOn(date);
         }
         entity.setCreatedOn(DateTimeUtil.getCurrentUTCTime());
+        entity.setModifiedOn(DateTimeUtil.getCurrentUTCTime());
     }
 
     public void stampAuditedEntity(AuditEntity auditEntity) {

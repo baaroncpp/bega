@@ -1,4 +1,4 @@
-package com.bwongo.exceptions;
+package com.bwongo.base.exceptions;
 
 import com.bwongo.commons.models.exceptions.*;
 import com.bwongo.commons.models.exceptions.model.ExceptionPayLoad;
