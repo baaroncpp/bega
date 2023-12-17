@@ -1,13 +1,13 @@
 package com.bwongo.landlord_mgt.service.dto;
 
-import com.bwongo.base.model.enums.IdentificationType;
+import com.bwongo.base.models.enums.IdentificationType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
-import com.bwongo.landlord_mgt.model.dto.request.LandlordRequestDto;
-import com.bwongo.landlord_mgt.model.dto.response.LandlordResponseDto;
-import com.bwongo.landlord_mgt.model.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.dto.request.LandlordRequestDto;
+import com.bwongo.landlord_mgt.models.dto.response.LandlordResponseDto;
+import com.bwongo.landlord_mgt.models.jpa.Landlord;
 import com.bwongo.user_mgt.models.enums.GenderEnum;
-import com.bwongo.user_mgt.models.jpa.TCountry;
-import com.bwongo.user_mgt.models.jpa.TDistrict;
+import com.bwongo.base.models.jpa.TCountry;
+import com.bwongo.base.models.jpa.TDistrict;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;
@@ -34,35 +34,35 @@ public class LandlordDtoService {
             return null;
         }
         var country = new TCountry();
-        country.setId(landlordRequestDto.countryId());
+        country.setId(landlordRequestDto.getCountryId());
 
         var district = new TDistrict();
-        district.setId(landlordRequestDto.districtId());
+        district.setId(landlordRequestDto.getDistrictId());
 
         StringBuilder displayName = new StringBuilder();
-        displayName.append(landlordRequestDto.firstName())
+        displayName.append(landlordRequestDto.getFirstName())
                 .append(" ")
-                .append(landlordRequestDto.lastName());
+                .append(landlordRequestDto.getLastName());
 
         var userMeta = new TUserMeta();
         userMeta.setCountry(country);
-        userMeta.setFirstName(landlordRequestDto.firstName());
-        userMeta.setLastName(landlordRequestDto.lastName());
-        userMeta.setMiddleName(landlordRequestDto.middleName());
-        userMeta.setIdentificationType(IdentificationType.valueOf(landlordRequestDto.identificationType()));
-        userMeta.setIdentificationNumber(landlordRequestDto.identificationNumber());
-        userMeta.setPhoneNumber(landlordRequestDto.phoneNumber());
-        userMeta.setPhoneNumber2(landlordRequestDto.phoneNumber2());
-        userMeta.setEmail(landlordRequestDto.email());
+        userMeta.setFirstName(landlordRequestDto.getFirstName());
+        userMeta.setLastName(landlordRequestDto.getLastName());
+        userMeta.setMiddleName(landlordRequestDto.getMiddleName());
+        userMeta.setIdentificationType(IdentificationType.valueOf(landlordRequestDto.getIdentificationType()));
+        userMeta.setIdentificationNumber(landlordRequestDto.getIdentificationNumber());
+        userMeta.setPhoneNumber(landlordRequestDto.getPhoneNumber());
+        userMeta.setPhoneNumber2(landlordRequestDto.getPhoneNumber2());
+        userMeta.setEmail(landlordRequestDto.getEmail());
         userMeta.setDisplayName(displayName.toString());
-        userMeta.setGender(GenderEnum.valueOf(landlordRequestDto.gender()));
-        userMeta.setBirthDate(DateTimeUtil.stringToDate(landlordRequestDto.birthDate(), PLACEMENT_DATE_FORMAT));
+        userMeta.setGender(GenderEnum.valueOf(landlordRequestDto.getGender()));
+        userMeta.setBirthDate(DateTimeUtil.stringToDate(landlordRequestDto.getBirthDate(), PLACEMENT_DATE_FORMAT));
 
         Landlord landlord = new Landlord();
         landlord.setDistrict(district);
-        landlord.setUsername(landlordRequestDto.username());
-        landlord.setPhysicalAddress(landlordRequestDto.physicalAddress());
-        landlord.setLoginPassword(passwordEncoder.encode(landlordRequestDto.loginPassword()));
+        landlord.setUsername(landlordRequestDto.getUsername());
+        landlord.setPhysicalAddress(landlordRequestDto.getPhysicalAddress());
+        landlord.setLoginPassword(passwordEncoder.encode(landlordRequestDto.getLoginPassword()));
         landlord.setMetaData(userMeta);
 
         return landlord;

@@ -1,8 +1,8 @@
-package com.bwongo.landlord_mgt.model.dto.response;
+package com.bwongo.landlord_mgt.models.dto.response;
 
 import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
-import com.bwongo.user_mgt.models.jpa.TDistrict;
+import com.bwongo.base.models.jpa.TDistrict;
 
 import java.util.Date;
 

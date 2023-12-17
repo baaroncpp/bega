@@ -1,10 +1,12 @@
-package com.bwongo.landlord_mgt.model.dto.request;
+package com.bwongo.landlord_mgt.models.dto.request;
 
 import com.bwongo.apartment_mgt.utils.ApartmentUtil;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.text.StringRegExUtil;
 import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.user_mgt.util.UserMgtUtils;
+import lombok.Getter;
+import lombok.Setter;
 
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.INVALID_DATE;
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.NULL_DISTRICT_ID;
@@ -19,23 +21,24 @@ import static com.bwongo.user_mgt.util.UserMsgConstants.NULL_COUNTRY_ID;
  * @Project bega
  * @Date 5/7/23
  **/
-public record LandlordRequestDto(
-         String username,
-         String loginPassword,
-         String physicalAddress,
-         String firstName,
-         String middleName,
-         String lastName,
-         String identificationType,
-         String identificationNumber,
-         String phoneNumber,
-         String phoneNumber2,
-         String email,
-         Long districtId,
-         Long countryId,
-         String birthDate,
-         String gender
-) {
+@Setter
+@Getter
+public class LandlordRequestDto {
+    private String username;
+    private String loginPassword;
+    private String physicalAddress;
+    private String firstName;
+    private String middleName;
+    private String lastName;
+    private String identificationType;
+    private String identificationNumber;
+    private String phoneNumber;
+    private String phoneNumber2;
+    private String email;
+    private Long districtId;
+    private Long countryId;
+    private String birthDate;
+    private String gender;
     public void validate(){
         Validate.notEmpty(firstName, NULL_FIRST_NAME);
         Validate.isTrue(firstName.length() > 3, ExceptionType.BAD_REQUEST,SHORT_FIRST_NAME);

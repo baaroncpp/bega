@@ -1,9 +1,5 @@
 package com.bwongo.user_mgt.models.dto.request;
 
-import com.bwongo.base.model.enums.IdentificationType;
-import com.bwongo.user_mgt.models.enums.GenderEnum;
-import com.bwongo.user_mgt.models.jpa.TCountry;
-
 import java.util.Date;
 
 /**

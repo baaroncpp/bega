@@ -1,8 +1,7 @@
-package com.bwongo.landlord_mgt.model.jpa;
+package com.bwongo.landlord_mgt.models.jpa;
 
-import com.bwongo.base.model.enums.IdentificationType;
-import com.bwongo.base.model.jpa.AuditEntity;
-import com.bwongo.user_mgt.models.jpa.TDistrict;
+import com.bwongo.base.models.jpa.AuditEntity;
+import com.bwongo.base.models.jpa.TDistrict;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import jakarta.persistence.*;
 import lombok.Setter;

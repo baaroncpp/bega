@@ -6,6 +6,7 @@ import org.apache.logging.log4j.Logger;
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 import java.util.UUID;
 import java.util.stream.IntStream;
 
@@ -212,4 +213,8 @@ public class StringUtil {
         return (String)field.get(object);
     }
 
+    public static String getRandom6DigitString(){
+        var rnd = new Random();
+        return String.valueOf(100000 +rnd.nextInt(900000));
+    }
 }

@@ -1,7 +1,7 @@
 package com.bwongo.apartment_mgt.repository;
 
 import com.bwongo.apartment_mgt.models.jpa.Apartment;
-import com.bwongo.landlord_mgt.model.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.Landlord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

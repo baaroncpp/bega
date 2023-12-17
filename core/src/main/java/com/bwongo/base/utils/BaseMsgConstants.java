@@ -19,4 +19,5 @@ public class BaseMsgConstants {
     public static final String PHONE_NUMBER_TAKEN = "phoneNumber: %s is used by another user";
     public static final String INVALID_IDENTIFICATION_TYPE = "Invalid identificationType";
     public static final String INVALID_PASSWORD = "password must contain a number, a special character and an upper case character";
+    public static final String PASSWORD_CANNOT_BE_UPDATED = "Password cannot be updated";
 }

@@ -2,13 +2,11 @@ package com.bwongo.apartment_mgt.models.jpa;
 
 import com.bwongo.apartment_mgt.models.enums.ApartmentType;
 import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
-import com.bwongo.base.model.jpa.AuditEntity;
-import com.bwongo.landlord_mgt.model.jpa.Landlord;
-import com.bwongo.user_mgt.models.jpa.TDistrict;
+import com.bwongo.base.models.jpa.AuditEntity;
+import com.bwongo.landlord_mgt.models.jpa.Landlord;
+import com.bwongo.base.models.jpa.TDistrict;
 import jakarta.persistence.*;
 import lombok.Setter;
-
-import java.math.BigDecimal;
 
 /**
  * @Author bkaaron

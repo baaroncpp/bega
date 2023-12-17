@@ -1,6 +1,6 @@
-package com.bwongo.user_mgt.repository;
+package com.bwongo.base.repository;
 
-import com.bwongo.user_mgt.models.jpa.TCountry;
+import com.bwongo.base.models.jpa.TCountry;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -18,4 +18,5 @@ import java.util.Optional;
 public interface AccountRepository extends JpaRepository<Account, Long> {
     Optional<Account> findByUserMeta(TUserMeta userMeta);
     List<Account> findAllByActive(boolean isActive, Pageable pageable);
+    boolean existsByAccountNumber(String accountNumber);
 }

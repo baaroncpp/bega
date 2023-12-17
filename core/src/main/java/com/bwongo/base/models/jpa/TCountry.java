@@ -1,6 +1,6 @@
-package com.bwongo.user_mgt.models.jpa;
+package com.bwongo.base.models.jpa;
 
-import com.bwongo.base.model.jpa.BaseEntity;
+import com.bwongo.base.models.jpa.BaseEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;

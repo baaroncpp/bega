@@ -79,7 +79,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 throw new InsufficientAuthenticationException("Invalid credentials");
             }
             filterChain.doFilter(request, response);
-        }catch (ExpiredJwtException | MalformedJwtException | AccessDeniedException | BadCredentialsException e) {
+        }catch (InsufficientAuthenticationException | ExpiredJwtException | MalformedJwtException | AccessDeniedException | BadCredentialsException e) {
             resolver.resolveException(request, response, null, e);
         }
     }

@@ -15,7 +15,7 @@ import com.bwongo.apartment_mgt.models.jpa.AssignHouse;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
-import com.bwongo.landlord_mgt.model.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.Landlord;
 import com.bwongo.landlord_mgt.service.dto.LandlordDtoService;
 import com.bwongo.tenant_mgt.models.enums.BillingDuration;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;

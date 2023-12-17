@@ -2,12 +2,12 @@ package com.bwongo.tenant_mgt.service.dto;
 
 import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.tenant_mgt.models.dto.requests.TenantRequestDto;
-import com.bwongo.base.model.enums.IdentificationType;
+import com.bwongo.base.models.enums.IdentificationType;
 import com.bwongo.tenant_mgt.models.dto.responses.TenantResponseDto;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import com.bwongo.user_mgt.models.enums.GenderEnum;
-import com.bwongo.user_mgt.models.jpa.TCountry;
+import com.bwongo.base.models.jpa.TCountry;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import lombok.RequiredArgsConstructor;

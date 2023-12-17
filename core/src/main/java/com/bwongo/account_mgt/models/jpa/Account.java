@@ -2,7 +2,7 @@ package com.bwongo.account_mgt.models.jpa;
 
 import com.bwongo.account_mgt.models.enums.AccountStatus;
 import com.bwongo.account_mgt.models.enums.AccountType;
-import com.bwongo.base.model.jpa.AuditEntity;
+import com.bwongo.base.models.jpa.AuditEntity;
 import com.bwongo.user_mgt.models.jpa.TUser;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import jakarta.persistence.*;

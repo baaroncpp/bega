@@ -2,7 +2,6 @@ package com.bwongo.account_mgt.api;
 
 import com.bwongo.account_mgt.models.dto.response.AccountResponseDto;
 import com.bwongo.account_mgt.service.AccountService;
-import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

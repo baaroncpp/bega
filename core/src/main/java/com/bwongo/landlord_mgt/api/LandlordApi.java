@@ -1,7 +1,7 @@
 package com.bwongo.landlord_mgt.api;
 
-import com.bwongo.landlord_mgt.model.dto.request.LandlordRequestDto;
-import com.bwongo.landlord_mgt.model.dto.response.LandlordResponseDto;
+import com.bwongo.landlord_mgt.models.dto.request.LandlordRequestDto;
+import com.bwongo.landlord_mgt.models.dto.response.LandlordResponseDto;
 import com.bwongo.landlord_mgt.service.LandlordService;
 import jakarta.annotation.security.RolesAllowed;
 import lombok.RequiredArgsConstructor;

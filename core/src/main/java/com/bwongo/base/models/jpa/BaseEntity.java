@@ -1,4 +1,4 @@
-package com.bwongo.base.model.jpa;
+package com.bwongo.base.models.jpa;
 
 import jakarta.persistence.*;
 import lombok.Setter;

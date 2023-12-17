@@ -1,6 +1,6 @@
 package com.bwongo.tenant_mgt.models.jpa;
 
-import com.bwongo.base.model.jpa.AuditEntity;
+import com.bwongo.base.models.jpa.AuditEntity;
 import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;
 import lombok.Setter;

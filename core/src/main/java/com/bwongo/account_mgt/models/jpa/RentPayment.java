@@ -2,7 +2,7 @@ package com.bwongo.account_mgt.models.jpa;
 
 import com.bwongo.apartment_mgt.models.enums.*;
 import com.bwongo.apartment_mgt.models.jpa.House;
-import com.bwongo.base.model.jpa.AuditEntity;
+import com.bwongo.base.models.jpa.AuditEntity;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import jakarta.persistence.*;
 import lombok.Setter;

@@ -17,7 +17,7 @@ import com.bwongo.apartment_mgt.repository.HouseRepository;
 import com.bwongo.apartment_mgt.utils.ApartmentUtil;
 import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.tenant_mgt.repository.TenantRepository;
-import com.bwongo.tenant_mgt.utils.AuditService;
+import com.bwongo.base.service.AuditService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

@@ -7,7 +7,6 @@ import io.jsonwebtoken.MalformedJwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -96,49 +95,69 @@ public class ExceptionsHandler {
         return new ResponseEntity<>(exceptionPayLoad, httpStatus);
     }
 
-    @ExceptionHandler(value = {AccessDeniedException.class, org.springframework.security.authentication.BadCredentialsException.class, MalformedJwtException.class, ExpiredJwtException.class})
+    @ExceptionHandler(value = {AccessDeniedException.class})
+    public ResponseEntity<Object> handleAccessDeniedException(AccessDeniedException accessDeniedException, HttpServletRequest request){
+
+        var httpStatus = HttpStatus.valueOf(403);
+
+        var exceptionPayLoad = new ExceptionPayLoad(
+                request.getRequestURI(),
+                accessDeniedException.getMessage(),
+                httpStatus,
+                ZonedDateTime.now(ZoneId.of("Z"))
+        );
+
+        return new ResponseEntity<>(exceptionPayLoad, httpStatus);
+    }
+
+    @ExceptionHandler(value = {org.springframework.security.access.AccessDeniedException.class, org.springframework.security.authentication.BadCredentialsException.class, MalformedJwtException.class, ExpiredJwtException.class})
     public ResponseEntity<Object> handleSecurityException(Exception ex, HttpServletRequest request){
 
         ResponseEntity<Object> response = null;
+        HttpStatus httpStatus = null;
 
         if(ex instanceof org.springframework.security.authentication.BadCredentialsException){
+            httpStatus = HttpStatus.valueOf(401);
             var exceptionPayLoad = new ExceptionPayLoad(
                     request.getRequestURI(),
                     "Authentication Failure",
-                    HttpStatus.valueOf(401),
+                    httpStatus,
                     ZonedDateTime.now(ZoneId.of("Z"))
             );
-            response = new ResponseEntity<>(exceptionPayLoad, HttpStatus.valueOf(401));
+            response = new ResponseEntity<>(exceptionPayLoad, httpStatus);
         }
 
         if(ex instanceof AccessDeniedException){
+            httpStatus = HttpStatus.valueOf(403);
             var exceptionPayLoad = new ExceptionPayLoad(
                     request.getRequestURI(),
                     "Not Authorized!",
-                    HttpStatus.valueOf(403),
+                    httpStatus,
                     ZonedDateTime.now(ZoneId.of("Z"))
             );
-            response = new ResponseEntity<>(exceptionPayLoad, HttpStatus.valueOf(403));
+            response = new ResponseEntity<>(exceptionPayLoad, httpStatus);
         }
 
         if(ex instanceof MalformedJwtException){
+            httpStatus = HttpStatus.valueOf(403);
             var exceptionPayLoad = new ExceptionPayLoad(
                     request.getRequestURI(),
                     "JWT Signature not valid!",
                     HttpStatus.valueOf(403),
                     ZonedDateTime.now(ZoneId.of("Z"))
             );
-            response = new ResponseEntity<>(exceptionPayLoad, HttpStatus.valueOf(403));
+            response = new ResponseEntity<>(exceptionPayLoad, httpStatus);
         }
 
         if(ex instanceof ExpiredJwtException){
+            httpStatus = HttpStatus.valueOf(403);
             var exceptionPayLoad = new ExceptionPayLoad(
                     request.getRequestURI(),
                     "JWT already expired!",
-                    HttpStatus.valueOf(403),
+                    httpStatus,
                     ZonedDateTime.now(ZoneId.of("Z"))
             );
-            response = new ResponseEntity<>(exceptionPayLoad, HttpStatus.valueOf(403));
+            response = new ResponseEntity<>(exceptionPayLoad, httpStatus);
         }
 
         return response;

@@ -1,6 +1,6 @@
 package com.bwongo.base.utils;
 
-import com.bwongo.base.model.enums.IdentificationType;
+import com.bwongo.base.models.enums.IdentificationType;
 
 import java.util.Arrays;
 import java.util.List;

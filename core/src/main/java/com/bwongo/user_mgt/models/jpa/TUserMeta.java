@@ -1,7 +1,8 @@
 package com.bwongo.user_mgt.models.jpa;
 
-import com.bwongo.base.model.enums.IdentificationType;
-import com.bwongo.base.model.jpa.AuditEntity;
+import com.bwongo.base.models.enums.IdentificationType;
+import com.bwongo.base.models.jpa.AuditEntity;
+import com.bwongo.base.models.jpa.TCountry;
 import com.bwongo.user_mgt.models.enums.GenderEnum;
 import jakarta.persistence.*;
 import lombok.Setter;

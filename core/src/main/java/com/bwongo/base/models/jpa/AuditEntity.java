@@ -1,11 +1,9 @@
-package com.bwongo.base.model.jpa;
+package com.bwongo.base.models.jpa;
 
 import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.util.Date;
 
 /**
  * @Author bkaaron

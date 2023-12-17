@@ -1,7 +1,7 @@
-package com.bwongo.tenant_mgt.utils;
+package com.bwongo.base.service;
 
-import com.bwongo.base.model.jpa.AuditEntity;
-import com.bwongo.base.model.jpa.BaseEntity;
+import com.bwongo.base.models.jpa.AuditEntity;
+import com.bwongo.base.models.jpa.BaseEntity;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.commons.models.utils.Validate;
@@ -21,18 +21,20 @@ import java.util.Date;
 @Service
 public class AuditService {
 
+    private static final String ONLY_LOGGED_IN_USER = "Only a logged in user can make this change";
+
     public void stampLongEntity(BaseEntity entity) {
         Date date = DateTimeUtil.getCurrentUTCTime();
         if(entity.getId() == null){
             entity.setCreatedOn(date);
+            entity.setModifiedOn(date);
         }
-        entity.setCreatedOn(DateTimeUtil.getCurrentUTCTime());
-        entity.setModifiedOn(DateTimeUtil.getCurrentUTCTime());
+        entity.setModifiedOn(date);
     }
 
     public void stampAuditedEntity(AuditEntity auditEntity) {
         CustomUserDetails user = getLoggedInUser();
-        Validate.notNull(user, ExceptionType.BAD_CREDENTIALS,"Only a logged in user can make this change");
+        Validate.notNull(user, ExceptionType.BAD_CREDENTIALS, ONLY_LOGGED_IN_USER);
         Date date = DateTimeUtil.getCurrentUTCTime();
         TUser tUser = new TUser();
         tUser.setId(user.getId());
