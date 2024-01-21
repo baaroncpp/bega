@@ -29,4 +29,16 @@ public class PaymentApi {
     public RentPaymentResponseDto makeRentPayment(@RequestBody RentPaymentRequestDto rentPaymentRequestDto){
         return rentPaymentService.makeRentPayment(rentPaymentRequestDto);
     }
+
+    public void makeUtilityPayment(){
+
+    }
+
+    public void makeHouseBookingPayment(){
+
+    }
+
+    public void makeBookingPayment(){
+
+    }
 }

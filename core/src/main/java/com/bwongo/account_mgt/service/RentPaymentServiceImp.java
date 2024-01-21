@@ -53,6 +53,15 @@ public class RentPaymentServiceImp implements RentPaymentService{
     private final AccountDtoService accountDtoService;
     private final AuditService auditService;
 
+    public void momoRentPaymentDeposit(){
+
+    }
+
+    public void cashRentPaymentDeposit(){
+        
+    }
+
+
     @Transactional
     @Override
     public RentPaymentResponseDto makeRentPayment(RentPaymentRequestDto rentPaymentRequestDto) {

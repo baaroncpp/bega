@@ -73,4 +73,16 @@ public class TenantApi {
         return tenantService.deactivateTenant(id);
     }
 
+    public void evictTenant(){
+
+    }
+
+    public void makeRenovationRequest(){
+
+    }
+
+    public void raiseComplaint(){
+
+    }
+
 }
