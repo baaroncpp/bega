@@ -3,7 +3,7 @@ package com.bwongo.apartment_mgt.models.jpa;
 import com.bwongo.apartment_mgt.models.enums.ApartmentType;
 import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
 import com.bwongo.base.models.jpa.AuditEntity;
-import com.bwongo.landlord_mgt.models.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import com.bwongo.base.models.jpa.TDistrict;
 import jakarta.persistence.*;
 import lombok.Setter;
@@ -20,7 +20,7 @@ public class Apartment extends AuditEntity {
     private String apartmentName;
     private ApartmentType apartmentType;
     private String location;
-    private Landlord apartmentOwner;
+    private TLandlord apartmentOwner;
     private String apartmentDescription;
     private ManagementFeeType managementFeeType;
     private TDistrict district;
@@ -44,7 +44,7 @@ public class Apartment extends AuditEntity {
 
     @JoinColumn(name = "landlord_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
-    public Landlord getApartmentOwner() {
+    public TLandlord getApartmentOwner() {
         return apartmentOwner;
     }
 

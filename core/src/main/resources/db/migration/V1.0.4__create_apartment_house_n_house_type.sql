@@ -9,7 +9,9 @@ CREATE TABLE t_landlord(
      physical_address TEXT NOT NULL,
      district_id BIGINT REFERENCES t_district(id),
      login_password VARCHAR(500) NOT NULL,
-     user_meta_id BIGINT REFERENCES t_user_meta(id)
+     user_meta_id BIGINT REFERENCES t_user_meta(id),
+     tin VARCHAR(10),
+     owner_ship_lc_letter_url_path TEXT
 );
 
 CREATE TABLE t_apartment(
@@ -75,4 +77,28 @@ CREATE TABLE t_assign_house(
     placement_date TIMESTAMP,
     note TEXT,
     is_approved BOOLEAN DEFAULT FALSE
+);
+
+CREATE TABLE t_landlord_next_of_kin(
+    id BIGSERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT now(),
+    created_by_id BIGINT NOT NULL REFERENCES t_user(id),
+    modified_on TIMESTAMP,
+    modified_by_id BIGINT REFERENCES t_user(id),
+    is_active BOOLEAN DEFAULT false,
+    landlord_id BIGINT REFERENCES t_landlord(id),
+    nextOfKin_id BIGINT REFERENCES t_next_of_kin(id),
+    UNIQUE (landlord_id, nextOfKin_id)
+);
+
+CREATE TABLE t_landlord_bank_details(
+    id BIGSERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT now(),
+    created_by_id BIGINT NOT NULL REFERENCES t_user(id),
+    modified_on TIMESTAMP,
+    modified_by_id BIGINT REFERENCES t_user(id),
+    is_active BOOLEAN DEFAULT false,
+    bank_detail_id BIGINT NOT NULL REFERENCES t_bank_detail(id),
+    landlord_id BIGINT REFERENCES t_landlord(id),
+    UNIQUE (landlord_id, bank_detail_id)
 );

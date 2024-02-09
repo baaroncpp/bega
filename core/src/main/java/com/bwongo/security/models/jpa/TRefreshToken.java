@@ -24,7 +24,7 @@ import java.time.Instant;
 public class TRefreshToken extends BaseEntity {
     private String token;
     private Instant expiryDate;
-    TUser user;
+    private TUser user;
 
     @Column(name = "token")
     public String getToken() {

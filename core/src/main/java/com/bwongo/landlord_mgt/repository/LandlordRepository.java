@@ -1,6 +1,6 @@
 package com.bwongo.landlord_mgt.repository;
 
-import com.bwongo.landlord_mgt.models.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -13,7 +13,7 @@ import java.util.List;
  * @Date 5/7/23
  **/
 @Repository
-public interface LandlordRepository extends JpaRepository<Landlord, Long> {
-    List<Landlord> findAllByActive(boolean isActive, Pageable pageable);
+public interface LandlordRepository extends JpaRepository<TLandlord, Long> {
+    List<TLandlord> findAllByActive(boolean isActive, Pageable pageable);
     boolean existsByUsername(String username);
 }

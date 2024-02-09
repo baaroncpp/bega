@@ -22,5 +22,12 @@ public class LandlordMsgConstants {
     public static final String LANDLORD_NOT_FOUND = "Landlord with ID: %s not found";
     public static final String LANDLORD_IS_INACTIVE = "Landlord is inactive";
     public static final String LANDLORD_IS_ACTIVE = "Landlord is active";
+    public static final String NULL_TIN = "tin is null or empty";
+    public static final String INVALID_TIN_LENGTH = "tin must be 10 digits";
+    public static final String INVALID_TIN = "tin must be 10 digits";
+    public static final String NULL_BANK_NAME = "bankName is null or empty";
+    public static final String NULL_ACCOUNT_NAME = "accountName is null or empty";
+    public static final String NULL_ACCOUNT_NUMBER = "accountNumber is null or empty";
+
 }
 

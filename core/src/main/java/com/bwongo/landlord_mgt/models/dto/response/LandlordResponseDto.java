@@ -21,6 +21,8 @@ public record LandlordResponseDto(
         String username,
         TDistrict district,
         String physicalAddress,
+        String tin,
+        String ownerShipLCLetterUrlPath,
         UserMetaResponseDto userMeta
 ) {
 }

@@ -103,3 +103,48 @@ create table t_group_authority(
       modified_on TIMESTAMP,
       UNIQUE (user_group_id, permission_id)
 );
+
+CREATE TABLE t_next_of_kin(
+    id BIGSERIAL PRIMARY KEY,
+    created_on TIMESTAMP NOT NULL DEFAULT now(),
+    modified_on TIMESTAMP,
+    created_by BIGINT NOT NULL REFERENCES t_user(id),
+    modified_by BIGINT REFERENCES t_user(id),
+    is_active BOOLEAN DEFAULT false,
+    first_name VARCHAR(50) NOT NULL,
+    second_name VARCHAR(50) NOT NULL,
+    date_of_birth TIMESTAMP NOT NULL,
+    first_phone_number VARCHAR(15) NOT NULL,
+    second_phone_number VARCHAR(15),
+    relation_ship_type VARCHAR(15),
+    relation_ship_note TEXT,
+    email VARCHAR(100),
+    identification_type VARCHAR(32) NOT NULL,
+    id_number VARCHAR(32) NOT NULL,
+    id_photo_url_path TEXT
+);
+
+CREATE TABLE t_bank_detail(
+    id BIGSERIAL PRIMARY KEY,
+    created_on TIMESTAMP NOT NULL DEFAULT now(),
+    modified_on TIMESTAMP,
+    created_by BIGINT NOT NULL REFERENCES t_user(id),
+    modified_by BIGINT REFERENCES t_user(id),
+    bank_name VARCHAR(100) NOT NULL,
+    account_name VARCHAR(50) NOT NULL,
+    account_number VARCHAR(50) NOT NULL,
+    is_active BOOLEAN DEFAULT FALSE,
+    user_meta_id BIGINT  REFERENCES t_user(id)
+);
+
+
+CREATE TABLE t_location(
+    id BIGSERIAL primary key,
+    created_on timestamp not null default now(),
+    modified_on timestamp,
+    created_by_id BIGINT NOT NULL REFERENCES t_user(id),
+    modified_by_id BIGINT REFERENCES t_user(id),
+    is_active BOOLEAN DEFAULT TRUE,
+    latitude_coordinate DOUBLE PRECISION NOT NULL,
+    longitude_coordinate DOUBLE PRECISION NOT NULL
+);

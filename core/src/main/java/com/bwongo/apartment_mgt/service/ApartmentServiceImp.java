@@ -13,7 +13,7 @@ import com.bwongo.apartment_mgt.service.dto.ApartmentDtoService;
 import com.bwongo.apartment_mgt.utils.ApartmentUtil;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.Validate;
-import com.bwongo.landlord_mgt.models.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import com.bwongo.landlord_mgt.repository.LandlordRepository;
 import com.bwongo.base.service.AuditService;
 import lombok.RequiredArgsConstructor;
@@ -217,7 +217,7 @@ public class ApartmentServiceImp implements ApartmentService{
                 .collect(Collectors.toList());
     }
 
-    private Landlord getLandlord(Long id){
+    private TLandlord getLandlord(Long id){
         var landlord = landlordRepository.findById(id);
         Validate.isPresent(landlord, LANDLORD_NOT_FOUND, id);
         return landlord.get();

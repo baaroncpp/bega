@@ -18,7 +18,7 @@ public class TDistrict extends BaseEntity {
     private String region;
 
     @JoinColumn(name = "country_id",referencedColumnName = "id",insertable = false,updatable = false)
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER)
     public TCountry getCountry() {
         return country;
     }

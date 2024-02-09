@@ -1,7 +1,7 @@
 package com.bwongo.apartment_mgt.repository;
 
 import com.bwongo.apartment_mgt.models.jpa.Apartment;
-import com.bwongo.landlord_mgt.models.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -15,5 +15,5 @@ import java.util.List;
 @Repository
 public interface ApartmentRepository extends JpaRepository<Apartment, Long> {
     boolean existsByApartmentName(String apartmentName);
-    List<Apartment> findAllByApartmentOwner(Landlord landlord);
+    List<Apartment> findAllByApartmentOwner(TLandlord TLandlord);
 }

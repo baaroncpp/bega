@@ -28,22 +28,19 @@ public class SecurityConfig {
     private final AuthenticationProvider authenticationProvider;
 
     private static final String[] WHITE_LIST_URLS = {
-            "/swagger-ui-bega.html",
-            "**/termsofuse",
-            "/v3/api-docs/**",
-            "/swagger-ui.html**","/swagger-ui/**",
             "/api/v1/auth/**",
-            "/configuration/security","/configuration/ui","/swagger-resources/**",
-            "/v2/api-docs**", "/webjars/**"
+            "/v3/api-docs/**",
+            "/v3/api-docs.yaml",
+            "/swagger-ui/o**",
+            "/swagger-ui.html"
     };
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                //.exceptionHandling(exception -> exception.authenticationEntryPoint(unauthorizedHandler))
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/api/v1/auth/**").permitAll()
+                        auth.requestMatchers(WHITE_LIST_URLS).permitAll()
                                 .anyRequest().authenticated()
                 )
                 .authenticationProvider(authenticationProvider)

@@ -2,9 +2,12 @@ package com.bwongo.landlord_mgt.service.dto;
 
 import com.bwongo.base.models.enums.IdentificationType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
+import com.bwongo.landlord_mgt.models.dto.request.BankDetailRequestDto;
 import com.bwongo.landlord_mgt.models.dto.request.LandlordRequestDto;
+import com.bwongo.landlord_mgt.models.dto.response.BankDetailsResponseDto;
 import com.bwongo.landlord_mgt.models.dto.response.LandlordResponseDto;
-import com.bwongo.landlord_mgt.models.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.TBankDetail;
+import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import com.bwongo.user_mgt.models.enums.GenderEnum;
 import com.bwongo.base.models.jpa.TCountry;
 import com.bwongo.base.models.jpa.TDistrict;
@@ -28,7 +31,7 @@ public class LandlordDtoService {
     private final UserMgtDtoService userMgtDtoService;
     private final PasswordEncoder passwordEncoder;
 
-    public Landlord mapLandlordRequestDtoToLandlord(LandlordRequestDto landlordRequestDto){
+    public TLandlord mapLandlordRequestDtoToLandlord(LandlordRequestDto landlordRequestDto){
 
         if(landlordRequestDto == null){
             return null;
@@ -58,17 +61,18 @@ public class LandlordDtoService {
         userMeta.setGender(GenderEnum.valueOf(landlordRequestDto.getGender()));
         userMeta.setBirthDate(DateTimeUtil.stringToDate(landlordRequestDto.getBirthDate(), PLACEMENT_DATE_FORMAT));
 
-        Landlord landlord = new Landlord();
+        TLandlord landlord = new TLandlord();
         landlord.setDistrict(district);
         landlord.setUsername(landlordRequestDto.getUsername());
         landlord.setPhysicalAddress(landlordRequestDto.getPhysicalAddress());
         landlord.setLoginPassword(passwordEncoder.encode(landlordRequestDto.getLoginPassword()));
         landlord.setMetaData(userMeta);
+        landlord.setTin(landlordRequestDto.getTin());
 
         return landlord;
     }
 
-    public LandlordResponseDto mapLandlordToLandlordResponseDto(Landlord landlord){
+    public LandlordResponseDto mapLandlordToLandlordResponseDto(TLandlord landlord){
 
         if(landlord == null){
             return null;
@@ -84,7 +88,42 @@ public class LandlordDtoService {
                 landlord.getUsername(),
                 landlord.getDistrict(),
                 landlord.getPhysicalAddress(),
+                landlord.getTin(),
+                landlord.getOwnerShipLCLetterUrlPath(),
                 userMgtDtoService.mapTUserMetaToUserMetaResponseDto(landlord.getMetaData())
+        );
+    }
+
+    public TBankDetail mapBankDetailRequestToTBankDetail(BankDetailRequestDto bankDetailRequestDto){
+
+        if(bankDetailRequestDto == null){
+            return null;
+        }
+
+        var bankDetail = new TBankDetail();
+        bankDetail.setBankName(bankDetailRequestDto.bankName());
+        bankDetail.setAccountName(bankDetailRequestDto.accountName());
+        bankDetail.setAccountNumber(bankDetailRequestDto.accountNumber());
+
+        return bankDetail;
+    }
+
+    public BankDetailsResponseDto bankDetailToDto(TBankDetail bankDetail){
+
+        if(bankDetail == null){
+            return null;
+        }
+
+        return new BankDetailsResponseDto(
+                bankDetail.getId(),
+                bankDetail.getCreatedOn(),
+                bankDetail.getModifiedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(bankDetail.getModifiedBy()),
+                userMgtDtoService.mapTUserToUserResponseDto(bankDetail.getCreatedBy()),
+                bankDetail.isActive(),
+                bankDetail.getBankName(),
+                bankDetail.getAccountName(),
+                bankDetail.getAccountNumber()
         );
     }
 }

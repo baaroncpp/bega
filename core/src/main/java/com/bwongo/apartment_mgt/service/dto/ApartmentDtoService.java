@@ -15,7 +15,7 @@ import com.bwongo.apartment_mgt.models.jpa.AssignHouse;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
-import com.bwongo.landlord_mgt.models.jpa.Landlord;
+import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import com.bwongo.landlord_mgt.service.dto.LandlordDtoService;
 import com.bwongo.tenant_mgt.models.enums.BillingDuration;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
@@ -131,14 +131,14 @@ public class ApartmentDtoService {
         if(apartmentRequestDto == null){
             return null;
         }
-        Landlord landlord = new Landlord();
-        landlord.setId(apartmentRequestDto.landlordId());
+        TLandlord TLandlord = new TLandlord();
+        TLandlord.setId(apartmentRequestDto.landlordId());
 
         Apartment apartment = new Apartment();
         apartment.setApartmentName(apartmentRequestDto.apartmentName());
         apartment.setApartmentType(ApartmentType.valueOf(apartmentRequestDto.apartmentType()));
         apartment.setLocation(apartmentRequestDto.location());
-        apartment.setApartmentOwner(landlord);
+        apartment.setApartmentOwner(TLandlord);
         apartment.setApartmentDescription(apartmentRequestDto.apartmentDescription());
         apartment.setManagementFeeType(ManagementFeeType.valueOf(apartmentRequestDto.managementFeeType()));
         apartment.setRenovationServiced(apartmentRequestDto.isRenovationServiced());

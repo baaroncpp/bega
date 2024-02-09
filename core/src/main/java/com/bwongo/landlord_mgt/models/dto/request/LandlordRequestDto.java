@@ -39,6 +39,7 @@ public class LandlordRequestDto {
     private Long countryId;
     private String birthDate;
     private String gender;
+    private String tin;
     public void validate(){
         Validate.notEmpty(firstName, NULL_FIRST_NAME);
         Validate.isTrue(firstName.length() > 3, ExceptionType.BAD_REQUEST,SHORT_FIRST_NAME);
@@ -61,5 +62,8 @@ public class LandlordRequestDto {
         Validate.notNull(countryId, ExceptionType.BAD_REQUEST, NULL_COUNTRY_ID);
         Validate.isTrue(UserMgtUtils.isGender(gender), ExceptionType.BAD_REQUEST, INVALID_GENDER, gender);
         Validate.isTrue(ApartmentUtil.validateDate(birthDate), ExceptionType.BAD_REQUEST, INVALID_DATE, birthDate);
+        Validate.notEmpty(tin, NULL_TIN);
+        StringRegExUtil.stringOfOnlyNumbers(tin, INVALID_TIN);
+        Validate.isTrue(tin.length() == 10, ExceptionType.BAD_REQUEST, INVALID_TIN_LENGTH);
     }
 }
