@@ -8,15 +8,24 @@ import com.bwongo.account_mgt.service.AccountService;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.commons.models.utils.Validate;
+import com.bwongo.landlord_mgt.models.dto.request.BankDetailRequestDto;
 import com.bwongo.landlord_mgt.models.dto.request.LandlordRequestDto;
+import com.bwongo.landlord_mgt.models.dto.response.LandlordBankDetailsResponseDto;
 import com.bwongo.landlord_mgt.models.dto.response.LandlordResponseDto;
+import com.bwongo.landlord_mgt.repository.BankDetailRepository;
+import com.bwongo.landlord_mgt.repository.LandLordNextOfKinRepository;
+import com.bwongo.landlord_mgt.repository.LandlordBankDetailsRepository;
 import com.bwongo.landlord_mgt.repository.LandlordRepository;
 import com.bwongo.landlord_mgt.service.dto.LandlordDtoService;
 import com.bwongo.landlord_mgt.models.jpa.*;
 import com.bwongo.base.service.AuditService;
 import com.bwongo.base.repository.TCountryRepository;
 import com.bwongo.base.repository.TDistrictRepository;
+import com.bwongo.user_mgt.models.dto.request.NextOfKinRequestDto;
+import com.bwongo.user_mgt.models.dto.response.NextOfKinResponseDto;
+import com.bwongo.user_mgt.repository.TNextOfKinRepository;
 import com.bwongo.user_mgt.repository.TUserMetaRepository;
+import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +37,13 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
-import static com.bwongo.account_mgt.utils.AccountMsgConstant.LANDLORD_ACCOUNT_NOT_FOUND;
+import static com.bwongo.account_mgt.utils.AccountMsgConstant.*;
 import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.landlord_mgt.utils.LandLordUtils.checkIfPassedFieldsAreValid;
 import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;
-import static com.bwongo.user_mgt.util.UserMsgConstants.COUNTRY_NOT_FOUND;
-import static com.bwongo.user_mgt.util.UserMsgConstants.DISTRICT_NOT_FOUND;
+import static com.bwongo.user_mgt.util.UserMsgConstants.*;
 
 /**
  * @Author bkaaron
@@ -54,6 +63,11 @@ public class LandlordService{
     private final TUserMetaRepository userMetaRepository;
     private final AccountRepository accountRepository;
     private final AccountService accountService;
+    private final BankDetailRepository bankDetailRepository;
+    private final LandlordBankDetailsRepository landlordBankDetailsRepository;
+    private final TNextOfKinRepository nextOfKinRepository;
+    private final LandLordNextOfKinRepository landLordNextOfKinRepository;
+    private final UserMgtDtoService userMgtDtoService;
 
     @Transactional
     public LandlordResponseDto addLandlord(LandlordRequestDto landlordRequestDto) {
@@ -200,8 +214,185 @@ public class LandlordService{
                 .toList();
     }
 
-    public void addLandlordBankDetails(){
+    @Transactional
+    public LandlordBankDetailsResponseDto addLandlordBankDetails(BankDetailRequestDto bankDetailRequestDto, Long landlordId){
 
+        bankDetailRequestDto.validate();
+        var landlord = getById(landlordId);
+        var metaData = landlord.getMetaData();
+        var accountName = bankDetailRequestDto.accountName();
+        var accountNumber = bankDetailRequestDto.accountNumber();
+
+        var existingBankDetail = bankDetailRepository.findByAccountNameAndAccountNumber(accountName, accountNumber);
+        Validate.isTrue(existingBankDetail.isEmpty(), ExceptionType.BAD_REQUEST, BANK_DETAILS_WITH_NAME_AND_NUMBER_EXIST, accountName, accountNumber);
+
+        var bankDetails = landlordDtoService.mapBankDetailRequestToTBankDetail(bankDetailRequestDto);
+        bankDetails.setUserMeta(metaData);
+        bankDetails.setActive(Boolean.TRUE);
+
+        auditService.stampAuditedEntity(bankDetails);
+        var savedBankDetails = bankDetailRepository.save(bankDetails);
+
+        var landlordBankDetails = new TLandLordBankDetails();
+        landlordBankDetails.setBankDetail(savedBankDetails);
+        landlordBankDetails.setLandlord(landlord);
+        landlordBankDetails.setActive(Boolean.FALSE);
+
+        auditService.stampAuditedEntity(landlordBankDetails);
+        var savedLandlordBankDetail = landlordBankDetailsRepository.save(landlordBankDetails);
+
+        return landlordDtoService.landlordBankDetailToDto(savedLandlordBankDetail);
+    }
+
+    @Transactional
+    public LandlordBankDetailsResponseDto updateLandlordBankDetails(BankDetailRequestDto bankDetailRequestDto, Long landlordBankDetailsId){
+
+        bankDetailRequestDto.validate();
+
+        var existingLandlordDetails = getLandlordBankDetail(landlordBankDetailsId);
+
+        var bankDetail = existingLandlordDetails.getBankDetail();
+        bankDetail.setBankName(bankDetailRequestDto.bankName());
+        bankDetail.setAccountNumber(bankDetailRequestDto.accountName());
+        bankDetail.setAccountNumber(bankDetailRequestDto.accountNumber());
+        auditService.stampAuditedEntity(bankDetail);
+
+        var updatedBankDetail = bankDetailRepository.save(bankDetail);
+
+        existingLandlordDetails.setBankDetail(updatedBankDetail);
+        auditService.stampAuditedEntity(existingLandlordDetails);
+
+        var updatedExistingLandlordDetail = landlordBankDetailsRepository.save(existingLandlordDetails);
+
+        return landlordDtoService.landlordBankDetailToDto(updatedExistingLandlordDetail);
+    }
+
+    public List<LandlordBankDetailsResponseDto> getLandlordBankDetails(Long landlordId){
+        var landlord = getById(landlordId);
+        return landlordBankDetailsRepository.findAllByLandlord(landlord).stream()
+                .map(landlordDtoService::landlordBankDetailToDto)
+                .toList();
+    }
+
+    public boolean activateLandlordBankDetail(Long landlordBankDetailId){
+
+        var landlordBankDetail = getLandlordBankDetail(landlordBankDetailId);
+        Validate.isTrue(!landlordBankDetail.isActive(), ExceptionType.BAD_REQUEST, LANDLORD_BANK_DETAIL_ALREADY_ACTIVE, landlordBankDetailId);
+
+        landlordBankDetail.setActive(Boolean.TRUE);
+        auditService.stampAuditedEntity(landlordBankDetail);
+        landlordBankDetailsRepository.save(landlordBankDetail);
+
+        return Boolean.TRUE;
+    }
+
+    public boolean deactivateLandlordBankDetail(Long landlordBankDetailId){
+
+        var landlordBankDetail = getLandlordBankDetail(landlordBankDetailId);
+        Validate.isTrue(landlordBankDetail.isActive(), ExceptionType.BAD_REQUEST, LANDLORD_BANK_DETAIL_ALREADY_DE_ACTIVE, landlordBankDetailId);
+
+        landlordBankDetail.setActive(Boolean.FALSE);
+        auditService.stampAuditedEntity(landlordBankDetail);
+        landlordBankDetailsRepository.save(landlordBankDetail);
+
+        return Boolean.TRUE;
+    }
+
+    @Transactional
+    public NextOfKinResponseDto registerLandlordNextOfKin(NextOfKinRequestDto nextOfKinRequestDto, Long landlordId){
+
+        nextOfKinRequestDto.validate();
+
+        var landlord = getById(landlordId);
+        var email = nextOfKinRequestDto.email();
+        var idNumber = nextOfKinRequestDto.idNumber();
+
+        Validate.isTrue(!nextOfKinRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+        Validate.isTrue(!nextOfKinRepository.existsByIdNumber(idNumber), ExceptionType.BAD_REQUEST, NEXT_OF_KIN_WITH_ID_EXISTS, idNumber);
+
+        var nextOfKin = userMgtDtoService.mapNextOfKinRequestDtoToTNextOfKin(nextOfKinRequestDto);
+
+        auditService.stampAuditedEntity(nextOfKin);
+        var savedNextOfKin = nextOfKinRepository.save(nextOfKin);
+
+        var landlordNextOfKin = new TLandlordNextOfKin();
+        landlordNextOfKin.setLandlord(landlord);
+        landlordNextOfKin.setNextOfKin(savedNextOfKin);
+        auditService.stampAuditedEntity(landlordNextOfKin);
+
+        landLordNextOfKinRepository.save(landlordNextOfKin);
+
+        return userMgtDtoService.mapTNextOfKinToDto(savedNextOfKin);
+    }
+
+    @Transactional
+    public NextOfKinResponseDto updateLandlordNextOfKin(NextOfKinRequestDto nextOfKinRequestDto, Long landlordNextOfKinId){
+
+        var landlordNextOfKin = getLandlordNextOfKin(landlordNextOfKinId);
+
+        nextOfKinRequestDto.validate();
+        var existingNextOfKin = landlordNextOfKin.getNextOfKin();
+
+        var email = nextOfKinRequestDto.email();
+        var idNumber = nextOfKinRequestDto.idNumber();
+
+        if(!email.equals(existingNextOfKin.getEmail()))
+            Validate.isTrue(!nextOfKinRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+
+        if(!idNumber.equals(existingNextOfKin.getIdNumber()))
+            Validate.isTrue(!nextOfKinRepository.existsByIdNumber(idNumber), ExceptionType.BAD_REQUEST, NEXT_OF_KIN_WITH_ID_EXISTS, idNumber);
+
+        var nextOfKin = userMgtDtoService.mapNextOfKinRequestDtoToTNextOfKin(nextOfKinRequestDto);
+        nextOfKin.setId(landlordNextOfKinId);
+        nextOfKin.setCreatedOn(existingNextOfKin.getCreatedOn());
+        nextOfKin.setCreatedBy(existingNextOfKin.getCreatedBy());
+
+        auditService.stampAuditedEntity(nextOfKin);
+        var savedNextOfKin = nextOfKinRepository.save(nextOfKin);
+
+        landlordNextOfKin.setNextOfKin(savedNextOfKin);
+
+        auditService.stampAuditedEntity(landlordNextOfKin);
+
+        landLordNextOfKinRepository.save(landlordNextOfKin);
+
+        return userMgtDtoService.mapTNextOfKinToDto(savedNextOfKin);
+    }
+
+    public List<NextOfKinResponseDto> getAllLandlordNextOfKin(Long landlordId){
+        var landlord = getById(landlordId);
+
+        return landLordNextOfKinRepository.findAllByLandlord(landlord).stream()
+                .map(landlordNextOfKin -> userMgtDtoService.mapTNextOfKinToDto(landlordNextOfKin.getNextOfKin()))
+                .collect(Collectors.toList());
+    }
+
+    @Transactional
+    public boolean deleteLandlordNextOfKin(Long landlordNextOfKinId){
+
+        var landlordNextOfKin = getLandlordNextOfKin(landlordNextOfKinId);
+        var nextOfKin = landlordNextOfKin.getNextOfKin();
+
+        landLordNextOfKinRepository.delete(landlordNextOfKin);
+        nextOfKinRepository.delete(nextOfKin);
+
+        return Boolean.TRUE;
+    }
+
+    private TLandlordNextOfKin getLandlordNextOfKin(Long id){
+
+        var existingLandlordNextOfKin = landLordNextOfKinRepository.findById(id);
+        Validate.isPresent(existingLandlordNextOfKin, LANDLORD_NEXT_OF_KIN_NOT_FOUND, id);
+
+        return existingLandlordNextOfKin.get();
+    }
+
+    private TLandLordBankDetails getLandlordBankDetail(Long id){
+
+        var existingLandlordBankDetail = landlordBankDetailsRepository.findById(id);
+        Validate.isPresent(existingLandlordBankDetail, LANDLORD_BANK_DETAIL_NOT_FOUND, id);
+
+        return existingLandlordBankDetail.get();
     }
 
     private TLandlord getById(Long id){

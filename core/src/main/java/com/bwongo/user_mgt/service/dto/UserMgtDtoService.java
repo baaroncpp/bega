@@ -1,16 +1,23 @@
 package com.bwongo.user_mgt.service.dto;
 
 import com.bwongo.base.models.enums.IdentificationType;
+import com.bwongo.commons.models.utils.DateTimeUtil;
+import com.bwongo.user_mgt.models.dto.request.NextOfKinRequestDto;
+import com.bwongo.user_mgt.models.dto.response.NextOfKinResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserGroupResponseDto;
 import com.bwongo.user_mgt.models.dto.request.UserMetaRequestDto;
 import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 import com.bwongo.user_mgt.models.enums.GenderEnum;
 import com.bwongo.base.models.jpa.TCountry;
+import com.bwongo.user_mgt.models.enums.RelationShipType;
+import com.bwongo.user_mgt.models.jpa.TNextOfKin;
 import com.bwongo.user_mgt.models.jpa.TUser;
 import com.bwongo.user_mgt.models.jpa.TUserGroup;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import org.springframework.stereotype.Service;
+
+import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.PLACEMENT_DATE_FORMAT;
 
 /**
  * @Author bkaaron
@@ -106,6 +113,54 @@ public class UserMgtDtoService {
                 userMeta.getIdentificationPath(),
                 userMeta.isNonVerifiedEmail(),
                 userMeta.isNonVerifiedPhoneNumber()
+        );
+    }
+
+    public TNextOfKin mapNextOfKinRequestDtoToTNextOfKin(NextOfKinRequestDto nextOfKinRequestDto){
+
+        if(nextOfKinRequestDto == null){
+            return null;
+        }
+
+        var nextOfKin = new TNextOfKin();
+        nextOfKin.setFirstName(nextOfKinRequestDto.firstName());
+        nextOfKin.setSecondName(nextOfKinRequestDto.secondName());
+        nextOfKin.setDateOfBirth(DateTimeUtil.stringToDate(nextOfKinRequestDto.birthDate(), PLACEMENT_DATE_FORMAT));
+        nextOfKin.setFirstPhoneNumber(nextOfKinRequestDto.phoneNumber());
+        nextOfKin.setSecondPhoneNumber(nextOfKinRequestDto.phoneNumber2());
+        nextOfKin.setRelationShipType(RelationShipType.valueOf(nextOfKinRequestDto.relationShipType()));
+        nextOfKin.setRelationShipNote(nextOfKinRequestDto.relationShipNote());
+        nextOfKin.setEmail(nextOfKinRequestDto.email());
+        nextOfKin.setIdentificationType(IdentificationType.valueOf(nextOfKinRequestDto.identificationType()));
+        nextOfKin.setIdNumber(nextOfKinRequestDto.idNumber());
+
+        return nextOfKin;
+    }
+
+    public NextOfKinResponseDto mapTNextOfKinToDto(TNextOfKin nextOfKin){
+
+        if(nextOfKin == null){
+            return null;
+        }
+
+        return new NextOfKinResponseDto(
+                nextOfKin.getId(),
+                nextOfKin.getCreatedOn(),
+                nextOfKin.getModifiedOn(),
+                mapTUserToUserResponseDto(nextOfKin.getModifiedBy()),
+                mapTUserToUserResponseDto(nextOfKin.getCreatedBy()),
+                nextOfKin.isActive(),
+                nextOfKin.getFirstName(),
+                nextOfKin.getSecondName(),
+                nextOfKin.getDateOfBirth(),
+                nextOfKin.getFirstPhoneNumber(),
+                nextOfKin.getSecondPhoneNumber(),
+                nextOfKin.getRelationShipType(),
+                nextOfKin.getRelationShipNote(),
+                nextOfKin.getEmail(),
+                nextOfKin.getIdentificationType(),
+                nextOfKin.getIdNumber(),
+                nextOfKin.getIdPhotoUrlPath()
         );
     }
 }

@@ -5,8 +5,10 @@ import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.landlord_mgt.models.dto.request.BankDetailRequestDto;
 import com.bwongo.landlord_mgt.models.dto.request.LandlordRequestDto;
 import com.bwongo.landlord_mgt.models.dto.response.BankDetailsResponseDto;
+import com.bwongo.landlord_mgt.models.dto.response.LandlordBankDetailsResponseDto;
 import com.bwongo.landlord_mgt.models.dto.response.LandlordResponseDto;
 import com.bwongo.landlord_mgt.models.jpa.TBankDetail;
+import com.bwongo.landlord_mgt.models.jpa.TLandLordBankDetails;
 import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import com.bwongo.user_mgt.models.enums.GenderEnum;
 import com.bwongo.base.models.jpa.TCountry;
@@ -124,6 +126,24 @@ public class LandlordDtoService {
                 bankDetail.getBankName(),
                 bankDetail.getAccountName(),
                 bankDetail.getAccountNumber()
+        );
+    }
+
+    public LandlordBankDetailsResponseDto landlordBankDetailToDto(TLandLordBankDetails landLordBankDetails){
+
+        if(landLordBankDetails == null){
+            return null;
+        }
+
+        return new LandlordBankDetailsResponseDto(
+                landLordBankDetails.getId(),
+                landLordBankDetails.getCreatedOn(),
+                landLordBankDetails.getModifiedOn(),
+                userMgtDtoService.mapTUserToUserResponseDto(landLordBankDetails.getModifiedBy()),
+                userMgtDtoService.mapTUserToUserResponseDto(landLordBankDetails.getCreatedBy()),
+                landLordBankDetails.isActive(),
+                bankDetailToDto(landLordBankDetails.getBankDetail()),
+                mapLandlordToLandlordResponseDto(landLordBankDetails.getLandlord())
         );
     }
 }

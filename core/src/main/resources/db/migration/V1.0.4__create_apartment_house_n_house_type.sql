@@ -87,8 +87,8 @@ CREATE TABLE t_landlord_next_of_kin(
     modified_by_id BIGINT REFERENCES t_user(id),
     is_active BOOLEAN DEFAULT false,
     landlord_id BIGINT REFERENCES t_landlord(id),
-    nextOfKin_id BIGINT REFERENCES t_next_of_kin(id),
-    UNIQUE (landlord_id, nextOfKin_id)
+    next_of_kin_id BIGINT REFERENCES t_next_of_kin(id),
+    UNIQUE (landlord_id, next_of_kin_id)
 );
 
 CREATE TABLE t_landlord_bank_details(

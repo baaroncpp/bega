@@ -1,6 +1,7 @@
 package com.bwongo.base.utils;
 
 import com.bwongo.base.models.enums.IdentificationType;
+import com.bwongo.user_mgt.models.enums.RelationShipType;
 
 import java.util.Arrays;
 import java.util.List;
@@ -22,5 +23,27 @@ public class BaseEnumValidation {
                 IdentificationType.NATIONAL_ID.name()
         );
         return identificationTypes.contains(value);
+    }
+
+    public static boolean isRelationShipType(String value){
+        List<String> relationShipTypes = Arrays.asList(
+                RelationShipType.AUNT.name(),
+                RelationShipType.HUSBAND.name(),
+                RelationShipType.WIFE.name(),
+                RelationShipType.SON.name(),
+                RelationShipType.DAUGHTER.name(),
+                RelationShipType.FATHER.name(),
+                RelationShipType.MOTHER.name(),
+                RelationShipType.GRANDFATHER.name(),
+                RelationShipType.GRANDMOTHER.name(),
+                RelationShipType.UNCLE.name(),
+                RelationShipType.SISTER.name(),
+                RelationShipType.BROTHER.name(),
+                RelationShipType.COUSIN.name(),
+                RelationShipType.NEPHEW.name(),
+                RelationShipType.NIECE.name(),
+                RelationShipType.OTHERS.name()
+        );
+        return relationShipTypes.contains(value);
     }
 }
