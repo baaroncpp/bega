@@ -1,5 +1,6 @@
 package com.bwongo.base.utils;
 
+import com.bwongo.base.models.enums.FileType;
 import com.bwongo.base.models.enums.IdentificationType;
 import com.bwongo.user_mgt.models.enums.RelationShipType;
 
@@ -45,5 +46,14 @@ public class BaseEnumValidation {
                 RelationShipType.OTHERS.name()
         );
         return relationShipTypes.contains(value);
+    }
+
+    public static boolean isFileType(String value){
+        List<String> fileTypeList = Arrays.asList(
+                FileType.IMAGE.name(),
+                FileType.VIDEO.name(),
+                FileType.DOCUMENT.name()
+        );
+        return fileTypeList.contains(value);
     }
 }

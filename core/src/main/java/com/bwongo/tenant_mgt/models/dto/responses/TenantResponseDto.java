@@ -26,6 +26,7 @@ public record TenantResponseDto(
         String emergencyContactName,
         String emergencyContactPhone,
         TenantStatus tenantStatus,
-        UserMetaResponseDto userMeta
+        UserMetaResponseDto userMeta,
+        String tenantAgreementPath
         ) {
 }

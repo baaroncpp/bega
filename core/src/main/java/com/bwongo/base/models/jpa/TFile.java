@@ -13,6 +13,7 @@ public class TFile extends AuditEntity{
     private String fileFormat;
     private boolean exists;
     private FileType fileType;
+    private Long fileSize;
 
     @Column(name = "file_name")
     public String getFileName() {
@@ -38,5 +39,10 @@ public class TFile extends AuditEntity{
     @Enumerated(EnumType.STRING)
     public FileType getFileType() {
         return fileType;
+    }
+
+    @Column(name = "file_size")
+    public Long getFileSize() {
+        return fileSize;
     }
 }

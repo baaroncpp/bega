@@ -6,6 +6,8 @@ import com.bwongo.user_mgt.models.jpa.TUserMeta;
 import jakarta.persistence.*;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 /**
  * @Author bkaaron
  * @Project bega
@@ -22,6 +24,8 @@ public class TLandlord extends AuditEntity {
     private TUserMeta metaData;
     private String tin;
     private String ownerShipLCLetterUrlPath;
+    private LocalDate agreedPaymentDate;
+    private String businessAgreementPath;
 
     @Column(name = "physical_address")
     public String getPhysicalAddress() {
@@ -58,5 +62,15 @@ public class TLandlord extends AuditEntity {
     @Column(name = "owner_ship_lc_letter_url_path")
     public String getOwnerShipLCLetterUrlPath() {
         return ownerShipLCLetterUrlPath;
+    }
+
+    @Column(name = "agreed_payment_date")
+    public LocalDate getAgreedPaymentDate() {
+        return agreedPaymentDate;
+    }
+
+    @Column(name = "business_agreement_path")
+    public String getBusinessAgreementPath() {
+        return businessAgreementPath;
     }
 }

@@ -4,6 +4,7 @@ import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 import com.bwongo.base.models.jpa.TDistrict;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 /**
@@ -23,6 +24,8 @@ public record LandlordResponseDto(
         String physicalAddress,
         String tin,
         String ownerShipLCLetterUrlPath,
-        UserMetaResponseDto userMeta
+        UserMetaResponseDto userMeta,
+        LocalDate agreedPaymentDate,
+        String businessAgreementPath
 ) {
 }

@@ -10,12 +10,18 @@ import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.tenant_mgt.models.dto.requests.TenantRequestDto;
 import com.bwongo.tenant_mgt.models.dto.responses.TenantResponseDto;
 import com.bwongo.tenant_mgt.models.enums.TenantStatus;
+import com.bwongo.tenant_mgt.models.jpa.TTenantNextOfKin;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
+import com.bwongo.tenant_mgt.repository.TTenantNextOfKinRepository;
 import com.bwongo.tenant_mgt.repository.TenantRepository;
 import com.bwongo.tenant_mgt.service.dto.TenantDtoService;
 import com.bwongo.base.service.AuditService;
 import com.bwongo.base.repository.TCountryRepository;
+import com.bwongo.user_mgt.models.dto.request.NextOfKinRequestDto;
+import com.bwongo.user_mgt.models.dto.response.NextOfKinResponseDto;
+import com.bwongo.user_mgt.repository.TNextOfKinRepository;
 import com.bwongo.user_mgt.repository.TUserMetaRepository;
+import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -29,6 +35,7 @@ import java.util.stream.Collectors;
 import static com.bwongo.account_mgt.utils.AccountMsgConstant.*;
 import static com.bwongo.account_mgt.utils.AccountUtils.generateAccountNumber;
 import static com.bwongo.base.utils.BaseMsgConstants.*;
+import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.NEXT_OF_KIN_WITH_ID_EXISTS;
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
 import static com.bwongo.tenant_mgt.utils.TenantUtils.checkIfTenantIsActive;
 import static com.bwongo.user_mgt.util.UserMsgConstants.*;
@@ -49,6 +56,9 @@ public class TenantService{
     private final TUserMetaRepository userMetaRepository;
     private final TCountryRepository countryRepository;
     private final AccountRepository accountRepository;
+    private final TTenantNextOfKinRepository tenantNextOfKinRepository;
+    private final TNextOfKinRepository nextOfKinRepository;
+    private final UserMgtDtoService userMgtDtoService;
 
     @Transactional
     public TenantResponseDto addTenant(TenantRequestDto tenantRequestDto) {
@@ -177,6 +187,32 @@ public class TenantService{
         tenantRepository.save(tenant);
 
         return Boolean.TRUE;
+    }
+
+    public NextOfKinResponseDto addTenantNextOfKin(NextOfKinRequestDto nextOfKinRequestDto, Long tenantId){
+
+        nextOfKinRequestDto.validate();
+        var existingTenant = getById(tenantId);
+        var email = nextOfKinRequestDto.email();
+        var idNumber = nextOfKinRequestDto.idNumber();
+
+        Validate.isTrue(!nextOfKinRepository.existsByEmail(email), ExceptionType.BAD_REQUEST, EMAIL_IS_TAKEN, email);
+        Validate.isTrue(!nextOfKinRepository.existsByIdNumber(idNumber), ExceptionType.BAD_REQUEST, NEXT_OF_KIN_WITH_ID_EXISTS, idNumber);
+
+        var nextOfKin = userMgtDtoService.mapNextOfKinRequestDtoToTNextOfKin(nextOfKinRequestDto);
+
+        auditService.stampAuditedEntity(nextOfKin);
+        var savedNextOfKin = nextOfKinRepository.save(nextOfKin);
+
+        var tenantNextOfKin = new TTenantNextOfKin();
+        tenantNextOfKin.setTenant(existingTenant);
+        tenantNextOfKin.setNextOfKin(savedNextOfKin);
+        auditService.stampAuditedEntity(tenantNextOfKin);
+
+        tenantNextOfKinRepository.save(tenantNextOfKin);
+
+        return userMgtDtoService.mapTNextOfKinToDto(savedNextOfKin);
+
     }
 
     public Boolean evictTenant(Long id) {

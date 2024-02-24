@@ -64,7 +64,20 @@ CREATE TABLE t_tenant(
     emergency_contact_name VARCHAR(120) NOT NULL,
     emergency_contact_phone VARCHAR(13) NOT NULL,
     password TEXT,
-    user_meta_id INTEGER REFERENCES t_user_meta(id)
+    user_meta_id INTEGER REFERENCES t_user_meta(id),
+    tenant_agreement_path TEXT
+);
+
+CREATE TABLE t_tenant_next_of_kin(
+    id BIGSERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT now(),
+    created_by_id BIGINT NOT NULL REFERENCES t_user(id),
+    modified_on TIMESTAMP,
+    modified_by_id BIGINT REFERENCES t_user(id),
+    is_active BOOLEAN DEFAULT false,
+    tenant_id BIGINT REFERENCES t_tenant(id),
+    next_of_kin_id BIGINT REFERENCES t_next_of_kin(id),
+    UNIQUE (tenant_id, next_of_kin_id)
 );
 
 create table t_role(

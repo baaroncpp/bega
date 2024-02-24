@@ -11,7 +11,9 @@ CREATE TABLE t_landlord(
      login_password VARCHAR(500) NOT NULL,
      user_meta_id BIGINT REFERENCES t_user_meta(id),
      tin VARCHAR(10),
-     owner_ship_lc_letter_url_path TEXT
+     owner_ship_lc_letter_url_path TEXT,
+     agreed_payment_date TIMESTAMP,
+     business_agreement_path TEXT
 );
 
 CREATE TABLE t_apartment(

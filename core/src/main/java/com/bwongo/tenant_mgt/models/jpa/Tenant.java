@@ -1,5 +1,6 @@
 package com.bwongo.tenant_mgt.models.jpa;
 
+import com.bwongo.base.models.enums.IdentificationType;
 import com.bwongo.base.models.jpa.AuditEntity;
 import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
 import com.bwongo.tenant_mgt.models.enums.TenantStatus;
@@ -27,6 +28,7 @@ public class Tenant extends AuditEntity {
     private String emergencyContactPhone;
     private TenantStatus tenantStatus;
     private TUserMeta userMeta;
+    private String tenantAgreementPath;
 
     @Column(name = "username")
     public String getUsername() {
@@ -73,5 +75,10 @@ public class Tenant extends AuditEntity {
     @OneToOne(fetch = FetchType.LAZY)
     public TUserMeta getUserMeta() {
         return userMeta;
+    }
+
+    @Column(name = "tenant_agreement_path")
+    public String getTenantAgreementPath() {
+        return tenantAgreementPath;
     }
 }

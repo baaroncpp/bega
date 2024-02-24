@@ -20,4 +20,7 @@ public class BaseMsgConstants {
     public static final String INVALID_IDENTIFICATION_TYPE = "Invalid identificationType";
     public static final String INVALID_PASSWORD = "password must contain a number, a special character and an upper case character";
     public static final String PASSWORD_CANNOT_BE_UPDATED = "Password cannot be updated";
+    public static final String FILE_STORAGE_PATH_NOT_FOUND = "File upload path cannot be Empty.";
+    public static final String EMPTY_FILE = "failed to store empty file";
+    public static final String UNACCEPTED_FILE_TYPE = "unaccepted file type";
 }

@@ -12,7 +12,6 @@ import lombok.Setter;
 @Table(name = "t_district", schema = "core")
 @Setter
 public class TDistrict extends BaseEntity {
-
     private TCountry country;
     private String name;
     private String region;

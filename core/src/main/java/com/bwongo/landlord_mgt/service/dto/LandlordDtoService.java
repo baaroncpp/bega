@@ -92,7 +92,9 @@ public class LandlordDtoService {
                 landlord.getPhysicalAddress(),
                 landlord.getTin(),
                 landlord.getOwnerShipLCLetterUrlPath(),
-                userMgtDtoService.mapTUserMetaToUserMetaResponseDto(landlord.getMetaData())
+                userMgtDtoService.mapTUserMetaToUserMetaResponseDto(landlord.getMetaData()),
+                landlord.getAgreedPaymentDate(),
+                landlord.getBusinessAgreementPath()
         );
     }
 
