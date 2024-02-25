@@ -1,7 +1,7 @@
 package com.bwongo.user_mgt.models.jpa;
 
 import com.bwongo.base.models.jpa.BaseEntity;
-import com.bwongo.user_mgt.models.enums.UserTypeEnum;
+import com.bwongo.base.models.enums.UserTypeEnum;
 import jakarta.persistence.*;
 import lombok.Setter;
 

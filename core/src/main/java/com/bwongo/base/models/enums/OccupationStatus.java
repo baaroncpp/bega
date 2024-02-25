@@ -1,4 +1,4 @@
-package com.bwongo.tenant_mgt.models.enums;
+package com.bwongo.base.models.enums;
 
 /**
  * @Author bkaaron

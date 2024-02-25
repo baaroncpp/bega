@@ -1,6 +1,5 @@
 package com.bwongo.base.service;
 
-import com.bwongo.base.config.StorageConfig;
 import com.bwongo.base.models.enums.FileType;
 import com.bwongo.base.models.jpa.TFile;
 import com.bwongo.base.repository.TFileRepository;
@@ -36,14 +35,16 @@ public class FileStorageService {
     private final Path rootLocation;
     private final TFileRepository fileRepository;
 
-    public FileStorageService(StorageConfig storageConfig, TFileRepository fileRepository) {
+    public FileStorageService(TFileRepository fileRepository) {
+
+        System.out.println("aaron"+ locationPath);
         Validate.notEmpty(locationPath, FILE_STORAGE_PATH_NOT_FOUND);
-        this.rootLocation = Paths.get(storageConfig.getLocation());
+        this.rootLocation = Paths.get(locationPath);
         this.fileRepository = fileRepository;
     }
 
     @Transactional
-    public void store(MultipartFile file, String fileName, String fileType) {
+    public String store(MultipartFile file, String fileName, String fileType) {
 
         Validate.isTrue(isFileType(fileType), ExceptionType.BAD_REQUEST, UNACCEPTED_FILE_TYPE);
         Validate.notNull(file, ExceptionType.BAD_REQUEST, EMPTY_FILE);
@@ -76,7 +77,9 @@ public class FileStorageService {
         document.setExists(Boolean.TRUE);
         document.setFileSize(fileSize);
 
-        fileRepository.save(document);
+        var savedFile = fileRepository.save(document);
+
+        return savedFile.getFilePath();
     }
 
     public Path load(String filePath) {

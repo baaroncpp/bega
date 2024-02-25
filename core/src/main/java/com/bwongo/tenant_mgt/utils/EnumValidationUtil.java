@@ -1,6 +1,6 @@
 package com.bwongo.tenant_mgt.utils;
 
-import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
+import com.bwongo.base.models.enums.OccupationStatus;
 
 import java.util.Arrays;
 import java.util.List;

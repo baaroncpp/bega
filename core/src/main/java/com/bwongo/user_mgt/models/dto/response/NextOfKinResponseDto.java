@@ -1,7 +1,7 @@
 package com.bwongo.user_mgt.models.dto.response;
 
 import com.bwongo.base.models.enums.IdentificationType;
-import com.bwongo.user_mgt.models.enums.RelationShipType;
+import com.bwongo.base.models.enums.RelationShipType;
 
 import java.util.Date;
 

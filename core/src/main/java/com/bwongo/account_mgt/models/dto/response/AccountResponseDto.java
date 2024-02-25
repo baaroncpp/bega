@@ -1,7 +1,7 @@
 package com.bwongo.account_mgt.models.dto.response;
 
-import com.bwongo.account_mgt.models.enums.AccountStatus;
-import com.bwongo.account_mgt.models.enums.AccountType;
+import com.bwongo.base.models.enums.AccountStatus;
+import com.bwongo.base.models.enums.AccountType;
 import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 

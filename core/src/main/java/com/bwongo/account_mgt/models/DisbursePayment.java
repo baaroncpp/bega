@@ -1,6 +1,6 @@
 package com.bwongo.account_mgt.models;
 
-import com.bwongo.apartment_mgt.models.enums.RentPeriod;
+import com.bwongo.base.models.enums.RentPeriod;
 import lombok.*;
 
 import java.math.BigDecimal;

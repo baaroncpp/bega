@@ -1,6 +1,6 @@
 package com.bwongo.apartment_mgt.models.jpa;
 
-import com.bwongo.apartment_mgt.models.enums.ApprovalStatus;
+import com.bwongo.base.models.enums.ApprovalStatus;
 import com.bwongo.base.models.jpa.AuditEntity;
 import jakarta.persistence.*;
 import lombok.Setter;

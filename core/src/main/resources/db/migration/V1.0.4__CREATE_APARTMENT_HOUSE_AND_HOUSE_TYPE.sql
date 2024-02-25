@@ -93,6 +93,18 @@ CREATE TABLE t_landlord_next_of_kin(
     UNIQUE (landlord_id, next_of_kin_id)
 );
 
+CREATE TABLE t_tenant_next_of_kin(
+    id BIGSERIAL PRIMARY KEY,
+    created_on TIMESTAMP DEFAULT now(),
+    created_by_id BIGINT NOT NULL REFERENCES t_user(id),
+    modified_on TIMESTAMP,
+    modified_by_id BIGINT REFERENCES t_user(id),
+    is_active BOOLEAN DEFAULT false,
+    tenant_id BIGINT REFERENCES t_tenant(id),
+    next_of_kin_id BIGINT REFERENCES t_next_of_kin(id),
+    UNIQUE (tenant_id, next_of_kin_id)
+);
+
 CREATE TABLE t_landlord_bank_details(
     id BIGSERIAL PRIMARY KEY,
     created_on TIMESTAMP DEFAULT now(),

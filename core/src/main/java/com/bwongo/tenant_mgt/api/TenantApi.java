@@ -10,6 +10,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -71,6 +72,24 @@ public class TenantApi {
     @ResponseStatus(HttpStatus.OK)
     public boolean deactivateTenant(@PathVariable("id") Long id){
         return tenantService.deactivateTenant(id);
+    }
+
+    @PreAuthorize("hasAnyAuthority('TENANT_ROLE.WRITE','ADMIN_ROLE.WRITE')")
+    @PostMapping(path = "upload/id-photo")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadIdPhoto(@RequestParam(value = "file", required = true) MultipartFile file,
+                              @RequestParam(value = "fileName", required = true) String fileName,
+                              @RequestParam(value = "tenantId", required = true) Long tenantId){
+        tenantService.uploadIdPhoto(file, fileName, tenantId);
+    }
+
+    @PreAuthorize("hasAnyAuthority('TENANT_ROLE.WRITE','ADMIN_ROLE.WRITE')")
+    @PostMapping(path = "upload/profile-photo")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadPhoto(@RequestParam(value = "file", required = true) MultipartFile file,
+                            @RequestParam(value = "fileName", required = true) String fileName,
+                            @RequestParam(value = "tenantId", required = true) Long tenantId){
+        tenantService.uploadProfilePhoto(file, fileName, tenantId);
     }
 
     public void evictTenant(){

@@ -1,8 +1,8 @@
 package com.bwongo.tenant_mgt.models.jpa;
 
 import com.bwongo.base.models.jpa.BaseEntity;
-import com.bwongo.tenant_mgt.models.enums.BillStatus;
-import com.bwongo.tenant_mgt.models.enums.BillingDuration;
+import com.bwongo.base.models.enums.BillStatus;
+import com.bwongo.base.models.enums.BillingDuration;
 
 import java.math.BigDecimal;
 

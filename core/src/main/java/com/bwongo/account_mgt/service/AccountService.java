@@ -1,7 +1,7 @@
 package com.bwongo.account_mgt.service;
 
 import com.bwongo.account_mgt.models.dto.response.AccountResponseDto;
-import com.bwongo.account_mgt.models.enums.AccountStatus;
+import com.bwongo.base.models.enums.AccountStatus;
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.account_mgt.repository.AccountRepository;
 import com.bwongo.account_mgt.service.dto.AccountDtoService;

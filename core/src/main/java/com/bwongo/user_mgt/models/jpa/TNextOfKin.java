@@ -2,7 +2,7 @@ package com.bwongo.user_mgt.models.jpa;
 
 import com.bwongo.base.models.enums.IdentificationType;
 import com.bwongo.base.models.jpa.AuditEntity;
-import com.bwongo.user_mgt.models.enums.RelationShipType;
+import com.bwongo.base.models.enums.RelationShipType;
 import jakarta.persistence.*;
 import lombok.Setter;
 

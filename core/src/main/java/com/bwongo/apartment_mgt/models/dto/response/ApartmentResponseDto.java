@@ -1,7 +1,7 @@
 package com.bwongo.apartment_mgt.models.dto.response;
 
-import com.bwongo.apartment_mgt.models.enums.ApartmentType;
-import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
+import com.bwongo.base.models.enums.ApartmentType;
+import com.bwongo.base.models.enums.ManagementFeeType;
 import com.bwongo.landlord_mgt.models.dto.response.LandlordResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 

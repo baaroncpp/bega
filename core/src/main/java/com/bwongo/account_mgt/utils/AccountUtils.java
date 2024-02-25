@@ -2,10 +2,10 @@ package com.bwongo.account_mgt.utils;
 
 import com.bwongo.account_mgt.models.DisbursePayment;
 import com.bwongo.account_mgt.models.DisbursedPayment;
-import com.bwongo.account_mgt.models.enums.AccountStatus;
-import com.bwongo.account_mgt.models.enums.AccountType;
+import com.bwongo.base.models.enums.AccountStatus;
+import com.bwongo.base.models.enums.AccountType;
 import com.bwongo.account_mgt.models.jpa.Account;
-import com.bwongo.apartment_mgt.models.enums.RentPeriod;
+import com.bwongo.base.models.enums.RentPeriod;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.text.StringUtil;
 import com.bwongo.commons.models.utils.DateTimeUtil;

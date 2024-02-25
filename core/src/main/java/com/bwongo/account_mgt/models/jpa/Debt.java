@@ -1,6 +1,6 @@
 package com.bwongo.account_mgt.models.jpa;
 
-import com.bwongo.account_mgt.models.enums.DebtStatus;
+import com.bwongo.base.models.enums.DebtStatus;
 import com.bwongo.base.models.jpa.BaseEntity;
 import jakarta.persistence.*;
 import lombok.Setter;

@@ -1,10 +1,11 @@
 package com.bwongo.tenant_mgt.models.jpa;
 
+import com.bwongo.base.models.enums.EvictionStatus;
+import com.bwongo.base.models.enums.EvictionUpdate;
 import com.bwongo.base.models.jpa.AuditEntity;
 import com.bwongo.user_mgt.models.jpa.TUser;
 import jakarta.persistence.*;
 import lombok.Setter;
-import com.bwongo.tenant_mgt.models.enums.*;
 
 import java.util.Date;
 

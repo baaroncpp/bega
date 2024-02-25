@@ -2,7 +2,8 @@ package com.bwongo.base.utils;
 
 import com.bwongo.base.models.enums.FileType;
 import com.bwongo.base.models.enums.IdentificationType;
-import com.bwongo.user_mgt.models.enums.RelationShipType;
+import com.bwongo.base.models.enums.RelationShipType;
+import com.bwongo.base.models.enums.UserTypeEnum;
 
 import java.util.Arrays;
 import java.util.List;
@@ -18,7 +19,7 @@ public class BaseEnumValidation {
 
     public static boolean isValidIdentificationType(String value){
         List<String> identificationTypes = Arrays.asList(
-                IdentificationType.DRIVING_LICENSE.name(),
+                IdentificationType.DRIVING_PERMIT.name(),
                 IdentificationType.OTHER.name(),
                 IdentificationType.PASSPORT.name(),
                 IdentificationType.NATIONAL_ID.name()
@@ -55,5 +56,15 @@ public class BaseEnumValidation {
                 FileType.DOCUMENT.name()
         );
         return fileTypeList.contains(value);
+    }
+
+    public static boolean isUserType(String value){
+        List<String> userTypeEnumList = List.of(
+                UserTypeEnum.ADMIN.name(),
+                UserTypeEnum.LANDLORD.name(),
+                UserTypeEnum.TENANT.name(),
+                UserTypeEnum.PROPERTY_MANAGER.name()
+        );
+        return userTypeEnumList.contains(value);
     }
 }

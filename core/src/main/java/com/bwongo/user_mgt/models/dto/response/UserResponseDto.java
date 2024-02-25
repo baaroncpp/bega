@@ -1,7 +1,6 @@
 package com.bwongo.user_mgt.models.dto.response;
 
-import com.bwongo.user_mgt.models.dto.response.UserGroupResponseDto;
-import com.bwongo.user_mgt.models.enums.UserTypeEnum;
+import com.bwongo.base.models.enums.UserTypeEnum;
 
 import java.util.Date;
 

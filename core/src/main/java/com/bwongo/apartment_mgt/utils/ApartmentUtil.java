@@ -1,20 +1,19 @@
 package com.bwongo.apartment_mgt.utils;
 
-import com.bwongo.apartment_mgt.models.enums.ApartmentType;
-import com.bwongo.apartment_mgt.models.enums.ApprovalStatus;
-import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
-import com.bwongo.apartment_mgt.models.enums.RentPeriod;
+import com.bwongo.base.models.enums.ApartmentType;
+import com.bwongo.base.models.enums.ApprovalStatus;
+import com.bwongo.base.models.enums.ManagementFeeType;
+import com.bwongo.base.models.enums.RentPeriod;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.text.StringUtil;
 import com.bwongo.commons.models.utils.Validate;
-import com.bwongo.tenant_mgt.models.enums.BillingDuration;
+import com.bwongo.base.models.enums.BillingDuration;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.*;

@@ -1,7 +1,7 @@
 package com.bwongo.tenant_mgt.models.dto.responses;
 
-import com.bwongo.tenant_mgt.models.enums.OccupationStatus;
-import com.bwongo.tenant_mgt.models.enums.TenantStatus;
+import com.bwongo.base.models.enums.OccupationStatus;
+import com.bwongo.base.models.enums.TenantStatus;
 import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 

@@ -1,7 +1,7 @@
 package com.bwongo.account_mgt.models.jpa;
 
-import com.bwongo.account_mgt.models.enums.TransactionStatus;
-import com.bwongo.account_mgt.models.enums.TransactionType;
+import com.bwongo.base.models.enums.TransactionStatus;
+import com.bwongo.base.models.enums.TransactionType;
 import com.bwongo.base.models.jpa.AuditEntity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

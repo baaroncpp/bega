@@ -1,15 +1,17 @@
 package com.bwongo.tenant_mgt.service;
 
-import com.bwongo.account_mgt.models.enums.AccountStatus;
-import com.bwongo.account_mgt.models.enums.AccountType;
+import com.bwongo.base.models.enums.AccountStatus;
+import com.bwongo.base.models.enums.AccountType;
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.account_mgt.repository.AccountRepository;
+import com.bwongo.base.models.enums.FileType;
+import com.bwongo.base.service.FileStorageService;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.tenant_mgt.models.dto.requests.TenantRequestDto;
 import com.bwongo.tenant_mgt.models.dto.responses.TenantResponseDto;
-import com.bwongo.tenant_mgt.models.enums.TenantStatus;
+import com.bwongo.base.models.enums.TenantStatus;
 import com.bwongo.tenant_mgt.models.jpa.TTenantNextOfKin;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import com.bwongo.tenant_mgt.repository.TTenantNextOfKinRepository;
@@ -27,6 +29,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.List;
@@ -59,6 +62,7 @@ public class TenantService{
     private final TTenantNextOfKinRepository tenantNextOfKinRepository;
     private final TNextOfKinRepository nextOfKinRepository;
     private final UserMgtDtoService userMgtDtoService;
+    private final FileStorageService fileStorageService;
 
     @Transactional
     public TenantResponseDto addTenant(TenantRequestDto tenantRequestDto) {
@@ -227,6 +231,26 @@ public class TenantService{
         //TODO record eviction
 
         return Boolean.TRUE;
+    }
+
+    public void uploadIdPhoto(MultipartFile file, String fileName, Long tenantId){
+        var tenant = getById(tenantId);
+        var metaData = tenant.getUserMeta();
+
+        metaData.setIdentificationPath(fileStorageService.store(file, fileName, FileType.IMAGE.name()));
+
+        auditService.stampAuditedEntity(metaData);
+        userMetaRepository.save(metaData);
+    }
+
+    public void uploadProfilePhoto(MultipartFile file, String fileName, Long tenantId){
+        var tenant = getById(tenantId);
+        var metaData = tenant.getUserMeta();
+
+        metaData.setImagePath(fileStorageService.store(file, fileName, FileType.IMAGE.name()));
+
+        auditService.stampAuditedEntity(metaData);
+        userMetaRepository.save(metaData);
     }
     private Tenant getById(Long id) {
         var existingTenant = tenantRepository.findById(id);

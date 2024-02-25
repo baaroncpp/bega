@@ -16,6 +16,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -143,5 +144,41 @@ public class LandlordApi {
     public LandlordBankDetailsResponseDto updateLandlordBankDetail(@RequestBody BankDetailRequestDto bankDetailRequestDto,
                                                                    @PathVariable("id") Long id){
         return landlordService.updateLandlordBankDetails(bankDetailRequestDto, id);
+    }
+
+    @PreAuthorize("hasAnyAuthority('LANDLORD_ROLE.WRITE','ADMIN_ROLE.WRITE')")
+    @PostMapping(path = "upload/profile-photo")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadPhoto(@RequestParam(value = "file", required = true) MultipartFile file,
+                            @RequestParam(value = "fileName", required = true) String fileName,
+                            @RequestParam(value = "landlordId", required = true) Long landlordId){
+        landlordService.uploadProfilePhoto(file, fileName, landlordId);
+    }
+
+    @PreAuthorize("hasAnyAuthority('LANDLORD_ROLE.WRITE','ADMIN_ROLE.WRITE')")
+    @PostMapping(path = "upload/lc-letter")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadLcLetter(@RequestParam(value = "file", required = true) MultipartFile file,
+                               @RequestParam(value = "fileName", required = true) String fileName,
+                               @RequestParam(value = "landlordId", required = true) Long landlordId){
+        landlordService.uploadLcLetter(file, fileName, landlordId);
+    }
+
+    @PreAuthorize("hasAnyAuthority('LANDLORD_ROLE.WRITE','ADMIN_ROLE.WRITE')")
+    @PostMapping(path = "upload/business-letter")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadBusinessAgreement(@RequestParam(value = "file", required = true) MultipartFile file,
+                                        @RequestParam(value = "fileName", required = true) String fileName,
+                                        @RequestParam(value = "landlordId", required = true) Long landlordId){
+        landlordService.uploadBusinessAgreement(file, fileName, landlordId);
+    }
+
+    @PreAuthorize("hasAnyAuthority('LANDLORD_ROLE.WRITE','ADMIN_ROLE.WRITE')")
+    @PostMapping(path = "upload/id-photo")
+    @ResponseStatus(HttpStatus.OK)
+    public void uploadIdPhoto(@RequestParam(value = "file", required = true) MultipartFile file,
+                              @RequestParam(value = "fileName", required = true) String fileName,
+                              @RequestParam(value = "landlordId", required = true) Long landlordId){
+        landlordService.uploadIdPhoto(file, fileName, landlordId);
     }
 }

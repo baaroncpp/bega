@@ -1,7 +1,7 @@
 package com.bwongo.apartment_mgt.service;
 
-import com.bwongo.account_mgt.models.enums.TransactionStatus;
-import com.bwongo.account_mgt.models.enums.TransactionType;
+import com.bwongo.base.models.enums.TransactionStatus;
+import com.bwongo.base.models.enums.TransactionType;
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.account_mgt.models.jpa.Transaction;
 import com.bwongo.account_mgt.repository.AccountRepository;
@@ -11,8 +11,8 @@ import com.bwongo.apartment_mgt.models.dto.request.ApproveHouseAssignRequestDto;
 import com.bwongo.apartment_mgt.models.dto.request.AssignHouseRequestDto;
 import com.bwongo.apartment_mgt.models.dto.response.ApproveHouseAssignResponseDto;
 import com.bwongo.apartment_mgt.models.dto.response.AssignHouseResponseDto;
-import com.bwongo.apartment_mgt.models.enums.PaymentStatus;
-import com.bwongo.apartment_mgt.models.enums.PaymentType;
+import com.bwongo.base.models.enums.PaymentStatus;
+import com.bwongo.base.models.enums.PaymentType;
 import com.bwongo.account_mgt.models.jpa.RentPayment;
 import com.bwongo.apartment_mgt.repository.AssignHouseRepository;
 import com.bwongo.apartment_mgt.repository.HouseRepository;

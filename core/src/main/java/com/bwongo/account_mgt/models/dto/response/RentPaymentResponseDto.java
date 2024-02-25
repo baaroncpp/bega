@@ -1,8 +1,8 @@
 package com.bwongo.account_mgt.models.dto.response;
 
 import com.bwongo.apartment_mgt.models.dto.response.HouseResponseDto;
-import com.bwongo.apartment_mgt.models.enums.PaymentStatus;
-import com.bwongo.apartment_mgt.models.enums.PaymentType;
+import com.bwongo.base.models.enums.PaymentStatus;
+import com.bwongo.base.models.enums.PaymentType;
 import com.bwongo.tenant_mgt.models.dto.responses.TenantResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 

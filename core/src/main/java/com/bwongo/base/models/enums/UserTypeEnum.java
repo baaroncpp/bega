@@ -1,4 +1,4 @@
-package com.bwongo.user_mgt.models.enums;
+package com.bwongo.base.models.enums;
 
 /**
  * @Author bkaaron
@@ -6,5 +6,5 @@ package com.bwongo.user_mgt.models.enums;
  * @Date 3/21/23
  **/
 public enum UserTypeEnum {
-    ADMIN, LANDLORD, TENANT
+    ADMIN, LANDLORD, TENANT, PROPERTY_MANAGER
 }

@@ -1,7 +1,7 @@
 package com.bwongo.apartment_mgt.models.jpa;
 
 import com.bwongo.base.models.jpa.AuditEntity;
-import com.bwongo.tenant_mgt.models.enums.BillingDuration;
+import com.bwongo.base.models.enums.BillingDuration;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 import jakarta.persistence.*;
 import lombok.Setter;

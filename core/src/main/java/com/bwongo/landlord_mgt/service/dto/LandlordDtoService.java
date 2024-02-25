@@ -10,7 +10,7 @@ import com.bwongo.landlord_mgt.models.dto.response.LandlordResponseDto;
 import com.bwongo.landlord_mgt.models.jpa.TBankDetail;
 import com.bwongo.landlord_mgt.models.jpa.TLandLordBankDetails;
 import com.bwongo.landlord_mgt.models.jpa.TLandlord;
-import com.bwongo.user_mgt.models.enums.GenderEnum;
+import com.bwongo.base.models.enums.GenderEnum;
 import com.bwongo.base.models.jpa.TCountry;
 import com.bwongo.base.models.jpa.TDistrict;
 import com.bwongo.user_mgt.models.jpa.TUserMeta;

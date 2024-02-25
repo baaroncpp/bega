@@ -1,7 +1,8 @@
 package com.bwongo.user_mgt.models.dto.response;
 
+import com.bwongo.base.models.dto.response.CountryResponseDto;
 import com.bwongo.base.models.enums.IdentificationType;
-import com.bwongo.user_mgt.models.enums.GenderEnum;
+import com.bwongo.base.models.enums.GenderEnum;
 import com.bwongo.base.models.jpa.TCountry;
 
 import java.util.Date;
@@ -28,7 +29,7 @@ public record UserMetaResponseDto(
         GenderEnum gender,
         Date birthDate,
         String email,
-        TCountry country,
+        CountryResponseDto country,
         IdentificationType identificationType,
         String identificationNumber,
         String identificationPath,

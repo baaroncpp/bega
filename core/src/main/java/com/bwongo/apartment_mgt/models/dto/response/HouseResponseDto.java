@@ -1,6 +1,6 @@
 package com.bwongo.apartment_mgt.models.dto.response;
 
-import com.bwongo.apartment_mgt.models.enums.RentPeriod;
+import com.bwongo.base.models.enums.RentPeriod;
 import com.bwongo.apartment_mgt.models.jpa.HouseType;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 

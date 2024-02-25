@@ -1,20 +1,21 @@
 package com.bwongo.user_mgt.service.dto;
 
 import com.bwongo.base.models.enums.IdentificationType;
+import com.bwongo.base.service.BaseDtoService;
 import com.bwongo.commons.models.utils.DateTimeUtil;
+import com.bwongo.user_mgt.models.dto.request.ChangePasswordRequestDto;
 import com.bwongo.user_mgt.models.dto.request.NextOfKinRequestDto;
+import com.bwongo.user_mgt.models.dto.request.UserRequestDto;
 import com.bwongo.user_mgt.models.dto.response.NextOfKinResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserGroupResponseDto;
 import com.bwongo.user_mgt.models.dto.request.UserMetaRequestDto;
 import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
-import com.bwongo.user_mgt.models.enums.GenderEnum;
+import com.bwongo.base.models.enums.GenderEnum;
 import com.bwongo.base.models.jpa.TCountry;
-import com.bwongo.user_mgt.models.enums.RelationShipType;
-import com.bwongo.user_mgt.models.jpa.TNextOfKin;
-import com.bwongo.user_mgt.models.jpa.TUser;
-import com.bwongo.user_mgt.models.jpa.TUserGroup;
-import com.bwongo.user_mgt.models.jpa.TUserMeta;
+import com.bwongo.base.models.enums.RelationShipType;
+import com.bwongo.user_mgt.models.jpa.*;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.PLACEMENT_DATE_FORMAT;
@@ -25,7 +26,10 @@ import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.PLACEMENT_DAT
  * @Date 5/5/23
  **/
 @Service
+@RequiredArgsConstructor
 public class UserMgtDtoService {
+
+    private final BaseDtoService baseDtoService;
 
     public UserResponseDto mapTUserToUserResponseDto(TUser user){
 
@@ -107,7 +111,7 @@ public class UserMgtDtoService {
                 userMeta.getGender(),
                 userMeta.getBirthDate(),
                 userMeta.getEmail(),
-                userMeta.getCountry(),
+                baseDtoService.countryToDto(userMeta.getCountry()),
                 userMeta.getIdentificationType(),
                 userMeta.getIdentificationNumber(),
                 userMeta.getIdentificationPath(),
@@ -162,5 +166,34 @@ public class UserMgtDtoService {
                 nextOfKin.getIdNumber(),
                 nextOfKin.getIdPhotoUrlPath()
         );
+    }
+
+    public TPreviousPassword dtoToTPreviousPassword(ChangePasswordRequestDto changePasswordRequestDto){
+
+        if(changePasswordRequestDto == null){
+            return null;
+        }
+
+        var previousPassword = new TPreviousPassword();
+        previousPassword.setPreviousPassword(changePasswordRequestDto.oldPassword());
+
+        return previousPassword;
+    }
+
+    public TUser dtoToTUser(UserRequestDto userRequestDto){
+
+        if(userRequestDto == null){
+            return null;
+        }
+
+        var userGroup = new TUserGroup();
+        userGroup.setId(userRequestDto.userGroupId());
+
+        var user = new TUser();
+        user.setUsername(userRequestDto.username());
+        user.setPassword(userRequestDto.password());
+        user.setUserGroup(userGroup);
+
+        return user;
     }
 }

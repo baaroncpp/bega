@@ -1,10 +1,12 @@
 package com.bwongo.landlord_mgt.service;
 
-import com.bwongo.account_mgt.models.enums.AccountStatus;
-import com.bwongo.account_mgt.models.enums.AccountType;
+import com.bwongo.base.models.enums.AccountStatus;
+import com.bwongo.base.models.enums.AccountType;
 import com.bwongo.account_mgt.models.jpa.Account;
 import com.bwongo.account_mgt.repository.AccountRepository;
 import com.bwongo.account_mgt.service.AccountService;
+import com.bwongo.base.models.enums.FileType;
+import com.bwongo.base.service.FileStorageService;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.DateTimeUtil;
 import com.bwongo.commons.models.utils.Validate;
@@ -32,6 +34,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ReflectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
@@ -68,6 +71,7 @@ public class LandlordService{
     private final TNextOfKinRepository nextOfKinRepository;
     private final LandLordNextOfKinRepository landLordNextOfKinRepository;
     private final UserMgtDtoService userMgtDtoService;
+    private final FileStorageService fileStorageService;
 
     @Transactional
     public LandlordResponseDto addLandlord(LandlordRequestDto landlordRequestDto) {
@@ -377,6 +381,44 @@ public class LandlordService{
         nextOfKinRepository.delete(nextOfKin);
 
         return Boolean.TRUE;
+    }
+
+    public void uploadLcLetter(MultipartFile file, String fileName, Long landlordId){
+
+        var landlord = getById(landlordId);
+        landlord.setOwnerShipLCLetterUrlPath(fileStorageService.store(file, fileName, FileType.DOCUMENT.name()));
+
+        auditService.stampAuditedEntity(landlord);
+        landlordRepository.save(landlord);
+    }
+
+    public void uploadBusinessAgreement(MultipartFile file, String fileName, Long landlordId){
+
+        var landlord = getById(landlordId);
+        landlord.setBusinessAgreementPath(fileStorageService.store(file, fileName, FileType.DOCUMENT.name()));
+
+        auditService.stampAuditedEntity(landlord);
+        landlordRepository.save(landlord);
+    }
+
+    public void uploadIdPhoto(MultipartFile file, String fileName, Long landlordId){
+        var landlord = getById(landlordId);
+        var metaData = landlord.getMetaData();
+
+        metaData.setIdentificationPath(fileStorageService.store(file, fileName, FileType.IMAGE.name()));
+
+        auditService.stampAuditedEntity(metaData);
+        userMetaRepository.save(metaData);
+    }
+
+    public void uploadProfilePhoto(MultipartFile file, String fileName, Long landlordId){
+        var landlord = getById(landlordId);
+        var metaData = landlord.getMetaData();
+
+        metaData.setImagePath(fileStorageService.store(file, fileName, FileType.IMAGE.name()));
+
+        auditService.stampAuditedEntity(metaData);
+        userMetaRepository.save(metaData);
     }
 
     private TLandlordNextOfKin getLandlordNextOfKin(Long id){

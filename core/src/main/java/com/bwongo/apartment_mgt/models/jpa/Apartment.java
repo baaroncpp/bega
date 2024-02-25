@@ -1,7 +1,7 @@
 package com.bwongo.apartment_mgt.models.jpa;
 
-import com.bwongo.apartment_mgt.models.enums.ApartmentType;
-import com.bwongo.apartment_mgt.models.enums.ManagementFeeType;
+import com.bwongo.base.models.enums.ApartmentType;
+import com.bwongo.base.models.enums.ManagementFeeType;
 import com.bwongo.base.models.jpa.AuditEntity;
 import com.bwongo.landlord_mgt.models.jpa.TLandlord;
 import com.bwongo.base.models.jpa.TDistrict;

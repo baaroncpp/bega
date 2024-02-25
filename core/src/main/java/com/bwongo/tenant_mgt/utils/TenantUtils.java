@@ -2,7 +2,7 @@ package com.bwongo.tenant_mgt.utils;
 
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.utils.Validate;
-import com.bwongo.tenant_mgt.models.enums.TenantStatus;
+import com.bwongo.base.models.enums.TenantStatus;
 import com.bwongo.tenant_mgt.models.jpa.Tenant;
 
 import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.*;
