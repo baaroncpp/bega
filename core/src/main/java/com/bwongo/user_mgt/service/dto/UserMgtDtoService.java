@@ -3,14 +3,8 @@ package com.bwongo.user_mgt.service.dto;
 import com.bwongo.base.models.enums.IdentificationType;
 import com.bwongo.base.service.BaseDtoService;
 import com.bwongo.commons.models.utils.DateTimeUtil;
-import com.bwongo.user_mgt.models.dto.request.ChangePasswordRequestDto;
-import com.bwongo.user_mgt.models.dto.request.NextOfKinRequestDto;
-import com.bwongo.user_mgt.models.dto.request.UserRequestDto;
-import com.bwongo.user_mgt.models.dto.response.NextOfKinResponseDto;
-import com.bwongo.user_mgt.models.dto.response.UserGroupResponseDto;
-import com.bwongo.user_mgt.models.dto.request.UserMetaRequestDto;
-import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
-import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
+import com.bwongo.user_mgt.models.dto.request.*;
+import com.bwongo.user_mgt.models.dto.response.*;
 import com.bwongo.base.models.enums.GenderEnum;
 import com.bwongo.base.models.jpa.TCountry;
 import com.bwongo.base.models.enums.RelationShipType;
@@ -195,5 +189,94 @@ public class UserMgtDtoService {
         user.setUserGroup(userGroup);
 
         return user;
+    }
+
+    public RoleResponseDto roleToDto(TRole role){
+
+        if(role == null){
+            return null;
+        }
+
+        return new RoleResponseDto(
+                role.getId(),
+                role.getCreatedOn(),
+                role.getModifiedOn(),
+                role.getName(),
+                role.getNote()
+        );
+    }
+
+    public TRole dtoToTRole(RoleRequestDto roleRequestDto){
+
+        if(roleRequestDto == null){
+            return null;
+        }
+
+        var role = new TRole();
+        role.setName(roleRequestDto.name());
+        role.setNote(role.getNote());
+
+        return role;
+    }
+
+    public PermissionResponseDto permissionToDto(TPermission permission){
+
+        if(permission == null){
+            return null;
+        }
+
+        return new PermissionResponseDto(
+                permission.getId(),
+                permission.getCreatedOn(),
+                permission.getModifiedOn(),
+                roleToDto(permission.getRole()),
+                permission.getName(),
+                permission.getIsAssignable()
+        );
+    }
+
+    public GroupAuthorityResponseDto groupAuthorityToDto(TGroupAuthority groupAuthority){
+
+        if(groupAuthority == null){
+            return null;
+        }
+
+        return new GroupAuthorityResponseDto(
+                groupAuthority.getId(),
+                groupAuthority.getCreatedOn(),
+                groupAuthority.getModifiedOn(),
+                mapTUserGroupToUserGroupResponseDto(groupAuthority.getUserGroup()),
+                permissionToDto(groupAuthority.getPermission())
+        );
+    }
+
+    public TUserGroup dtoToTUserGroup(UserGroupRequestDto userGroupRequestDto){
+
+        if(userGroupRequestDto == null){
+            return null;
+        }
+
+        var userGroup = new TUserGroup();
+        userGroup.setName(userGroupRequestDto.name());
+        userGroup.setNote(userGroupRequestDto.note());
+
+        return userGroup;
+    }
+
+    public UserApprovalResponseDto userApprovalToDto(TUserApproval userApproval){
+
+        if(userApproval == null){
+            return null;
+        }
+
+        return new UserApprovalResponseDto(
+                userApproval.getId(),
+                userApproval.getCreatedOn(),
+                userApproval.getModifiedOn(),
+                mapTUserToUserResponseDto(userApproval.getCreatedBy()),
+                mapTUserToUserResponseDto(userApproval.getModifiedBy()),
+                mapTUserToUserResponseDto(userApproval.getUser()),
+                userApproval.getStatus()
+        );
     }
 }

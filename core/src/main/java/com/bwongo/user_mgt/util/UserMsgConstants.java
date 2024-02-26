@@ -63,4 +63,29 @@ public class UserMsgConstants {
     public static final String PHONE_NUMBER_ALREADY_TAKEN = "Phone number %s is already taken";
     public static final String USER_META_NOT_FOUND = "user metaData with ID: %s not found";
     public static final String SECOND_PHONE_NUMBER_ALREADY_TAKEN = "Second phone number %s is already taken";
+    public static final String ROLE_NAME_REQUIRED = "Role name is required";
+    public static final String ROLE_DESCRIPTION_REQUIRED = "Role description is required";
+    public static final String ROLE_EXISTS = "Role %s already exists";
+    public static final String READ_PERMISSION = ".READ";
+    public static final String WRITE_PERMISSION = ".WRITE";
+    public static final String DELETE_PERMISSION = ".DELETE";
+    public static final String UPDATE_PERMISSION = ".UPDATE";
+    public static final String ROLE_DOES_NOT_EXIST = "Role with ID: %s does not exist";
+    public static final String PERMISSION_DOES_NOT_EXIST = "Permission with ID: %s does not exist";
+    public static final String PERMISSION_IS_ALREADY_IN_ACTIVE = "Permission with ID: %s is already inactive";
+    public static final String PERMISSION_IS_ALREADY_ACTIVE = "Permission with ID: %s is already active";
+    public static final String ROLE_NAME_DOES_NOT_EXIST = "Role with NAME: %s does not exist";
+    public static final String PERMISSION_NAME_DOES_NOT_EXIST = "Permission with NAME: %s does not exist";
+    public static final String PERMISSION_NOT_ASSIGNED_TO_USER_GROUP = "Permission %s, not assigned to user group %s";
+    public static final String PERMISSION_ALREADY_ASSIGNED_TO_USER_GROUP = "Permission %s, already assigned to user group %s";
+    public static final String PERMISSION_IS_IN_ACTIVE = "Permission is inactive";
+    public static final String USER_GROUP_NAME_ONLY_UPPER_CASE = "User group should contain only upper case";
+    public static final String USER_GROUP_NAME_IS_NULL = "User group name is required";
+    public static final String USER_GROUP_NOTE_IS_NULL = "User group note is required";
+    public static final String USER_GROUP_ALREADY_EXISTS = "User group %s already exists";
+    public static final String USER_ID_REQUIRED = "User ID is required";
+    public static final String APPROVAL_STATUS_REQUIRED = "Approval status is required";
+    public static final String USER_APPROVAL_NOT_FOUND = "User approval with ID: %s not found";
+    public static final String USER_ACCOUNT_IS_ALREADY_LOCKED = "User account is already locked";
+
 }

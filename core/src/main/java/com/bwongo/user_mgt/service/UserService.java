@@ -7,8 +7,11 @@ import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.text.StringRegExUtil;
 import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.user_mgt.models.dto.request.ChangePasswordRequestDto;
+import com.bwongo.user_mgt.models.dto.request.UserApprovalRequestDto;
 import com.bwongo.user_mgt.models.dto.request.UserMetaRequestDto;
 import com.bwongo.user_mgt.models.dto.request.UserRequestDto;
+import com.bwongo.user_mgt.models.dto.response.PermissionResponseDto;
+import com.bwongo.user_mgt.models.dto.response.UserApprovalResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserMetaResponseDto;
 import com.bwongo.user_mgt.models.dto.response.UserResponseDto;
 import com.bwongo.base.models.enums.UserTypeEnum;
@@ -20,9 +23,16 @@ import com.bwongo.user_mgt.repository.*;
 import com.bwongo.user_mgt.service.dto.UserMgtDtoService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
+import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.INVALID_APPROVAL_STATUS;
+import static com.bwongo.apartment_mgt.utils.ApartmentUtil.isApprovalStatus;
+import static com.bwongo.base.utils.BaseEnumValidation.isUserType;
 import static com.bwongo.user_mgt.util.UserMgtUtils.checkThatUserIsAssignable;
 import static com.bwongo.user_mgt.util.UserMsgConstants.*;
 
@@ -270,6 +280,108 @@ public class UserService {
             userMeta = existingUserMeta.get();
 
         return userMgtDtoService.mapTUserMetaToUserMetaResponseDto(userMeta);
+    }
+
+    public boolean deleteUserAccount(Long userId) {
+
+        var existingUser = userRepository.findById(userId);
+        Validate.isPresent(existingUser, USER_DOES_NOT_EXIST, userId);
+        final var user = existingUser.get();
+
+        user.setAccountExpired(Boolean.TRUE);
+        user.setAccountLocked(Boolean.TRUE);
+        user.setDeleted(Boolean.TRUE);
+        user.setApproved(Boolean.FALSE);
+
+        auditService.stampLongEntity(user);
+        userRepository.save(user);
+
+        return Boolean.TRUE;
+    }
+
+    public List<UserApprovalResponseDto> getUserApprovals(String status, Pageable pageable) {
+
+        Validate.isTrue(isApprovalStatus(status), ExceptionType.BAD_REQUEST, INVALID_APPROVAL_STATUS);
+        var approvalEnum = ApprovalEnum.valueOf(status);
+
+        return userApprovalRepository.findAllByStatus(approvalEnum, pageable).stream()
+                .map(userMgtDtoService::userApprovalToDto)
+                .collect(Collectors.toList());
+    }
+
+    public List<PermissionResponseDto> getPermissions(){
+        return getUserPermissionsById(auditService.getLoggedInUser().getId());
+    }
+
+    public List<PermissionResponseDto> getUserPermissionsById(Long id){
+
+        var user = getUser(id);
+        var groupAuthorities = groupAuthorityRepository.findByUserGroup(user.getUserGroup());
+
+        return groupAuthorities
+                .stream()
+                .map(groupAuthority -> userMgtDtoService.permissionToDto(groupAuthority.getPermission()))
+                .collect(Collectors.toList());
+    }
+
+    public List<UserResponseDto> getAll(Pageable pageable) {
+        return userRepository.findAll(pageable).stream()
+                .map(userMgtDtoService::mapTUserToUserResponseDto)
+                .collect(Collectors.toList());
+    }
+
+    public Long getNumberOfUsersByType(String userType) {
+        Validate.isTrue(isUserType(userType), ExceptionType.BAD_REQUEST, VALID_USER_TYPE);
+        UserTypeEnum userTypeEnum = UserTypeEnum.valueOf(userType);
+        return userRepository.countByUserType(userTypeEnum);
+    }
+
+    public boolean suspendUserAccount(Long userId) {
+
+        var existingUser = userRepository.findById(userId);
+        Validate.isPresent(existingUser, USER_DOES_NOT_EXIST, userId);
+        final var user = existingUser.get();
+
+        Validate.isTrue(!user.isAccountLocked(), ExceptionType.BAD_REQUEST, USER_ACCOUNT_IS_ALREADY_LOCKED);
+
+        user.setAccountLocked(Boolean.TRUE);
+        auditService.stampLongEntity(user);
+        userRepository.save(user);
+
+        return Boolean.TRUE;
+    }
+
+    @org.springframework.transaction.annotation.Transactional
+    public UserResponseDto approveUser(UserApprovalRequestDto userApprovalRequestDto) {
+
+        userApprovalRequestDto.validate();
+        var existingApproval = userApprovalRepository.findById(userApprovalRequestDto.id());
+        Validate.isPresent(existingApproval, USER_APPROVAL_NOT_FOUND, userApprovalRequestDto.id());
+        final var userApproval = existingApproval.get();
+
+        ApprovalEnum approvalEnum = ApprovalEnum.valueOf(userApprovalRequestDto.status());
+        userApproval.setStatus(approvalEnum);
+        auditService.stampAuditedEntity(userApproval);
+
+        userApprovalRepository.save(userApproval);
+
+        var existingUser = userRepository.findById(userApproval.getUser().getId());
+        Validate.isPresent(existingUser, USER_DOES_NOT_EXIST, userApproval.getUser().getId());
+        final var user = existingUser.get();
+
+        if(userApproval.getStatus().equals(ApprovalEnum.APPROVED)) {
+            user.setApproved(Boolean.TRUE);
+            user.setAccountExpired(Boolean.FALSE);
+            user.setAccountLocked(Boolean.FALSE);
+            user.setDeleted(Boolean.FALSE);
+            user.setApprovedBy(auditService.getLoggedInUser().getId());
+        }
+
+        auditService.stampLongEntity(user);
+
+        var approvedUser = userRepository.save(user);
+
+        return userMgtDtoService.mapTUserToUserResponseDto(approvedUser);
     }
 
     private TUser getUser(Long id){

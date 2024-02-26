@@ -67,4 +67,6 @@ public class BaseEnumValidation {
         );
         return userTypeEnumList.contains(value);
     }
+
+
 }

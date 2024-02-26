@@ -2,6 +2,9 @@ package com.bwongo.user_mgt.models.jpa;
 
 import com.bwongo.base.models.jpa.BaseEntity;
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 /**
@@ -10,6 +13,9 @@ import lombok.Setter;
  * @Date 3/21/23
  **/
 @Entity
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "t_permission", schema = "core")
 @Setter
 public class TPermission extends BaseEntity {
