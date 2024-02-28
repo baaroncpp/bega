@@ -9,7 +9,6 @@ import java.util.Date;
 import static com.bwongo.base.utils.BaseEnumValidation.isValidIdentificationType;
 import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.user_mgt.util.UserMsgConstants.*;
-import static com.bwongo.user_mgt.util.UserMsgConstants.INVALID_PHONE_NUMBER;
 
 /**
  * @Author bkaaron
@@ -22,7 +21,6 @@ public record UserMetaRequestDto(
         String middleName,
         String phoneNumber,
         String phoneNumber2,
-        String displayName,
         String gender,
         Date birthDate,
         String email,

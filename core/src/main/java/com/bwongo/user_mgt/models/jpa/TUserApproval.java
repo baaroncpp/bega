@@ -1,7 +1,7 @@
 package com.bwongo.user_mgt.models.jpa;
 
 import com.bwongo.base.models.jpa.AuditEntity;
-import com.bwongo.base.models.enums.ApprovalEnum;
+import com.bwongo.base.models.enums.ApprovalStatus;
 import jakarta.persistence.*;
 import lombok.Setter;
 
@@ -15,7 +15,7 @@ import lombok.Setter;
 @Setter
 public class TUserApproval extends AuditEntity {
     private TUser user;
-    private ApprovalEnum status;
+    private ApprovalStatus status;
 
     @JoinColumn(name = "user_id", referencedColumnName = "id")
     @OneToOne(fetch = FetchType.LAZY)
@@ -25,7 +25,7 @@ public class TUserApproval extends AuditEntity {
 
     @Column(name = "status")
     @Enumerated(value = EnumType.STRING)
-    public ApprovalEnum getStatus() {
+    public ApprovalStatus getStatus() {
         return status;
     }
 }

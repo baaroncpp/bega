@@ -6,6 +6,7 @@ import com.bwongo.base.models.jpa.TCountry;
 import com.bwongo.base.models.enums.GenderEnum;
 import jakarta.persistence.*;
 import lombok.Setter;
+import lombok.ToString;
 
 import java.util.Date;
 
@@ -17,6 +18,7 @@ import java.util.Date;
 @Entity
 @Table(name = "t_user_meta", schema = "core")
 @Setter
+@ToString
 public class TUserMeta extends AuditEntity {
     private String firstName;
     private String lastName;

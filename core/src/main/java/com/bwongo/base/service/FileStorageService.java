@@ -30,8 +30,8 @@ import static com.bwongo.base.utils.BaseMsgConstants.*;
 @Service
 public class FileStorageService {
 
-    @Value("${app.file-storage}")
-    private String locationPath;
+    //@Value("${app.file-storage}")
+    private static final String locationPath = "/home/bega/files";
     private final Path rootLocation;
     private final TFileRepository fileRepository;
 

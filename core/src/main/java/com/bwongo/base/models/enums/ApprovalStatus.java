@@ -3,8 +3,8 @@ package com.bwongo.base.models.enums;
 /**
  * @Author bkaaron
  * @Project bega
- * @Date 5/19/23
+ * @Date 2/25/24
  **/
 public enum ApprovalStatus {
-    APPROVED, REJECTED
+    PENDING, APPROVED, REJECTED
 }

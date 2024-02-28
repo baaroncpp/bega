@@ -67,17 +67,18 @@ public class UserMgtDtoService {
         country.setId(userMetaRequestDto.countryId());
 
         var userMeta = new TUserMeta();
-        userMeta.setFirstName(userMeta.getFirstName());
+        userMeta.setFirstName(userMetaRequestDto.firstName());
         userMeta.setLastName(userMetaRequestDto.lastName());
-        userMeta.setPhoneNumber(userMeta.getPhoneNumber());
-        userMeta.setPhoneNumber2(userMeta.getPhoneNumber2());
-        userMeta.setDisplayName(userMetaRequestDto.displayName());
+        userMeta.setMiddleName(userMetaRequestDto.middleName());
+        userMeta.setPhoneNumber(userMetaRequestDto.phoneNumber());
+        userMeta.setPhoneNumber2(userMetaRequestDto.phoneNumber2());
+        //userMeta.setDisplayName(userMetaRequestDto.displayName());
         userMeta.setGender(GenderEnum.valueOf(userMetaRequestDto.gender()));
         userMeta.setBirthDate(userMetaRequestDto.birthDate());
         userMeta.setEmail(userMetaRequestDto.email());
         userMeta.setCountry(country);
         userMeta.setIdentificationType(IdentificationType.valueOf(userMetaRequestDto.identificationType()));
-        userMeta.setIdentificationNumber(userMeta.getIdentificationNumber());
+        userMeta.setIdentificationNumber(userMetaRequestDto.identificationNumber());
 
         return userMeta;
     }

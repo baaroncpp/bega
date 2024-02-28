@@ -88,12 +88,12 @@ create table t_permission(
 create table t_user_approval(
     id BIGSERIAL PRIMARY KEY,
     user_id BIGINT NOT NULL REFERENCES t_user(id),
-    status INTEGER NOT NULL,
+    status VARCHAR(30) NOT NULL,
     created_on TIMESTAMP NOT NULL DEFAULT now(),
     modified_on TIMESTAMP,
     is_active BOOLEAN NOT NULL DEFAULT TRUE,
-    created_by BIGINT NOT NULL REFERENCES t_user(id),
-    modified_by BIGINT REFERENCES t_user(id)
+    created_by_id BIGINT NOT NULL REFERENCES t_user(id),
+    modified_by_id BIGINT REFERENCES t_user(id)
 );
 
 create table t_group_authority(
@@ -148,4 +148,13 @@ CREATE TABLE t_location(
     is_active BOOLEAN DEFAULT TRUE,
     latitude_coordinate DOUBLE PRECISION NOT NULL,
     longitude_coordinate DOUBLE PRECISION NOT NULL
+);
+
+CREATE TABLE t_previous_password(
+    id BIGSERIAL primary key,
+    created_on timestamp not null default now(),
+    modified_on timestamp,
+    user_id BIGINT NOT NULL REFERENCES t_user(id),
+    previous_password TEXT,
+    password_change_count INTEGER
 );

@@ -6,9 +6,7 @@ import com.bwongo.commons.models.text.StringRegExUtil;
 import com.bwongo.commons.models.utils.Validate;
 import com.bwongo.user_mgt.util.UserMgtUtils;
 
-import java.util.Date;
-
-import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.INVALID_DATE;
+import static com.bwongo.apartment_mgt.utils.ApartmentMsgConstants.*;
 import static com.bwongo.base.utils.BaseEnumValidation.isValidIdentificationType;
 import static com.bwongo.base.utils.BaseMsgConstants.*;
 import static com.bwongo.landlord_mgt.utils.LandlordMsgConstants.*;

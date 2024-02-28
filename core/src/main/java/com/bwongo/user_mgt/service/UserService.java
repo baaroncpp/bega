@@ -1,6 +1,6 @@
 package com.bwongo.user_mgt.service;
 
-import com.bwongo.base.models.enums.ApprovalEnum;
+import com.bwongo.base.models.enums.ApprovalStatus;
 import com.bwongo.base.repository.TCountryRepository;
 import com.bwongo.base.service.AuditService;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
@@ -130,7 +130,7 @@ public class UserService {
         //initiate user approval
         var userApproval = new TUserApproval();
         userApproval.setUser(user);
-        userApproval.setStatus(ApprovalEnum.PENDING);
+        userApproval.setStatus(ApprovalStatus.PENDING);
         auditService.stampAuditedEntity(userApproval);
 
         userApprovalRepository.save(userApproval);
@@ -141,18 +141,28 @@ public class UserService {
     @Transactional
     public UserResponseDto updateUser(Long userId, UserRequestDto userRequestDto) {
 
-        userRequestDto.validate();
+        userRequestDto.validateUpdate();
         Validate.isTrue(userRequestDto.password() == null, ExceptionType.BAD_REQUEST, CANNOT_UPDATE_PASSWORD);
 
         var existingUser = userRepository.findById(userId);
         Validate.isPresent(existingUser, String.format(USER_DOES_NOT_EXIST, userId));
+        var existingUsername = existingUser.get().getUsername();
+
+        if(!userRequestDto.username().equals(existingUsername))
+            Validate.isTrue(!userRepository.existsByUsername(userRequestDto.username()), ExceptionType.BAD_REQUEST, USERNAME_TAKEN, userRequestDto.username());
 
         var existingUserGroup = userGroupRepository.findById(userRequestDto.userGroupId());
         Validate.isPresent(existingUserGroup, USER_GROUP_DOES_NOT_EXIST, userRequestDto.userGroupId());
         final var userGroup = existingUserGroup.get();
 
         var user = userMgtDtoService.dtoToTUser(userRequestDto);
+        user.setPassword(existingUser.get().getPassword());
+        user.setId(existingUser.get().getId());
         user.setUserGroup(userGroup);
+        user.setUserType(UserTypeEnum.valueOf(userRequestDto.userType()));
+        user.setCreatedOn(existingUser.get().getCreatedOn());
+
+        auditService.stampLongEntity(user);
 
         return userMgtDtoService.mapTUserToUserResponseDto(userRepository.save(user));
     }
@@ -227,6 +237,9 @@ public class UserService {
         userMeta.setDisplayName(user.getUsername());
         userMeta.setNonVerifiedEmail(Boolean.FALSE);
         userMeta.setNonVerifiedPhoneNumber(Boolean.TRUE);
+
+        System.out.println(userMeta.toString());
+
         auditService.stampAuditedEntity(userMeta);
 
         var result = userMetaRepository.save(userMeta);
@@ -264,6 +277,8 @@ public class UserService {
         userMeta.setDisplayName(metaData.getDisplayName());
         userMeta.setNonVerifiedEmail(Boolean.FALSE);
         userMeta.setNonVerifiedPhoneNumber(Boolean.TRUE);
+        userMeta.setCreatedOn(metaData.getCreatedOn());
+        userMeta.setCreatedBy(metaData.getCreatedBy());
         auditService.stampAuditedEntity(userMeta);
 
         return userMgtDtoService.mapTUserMetaToUserMetaResponseDto(userMetaRepository.save(userMeta));
@@ -301,8 +316,8 @@ public class UserService {
 
     public List<UserApprovalResponseDto> getUserApprovals(String status, Pageable pageable) {
 
-        Validate.isTrue(isApprovalStatus(status), ExceptionType.BAD_REQUEST, INVALID_APPROVAL_STATUS);
-        var approvalEnum = ApprovalEnum.valueOf(status);
+        Validate.isTrue(isApprovalStatus(status), ExceptionType.BAD_REQUEST, INVALID_APPROVAL_STATUS, status);
+        var approvalEnum = ApprovalStatus.valueOf(status);
 
         return userApprovalRepository.findAllByStatus(approvalEnum, pageable).stream()
                 .map(userMgtDtoService::userApprovalToDto)
@@ -351,29 +366,41 @@ public class UserService {
         return Boolean.TRUE;
     }
 
-    @org.springframework.transaction.annotation.Transactional
+    @Transactional
     public UserResponseDto approveUser(UserApprovalRequestDto userApprovalRequestDto) {
 
         userApprovalRequestDto.validate();
+        Validate.isTrue(!userApprovalRequestDto.status().equals(ApprovalStatus.PENDING.name()), ExceptionType.BAD_REQUEST, PENDING_STATUS_INVALID);
+
         var existingApproval = userApprovalRepository.findById(userApprovalRequestDto.id());
         Validate.isPresent(existingApproval, USER_APPROVAL_NOT_FOUND, userApprovalRequestDto.id());
         final var userApproval = existingApproval.get();
 
-        ApprovalEnum approvalEnum = ApprovalEnum.valueOf(userApprovalRequestDto.status());
-        userApproval.setStatus(approvalEnum);
+        Validate.isTrue(!userApproval.getUser().isApproved(), ExceptionType.BAD_REQUEST, USER_ALREADY_APPROVED, userApproval.getUser().getId());
+
+        ApprovalStatus approvalStatus = ApprovalStatus.valueOf(userApprovalRequestDto.status());
+        userApproval.setStatus(approvalStatus);
         auditService.stampAuditedEntity(userApproval);
 
-        userApprovalRepository.save(userApproval);
+        var savedUserApproval = userApprovalRepository.save(userApproval);
 
         var existingUser = userRepository.findById(userApproval.getUser().getId());
         Validate.isPresent(existingUser, USER_DOES_NOT_EXIST, userApproval.getUser().getId());
         final var user = existingUser.get();
 
-        if(userApproval.getStatus().equals(ApprovalEnum.APPROVED)) {
+        if(savedUserApproval.getStatus().equals(ApprovalStatus.APPROVED)) {
             user.setApproved(Boolean.TRUE);
             user.setAccountExpired(Boolean.FALSE);
             user.setAccountLocked(Boolean.FALSE);
             user.setDeleted(Boolean.FALSE);
+            user.setApprovedBy(auditService.getLoggedInUser().getId());
+        }
+
+        if(savedUserApproval.getStatus().equals(ApprovalStatus.REJECTED)) {
+            user.setApproved(Boolean.FALSE);
+            user.setAccountExpired(Boolean.TRUE);
+            user.setAccountLocked(Boolean.TRUE);
+            user.setDeleted(Boolean.TRUE);
             user.setApprovedBy(auditService.getLoggedInUser().getId());
         }
 

@@ -56,7 +56,6 @@ public class UserMsgConstants {
     public static final String LAST_NAME_REQUIRED = "Last name is required";
     public static final String LAST_NAME_ONLY_CHARACTERS = "Last name should contain only characters";
     public static final String FIRST_NAME_ONLY_CHARACTERS = "First name should contain only characters";
-    public static final String INVALID_PHONE_NUMBER = "Invalid phone number";
     public static final String INVALID_SECOND_PHONE_NUMBER = "Invalid second phone number";
     public static final String COUNTRY_ID_REQUIRED = "Country ID is required";
     public static final String EMAIL_ALREADY_TAKEN = "Email %s is already taken";
@@ -87,5 +86,6 @@ public class UserMsgConstants {
     public static final String APPROVAL_STATUS_REQUIRED = "Approval status is required";
     public static final String USER_APPROVAL_NOT_FOUND = "User approval with ID: %s not found";
     public static final String USER_ACCOUNT_IS_ALREADY_LOCKED = "User account is already locked";
-
+    public static final String PENDING_STATUS_INVALID = "PENDING status is invalid, Options REJECTED and APPROVED";
+    public static final String USER_ALREADY_APPROVED = "User with ID: %s already approved";
 }

@@ -29,9 +29,9 @@ import static com.bwongo.tenant_mgt.utils.TenantMsgConstants.APPLICATION_JSON;
  * @Date 2/26/24
  * @LocalTime 11:19 AM
  **/
-@Tag(name = "Users",description = "Manage users on Begs")
+//@Tag(name = "Users",description = "Manage users on Bega")
 @RestController
-@RequestMapping("/api/v1/user")
+@RequestMapping("api/v1/user")
 @RequiredArgsConstructor
 public class UserApi {
 
@@ -79,6 +79,13 @@ public class UserApi {
     public UserMetaResponseDto addUserMeta(@RequestBody UserMetaRequestDto userMetaDto,
                                            @PathVariable("id") Long userId) {
         return userService.addUserMetaData(userId, userMetaDto);
+    }
+
+    @PreAuthorize("hasAnyAuthority('USER_ROLE.UPDATE','ADMIN_ROLE.UPDATE')")
+    @PutMapping(path = "meta-data/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
+    public UserMetaResponseDto updateUserMeta(@RequestBody UserMetaRequestDto userMetaDto,
+                                              @PathVariable("id") Long userMetaDataId) {
+        return userService.updateUserMetaData(userMetaDataId, userMetaDto);
     }
 
     @PreAuthorize("hasAnyAuthority('USER_ROLE.UPDATE','ADMIN_ROLE.UPDATE')")

@@ -1,14 +1,10 @@
 package com.bwongo.apartment_mgt.utils;
 
-import com.bwongo.base.models.enums.ApartmentType;
-import com.bwongo.base.models.enums.ApprovalStatus;
-import com.bwongo.base.models.enums.ManagementFeeType;
-import com.bwongo.base.models.enums.RentPeriod;
+import com.bwongo.base.models.enums.*;
 import com.bwongo.apartment_mgt.models.jpa.House;
 import com.bwongo.commons.models.exceptions.model.ExceptionType;
 import com.bwongo.commons.models.text.StringUtil;
 import com.bwongo.commons.models.utils.Validate;
-import com.bwongo.base.models.enums.BillingDuration;
 
 import java.math.BigDecimal;
 import java.text.ParseException;
@@ -81,7 +77,8 @@ public class ApartmentUtil {
     public static boolean isApprovalStatus(String value){
         List<String> approvalStatusList = Arrays.asList(
                 ApprovalStatus.APPROVED.name(),
-                ApprovalStatus.REJECTED.name()
+                ApprovalStatus.REJECTED.name(),
+                ApprovalStatus.PENDING.name()
         );
 
         return approvalStatusList.contains(value);

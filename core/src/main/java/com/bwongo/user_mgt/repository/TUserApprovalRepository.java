@@ -1,12 +1,11 @@
 package com.bwongo.user_mgt.repository;
 
-import com.bwongo.base.models.enums.ApprovalEnum;
+import com.bwongo.base.models.enums.ApprovalStatus;
 import com.bwongo.user_mgt.models.jpa.TUserApproval;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -16,5 +15,5 @@ import java.util.List;
  **/
 @Repository
 public interface TUserApprovalRepository extends JpaRepository<TUserApproval, Long> {
-    List<TUserApproval> findAllByStatus(ApprovalEnum approvalEnum, Pageable pageable);
+    List<TUserApproval> findAllByStatus(ApprovalStatus approvalStatus, Pageable pageable);
 }

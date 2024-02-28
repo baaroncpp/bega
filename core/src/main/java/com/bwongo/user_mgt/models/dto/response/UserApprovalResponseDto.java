@@ -1,6 +1,6 @@
 package com.bwongo.user_mgt.models.dto.response;
 
-import com.bwongo.base.models.enums.ApprovalEnum;
+import com.bwongo.base.models.enums.ApprovalStatus;
 
 import java.util.Date;
 
@@ -17,6 +17,6 @@ public record UserApprovalResponseDto(
         UserResponseDto createdBy,
         UserResponseDto modifiedBy,
         UserResponseDto user,
-        ApprovalEnum status
+        ApprovalStatus status
 ) {
 }

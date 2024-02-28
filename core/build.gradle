@@ -2,7 +2,6 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '3.0.9'
     id 'io.spring.dependency-management' version '1.1.2'
-    //id 'com.vaadin' version '24.3.3'
 }
 
 group = 'com.bwongo'
@@ -23,7 +22,6 @@ repositories {
 
 ext {
     set('springCloudVersion', "2022.0.3")
-    //set('vaadinVersion', "24.3.3")
 }
 
 dependencies {
@@ -33,7 +31,6 @@ dependencies {
     implementation 'org.flywaydb:flyway-core'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
-    //implementation 'com.vaadin:vaadin-spring-boot-starter'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
     runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -50,7 +47,6 @@ dependencies {
 dependencyManagement {
     imports {
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
-        //mavenBom "com.vaadin:vaadin-bom:${vaadinVersion}"
     }
 }
 
